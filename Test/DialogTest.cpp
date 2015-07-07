@@ -1,9 +1,9 @@
 #include "StdAfx.h"
 #include "DialogTest.h"
-#include "..\PublicLib\LdXml.h"
+#include "..\PublicLib\comps\\LdXml.h"
 #include "..\TdxPlugin\TDXDataStruct.h"
 #include "..\PublicLib\Utils_Wnd.h"
-#include "..\StockDataAPI\HttpStockData.h"
+#include "..\StockDataAPI\web\\HttpStockData.h"
 
 
 CDialogTest::CDialogTest(void)

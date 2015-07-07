@@ -1,1 +1,33 @@
-﻿
+﻿生成启动时间为 2015/7/7 14:13:00。
+     1>项目“J:\workspace\stocktrading\trunk\PublicLib\PublicLib.vcxproj”在节点 2 上(rebuild 个目标)。
+     1>InitializeBuildStatus:
+         正在创建“Debug\PublicLib.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt comps\LdXml.cpp hooks\MDIClientHook.cpp hooks\MDIMainHook.cpp comps\NotifyIcon.cpp socket\LdSocket.cpp Utils_Wnd.cpp hooks\WindowHook.cpp hooks\WndEffect.cpp
+         WndEffect.cpp
+         WindowHook.cpp
+         Utils_Wnd.cpp
+         LdSocket.cpp
+         NotifyIcon.cpp
+         MDIMainHook.cpp
+         MDIClientHook.cpp
+         LdXml.cpp
+         正在生成代码...
+       Lib:
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"J:\workspace\stocktrading\trunk\Debug\PublicLib.lib" /NOLOGO Debug\LdXml.obj
+         Debug\MDIClientHook.obj
+         Debug\MDIMainHook.obj
+         Debug\NotifyIcon.obj
+         Debug\LdSocket.obj
+         Debug\Utils_Wnd.obj
+         Debug\WindowHook.obj
+         Debug\WndEffect.obj
+         PublicLib.vcxproj -> J:\workspace\stocktrading\trunk\Debug\PublicLib.lib
+       FinalizeBuildStatus:
+         正在删除文件“Debug\PublicLib.unsuccessfulbuild”。
+         正在对“Debug\PublicLib.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“J:\workspace\stocktrading\trunk\PublicLib\PublicLib.vcxproj”(rebuild 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:02.89
