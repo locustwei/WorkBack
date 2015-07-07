@@ -25,6 +25,9 @@
     <Filter Include="脚本">
       <UniqueIdentifier>{49e1013c-4902-459f-80f0-ca0ee00b9b30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="交易软件接口">
+      <UniqueIdentifier>{af89a88f-190b-48a8-9d57-bc1cee36771b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -66,14 +69,14 @@
     <ClInclude Include="ui\UnitComboBox.h">
       <Filter>交易界面\Controls</Filter>
     </ClInclude>
-    <ClInclude Include="TdxTrading.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="UI\IconListener.h">
+      <Filter>交易界面</Filter>
+    </ClInclude>
+    <ClInclude Include="interface\TdxTrading.h">
+      <Filter>交易软件接口</Filter>
     </ClInclude>
     <ClInclude Include="ITradInterface.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\IconListener.h">
-      <Filter>交易界面</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -107,8 +110,8 @@
     <ClCompile Include="ui\UnitComboBox.cpp">
       <Filter>交易界面\Controls</Filter>
     </ClCompile>
-    <ClCompile Include="TdxTrading.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="interface\TdxTrading.cpp">
+      <Filter>交易软件接口</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -26,7 +26,6 @@
 */
 #include "stdafx.h"
 #include "TDXMain.h"
-#include "AddinEntry.h"
 #include "..\PublicLib\hooks\WindowHook.h"
 #include "..\PublicLib\Utils_Wnd.h"
 
@@ -56,7 +55,6 @@ LRESULT CTDXMain::WndPROC(HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam)
 	switch(nCode){
 	case WM_DESTROY:
 		delete CTDXMain::WndHooker;
-		UnInstallHooks();
 		break;
 	case MM_LOGINED:   //登录完成，识别左侧栏功能菜单窗口
 		InitRightWnds();

@@ -1,10 +1,14 @@
 #include "LdSocket.h"
 #include <malloc.h>
 
+#pragma comment(lib, "ws2_32.lib")
+
 #define RECV_BUFFER_LEN 1024
 
 CLdSocket::CLdSocket(void)
 {
+	m_Status = SS_NONE;
+
 	WSADATA wsaData;
 	WSAStartup(MAKEWORD(2,2), &wsaData);
 
@@ -15,7 +19,6 @@ CLdSocket::CLdSocket(void)
 	pNext = NULL;
 
 	m_ClientHead = NULL;
-	m_IsListen = FALSE;
 	m_Listner = NULL;
 }
 
@@ -36,6 +39,8 @@ CLdSocket::~CLdSocket(void)
 		m_Socket = INVALID_SOCKET;
 	}
 
+	m_Listner = NULL;
+	m_Status = SS_NONE;
 }
 
 BOOL CLdSocket::Bind(int port)
@@ -55,6 +60,8 @@ BOOL CLdSocket::Bind(int port)
 		m_Socket = INVALID_SOCKET;
 		return FALSE;
 	};
+
+	m_Status = SS_BINDED;
 
 	return TRUE;
 }
@@ -89,7 +96,7 @@ BOOL CLdSocket::Listen(int port)
 		return FALSE;
 	}
 
-	m_IsListen = TRUE;
+	m_Status = SS_LISTENING;
 
 	return TRUE;
 }
@@ -120,6 +127,9 @@ BOOL CLdSocket::ConnectTo(LPCSTR szIp, int port)
 		m_Socket = INVALID_SOCKET;
 		return FALSE;
 	}
+
+	m_Status = SS_CONNECTED;
+
 	return TRUE;
 }
 
@@ -221,7 +231,7 @@ PLD_CLIENT_SOCKET CLdSocket::GetClientHead()
 
 void CLdSocket::DoRead()
 {
-	if(m_IsListen)
+	if(m_Status == SS_LISTENING)
 		return DoAccept();
 	else
 		return DoClientRead(this);
@@ -359,4 +369,9 @@ void CLdSocket::Close()
 		closesocket(m_Socket);
 		m_Socket = INVALID_SOCKET;
 	}
+}
+
+SOCKET_STATUS CLdSocket::GetStatus()
+{
+	return m_Status;
 }

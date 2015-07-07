@@ -76,7 +76,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AddinEntry.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="TDXDataStruct.cpp" />
     <ClCompile Include="TDXStockSell.cpp" />
@@ -88,10 +87,10 @@
     <ClCompile Include="TDXZjmx.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AddinEntry.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TDXDataStruct.h" />
+    <ClInclude Include="TDXSocket.h" />
     <ClInclude Include="TDXStockSell.h" />
     <ClInclude Include="TDXStockBuy.h" />
     <ClInclude Include="TDXJjMc.h" />

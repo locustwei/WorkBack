@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="资源文件">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="通信达交易">
       <UniqueIdentifier>{0805d786-5c56-402d-bed6-ce425e6757b7}</UniqueIdentifier>
     </Filter>
@@ -27,9 +23,6 @@
     </ClCompile>
     <ClCompile Include="TDXJjMr.cpp">
       <Filter>通信达交易\基金</Filter>
-    </ClCompile>
-    <ClCompile Include="AddinEntry.cpp">
-      <Filter>Dll</Filter>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>Dll</Filter>
@@ -63,9 +56,6 @@
     <ClInclude Include="stdafx.h">
       <Filter>Dll</Filter>
     </ClInclude>
-    <ClInclude Include="AddinEntry.h">
-      <Filter>Dll</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Dll</Filter>
     </ClInclude>
@@ -89,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="TDXZjmx.h">
       <Filter>通信达交易\股票</Filter>
+    </ClInclude>
+    <ClInclude Include="TDXSocket.h">
+      <Filter>Dll</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

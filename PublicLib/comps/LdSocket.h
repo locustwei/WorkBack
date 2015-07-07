@@ -1,6 +1,14 @@
 #pragma once
 
-#include <winsock2.h>
+#include <winsock.h>
+
+typedef enum SOCKET_STATUS
+{
+	SS_NONE,
+	SS_CONNECTED,
+	SS_BINDED,
+	SS_LISTENING
+};
 
 typedef struct _LD_CLIENT_SOCKET
 {
@@ -35,10 +43,11 @@ public:
 	PLD_CLIENT_SOCKET GetClientHead();                                  //Server 连接的客户端列表。
 	void SetListener(ISocketListener* listener);                          //设置监听
 	void Close();
+	SOCKET_STATUS GetStatus();
 private:
-	HANDLE m_hSelectThread;       
-	BOOL m_IsListen;
+	HANDLE m_hSelectThread;
 	ISocketListener* m_Listner;
+	SOCKET_STATUS m_Status;
 
 	BOOL StartSelectThread();
 	PLD_CLIENT_SOCKET m_ClientHead;

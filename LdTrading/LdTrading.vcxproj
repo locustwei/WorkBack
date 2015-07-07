@@ -71,8 +71,8 @@
     <None Include="Test.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="interface\TdxTrading.h" />
     <ClInclude Include="ITradInterface.h" />
-    <ClInclude Include="TdxTrading.h" />
     <ClInclude Include="ui\ConComboBox.h" />
     <ClInclude Include="ui\DlgStockBuy.h" />
     <ClInclude Include="ui\DlgStockSell.h" />
@@ -87,7 +87,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TdxTrading.cpp" />
+    <ClCompile Include="interface\TdxTrading.cpp" />
     <ClCompile Include="ui\ConComboBox.cpp" />
     <ClCompile Include="ui\DlgStockBuy.cpp" />
     <ClCompile Include="ui\DlgStockSell.cpp" />

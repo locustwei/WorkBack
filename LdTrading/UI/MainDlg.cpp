@@ -1,7 +1,7 @@
 #include "..\StdAfx.h"
 #include "MainDlg.h"
 #include "IconListener.h"
-#include "..\TdxTrading.h"
+#include "..\interface\\TdxTrading.h"
 #include "..\..\StockDataAPI\web\HttpStockData.h"
 
 

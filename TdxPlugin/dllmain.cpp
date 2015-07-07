@@ -1,7 +1,14 @@
 // dllmain.cpp : 定义 DLL 应用程序的入口点。
 #include "stdafx.h"
-#include "addinentry.h"
 #include "..\LeadowUi\LdWnd.h"
+
+#include "TDXLogin.h"
+#include "..\publiclib\Utils_Wnd.h"
+#include "TDXMain.h"
+#include "..\publiclib\comps\NotifyIcon.h"
+#include "..\publiclib\comps\LdList.h"
+#include "TDXDataStruct.h"
+#include <stdio.h>
 
 HINSTANCE hInstance;
 
@@ -25,6 +32,73 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	return TRUE;
 }
 
+//----------------------------------------------------------------------------------
+HWND hWndLogin = NULL, hWndMain = NULL;
+
+BOOL CALLBACK EnumThreadWndProc(HWND hwnd, LPARAM lparam)
+{
+	if(WndClassNameIs(hwnd, CN_Dialog)){
+		DWORD style = GetWindowLong(hwnd, GWL_STYLE);
+		if(style==0x94000044){
+			hWndLogin = hwnd;
+		}else if(style==0x0CCF0044)
+			hWndMain = hwnd;
+	}
+	return hWndLogin == NULL || hWndMain == NULL;
+}
+
+WNDPROC oldProc;
+
+//启动时临时使用钩子，用于注入代码进入主线程
+LRESULT WINAPI TempWndPROC(HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam)
+{
+	if(nCode==MM_RUNONMAINTHREAD){
+		(WNDPROC)SetWindowLongPtr(hWndLogin, GW_WNDPROC, (LONG)oldProc); //钩子使命完成还原他。
+		((RUNONPROC)wparam)(lparam);
+	}
+	return CallWindowProc(oldProc, hwnd, nCode, wparam, lparam);
+}
+
+//在主线程出初始化。
+int InitOnMainThread(LPARAM param)
+{
+
+	if(hWndLogin!=NULL){
+		CTDXLogin::WndHooker = new CTDXLogin(hWndLogin);
+		CTDXLogin::WndHooker->StartHook();
+	}
+
+	if(hWndMain!=NULL){
+		CTDXMain::WndHooker = new CTDXMain(hWndMain);
+		CTDXMain::WndHooker->StartHook();
+
+	}
+
+	return 0;
+}
+
+BOOL InstallHooks(DWORD tid)
+{
+	EnumThreadWindows(tid, &EnumThreadWndProc, 0);
+	if(hWndLogin!=NULL){
+		if(tid == GetCurrentThreadId())
+			InitOnMainThread(0);
+		else{
+			/*当前线程并非主线程，如果在这个线程做创建窗口等动作会有许多线程同步问题。
+			所以先找到登录窗口设置消息钩子，然后发送消息在主线程执行初始化函数*/
+
+			oldProc = (WNDPROC)SetWindowLongPtr(hWndLogin, GW_WNDPROC, (LONG)&TempWndPROC);
+			SendMessage(hWndLogin, MM_RUNONMAINTHREAD, (WPARAM)&InitOnMainThread, 0);
+		}
+		return TRUE;
+	}else
+		return FALSE;
+}
+
+void UnInstallHooks()
+{
+}
+//-------------------------------------------------------------------------------------------------------------------------------------
 //进程注入方式动态库导出函数。
 extern "C" int __declspec( dllexport ) RunPlugin(DWORD pid)
 {
@@ -36,7 +110,7 @@ extern "C" int __declspec( dllexport ) RunPlugin(DWORD pid)
 
 	return 0;
 }
-
+//------------------------------------------------------------------------------------------------------------------------------------
 typedef int (* Addin_)(); 
 INT_PTR timerid;
 
@@ -53,7 +127,8 @@ VOID CALLBACK TimerProc(
 //通达信插件方式导出函数
 extern "C" int __declspec( dllexport ) Addin_GetObject()
 {
-	timerid = SetTimer(NULL, 123, 100, &TimerProc);
+	 //加载Dll是程序刚刚启动窗口还没创建，设置定时器等待。
+	timerid = SetTimer(NULL, 123, 100, &TimerProc); 
 
 
 	HMODULE h = LoadLibrary(L"AddinCommonControl.dll");
@@ -64,9 +139,12 @@ extern "C" int __declspec( dllexport ) Addin_GetObject()
 
 	return o;
 }
-
+//------------------------------------------------------------------------------------------------------------------------------------
+//测试用
+#ifdef _DEBUG
 extern "C" void __declspec( dllexport ) PlugTest()
 {
 	InitOnMainThread(0);
 
 }
+#endif
