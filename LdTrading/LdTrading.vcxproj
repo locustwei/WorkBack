@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B359E3FF-6EAE-4C62-A387-19E5D955CD7D}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>LdTrading</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="Test.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ITradInterface.h" />
+    <ClInclude Include="TdxTrading.h" />
+    <ClInclude Include="ui\ConComboBox.h" />
+    <ClInclude Include="ui\DlgStockBuy.h" />
+    <ClInclude Include="ui\DlgStockSell.h" />
+    <ClInclude Include="UI\IconListener.h" />
+    <ClInclude Include="ui\JylsForm.h" />
+    <ClInclude Include="ui\MainDlg.h" />
+    <ClInclude Include="ui\PriceComboBox.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="script\ScriptEng.h" />
+    <ClInclude Include="ui\UnitComboBox.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TdxTrading.cpp" />
+    <ClCompile Include="ui\ConComboBox.cpp" />
+    <ClCompile Include="ui\DlgStockBuy.cpp" />
+    <ClCompile Include="ui\DlgStockSell.cpp" />
+    <ClCompile Include="ui\JylsForm.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ui\MainDlg.cpp" />
+    <ClCompile Include="ui\PriceComboBox.cpp" />
+    <ClCompile Include="script\ScriptEng.cpp" />
+    <ClCompile Include="ui\UnitComboBox.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LdTrading.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LeadowUi\LeadowUi.vcxproj">
+      <Project>{d7156ff3-0606-431e-989f-a16e3640b26d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\LuaLib\LuaLib.vcxproj">
+      <Project>{4c8f6431-76ce-41d3-961a-ff64213ae71f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\PublicLib\PublicLib.vcxproj">
+      <Project>{8d7a5f72-05ac-4d41-981a-f21dbabef9c2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\StockDataAPI\StockDataAPI.vcxproj">
+      <Project>{170a1bf2-aad2-48a8-99db-ccd48fc4b64d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

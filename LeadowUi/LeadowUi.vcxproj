@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LdBtnBar.h" />
+    <ClInclude Include="LdButton.h" />
+    <ClInclude Include="LdCheckBox.h" />
+    <ClInclude Include="LdComboBox.h" />
+    <ClInclude Include="LdDialog.h" />
+    <ClInclude Include="LdEdit.h" />
+    <ClInclude Include="LdGraphicFuncs.h" />
+    <ClInclude Include="LdGroupBox.h" />
+    <ClInclude Include="LdImage.h" />
+    <ClInclude Include="LdLabel.h" />
+    <ClInclude Include="LdListBox.h" />
+    <ClInclude Include="LdListView.h" />
+    <ClInclude Include="LdMemo.h" />
+    <ClInclude Include="LdPanel.h" />
+    <ClInclude Include="LdRadioBox.h" />
+    <ClInclude Include="LdSplitDlg.h" />
+    <ClInclude Include="LdSplitter.h" />
+    <ClInclude Include="LdTabCtrl.h" />
+    <ClInclude Include="LdTreeCtrl.h" />
+    <ClInclude Include="LdWnd.h" />
+    <ClInclude Include="LdListItem.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="LdBtnBar.cpp" />
+    <ClCompile Include="LdButton.cpp" />
+    <ClCompile Include="LdCheckBox.cpp" />
+    <ClCompile Include="LdComboBox.cpp" />
+    <ClCompile Include="LdDialog.cpp" />
+    <ClCompile Include="LdEdit.cpp" />
+    <ClCompile Include="LdGraphicFuncs.cpp" />
+    <ClCompile Include="LdGroupBox.cpp" />
+    <ClCompile Include="LdImage.cpp" />
+    <ClCompile Include="LdLabel.cpp" />
+    <ClCompile Include="LdListBox.cpp" />
+    <ClCompile Include="LdListView.cpp" />
+    <ClCompile Include="LdMemo.cpp" />
+    <ClCompile Include="LdPanel.cpp" />
+    <ClCompile Include="LdRadioBox.cpp" />
+    <ClCompile Include="LdSplitDlg.cpp" />
+    <ClCompile Include="LdSplitter.cpp" />
+    <ClCompile Include="LdTabCtrl.cpp" />
+    <ClCompile Include="LdTreeCtrl.cpp" />
+    <ClCompile Include="LdWnd.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LeadowUi.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D7156FF3-0606-431E-989F-A16E3640B26D}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>LeadowUi</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LEADOWUI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LEADOWUI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

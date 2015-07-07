@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="comps">
+      <UniqueIdentifier>{b7813b62-3e57-4c60-a534-58d044fe946c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="hooks">
+      <UniqueIdentifier>{482a7934-5f59-4dc4-a8b1-6d0b5585b564}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="socket">
+      <UniqueIdentifier>{da9a595a-92f1-4922-a111-07f50e3095e7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils_Wnd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\MDIClientHook.h">
+      <Filter>hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\MDIMainHook.h">
+      <Filter>hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\WindowHook.h">
+      <Filter>hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\WndEffect.h">
+      <Filter>hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="comps\LdList.h">
+      <Filter>comps</Filter>
+    </ClInclude>
+    <ClInclude Include="comps\LdXml.h">
+      <Filter>comps</Filter>
+    </ClInclude>
+    <ClInclude Include="comps\NotifyIcon.h">
+      <Filter>comps</Filter>
+    </ClInclude>
+    <ClInclude Include="socket\LdSocket.h">
+      <Filter>socket</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Utils_Wnd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\MDIClientHook.cpp">
+      <Filter>hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\MDIMainHook.cpp">
+      <Filter>hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\WindowHook.cpp">
+      <Filter>hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\WndEffect.cpp">
+      <Filter>hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="comps\LdXml.cpp">
+      <Filter>comps</Filter>
+    </ClCompile>
+    <ClCompile Include="comps\NotifyIcon.cpp">
+      <Filter>comps</Filter>
+    </ClCompile>
+    <ClCompile Include="socket\LdSocket.cpp">
+      <Filter>socket</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
