@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="comps\LdList.h" />
+    <ClInclude Include="comps\LdSocket.h" />
     <ClInclude Include="comps\LdXml.h" />
     <ClInclude Include="hooks\MDIClientHook.h" />
     <ClInclude Include="hooks\MDIMainHook.h" />
@@ -84,6 +85,7 @@
     <ClInclude Include="hooks\WndEffect.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="comps\LdSocket.cpp" />
     <ClCompile Include="comps\LdXml.cpp" />
     <ClCompile Include="hooks\MDIClientHook.cpp" />
     <ClCompile Include="hooks\MDIMainHook.cpp" />
