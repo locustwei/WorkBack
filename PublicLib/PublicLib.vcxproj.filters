@@ -53,9 +53,6 @@
     <ClInclude Include="socket\LdSocket.h">
       <Filter>socket</Filter>
     </ClInclude>
-    <ClInclude Include="comps\LdSocket.h">
-      <Filter>comps</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utils_Wnd.cpp">
@@ -81,9 +78,6 @@
     </ClCompile>
     <ClCompile Include="socket\LdSocket.cpp">
       <Filter>socket</Filter>
-    </ClCompile>
-    <ClCompile Include="comps\LdSocket.cpp">
-      <Filter>comps</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
