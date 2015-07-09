@@ -1,3 +1,4 @@
+//
 #pragma once
 
 #include <winsock.h>
@@ -17,9 +18,11 @@ typedef struct _LD_CLIENT_SOCKET
 	int nRecvSize;
 	bool bClosed;
 	_LD_CLIENT_SOCKET* pNext;
+	DWORD tag;   //使用者自定义数据
+
 }LD_CLIENT_SOCKET, *PLD_CLIENT_SOCKET;
 
-typedef struct ISocketListener //监听接口，处理Socket事件
+struct ISocketListener //监听接口，处理Socket事件
 {
 	virtual void OnConnected(PLD_CLIENT_SOCKET) = 0;
 	virtual void OnRecv(PLD_CLIENT_SOCKET) = 0;
@@ -44,7 +47,7 @@ public:
 	void SetListener(ISocketListener* listener);                          //设置监听
 	void Close();
 	SOCKET_STATUS GetStatus();
-private:
+protected:
 	HANDLE m_hSelectThread;
 	ISocketListener* m_Listner;
 	SOCKET_STATUS m_Status;

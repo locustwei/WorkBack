@@ -44,7 +44,7 @@ typedef struct _STOCK_DATA_PK   // 股票盘口数据
 	DWORD       dwSellv[5];   //对应五个叫卖价的五个卖盘
 }STOCK_DATA_PK, *PSTOCK_DATA_PK;
 
-typedef struct IDataInterface
+struct IDataInterface
 {
 	virtual BOOL GetStockPK(_Inout_ PSTOCK_DATA_PK* pStockData, int count) = 0;                        //获取股票盘口数据
 	virtual float GetCurrent(STOCK_MARK nMark, LPCSTR szCode, PSTOCK_DATA_SIMPLE pSD) = 0;             //当前价
