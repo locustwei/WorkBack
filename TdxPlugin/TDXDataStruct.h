@@ -1,6 +1,5 @@
 /************************************************************************/
-/* 通达信数据结构
-和全局数据。
+/* 通达信股票交易软件的数据结构和常量数据。
 */
 /************************************************************************/
 
@@ -8,7 +7,7 @@
 #include "stdafx.h"
 #include <commctrl.h>
 
-#define PLUG_FILENAME L"TdxPlugin.dll"
+#define PLUG_FILENAME L"TdxPlugin.dll"  //本插件的文件名
 
 #define Stock_ID "股票" //FeatureID "group.stock" HomeFeatureID "" Title "股票">
 #define Stock_Buy_ID "Stock.Buy" //FeatureID "Stock.Buy" Title "买入" Image "1"/>
@@ -88,7 +87,104 @@ typedef struct _Tdx_TreeItem_Dlg
 	HWND hDialog;
 }Tdx_TreeItem_Dlg, *PTdx_TreeItem_Dlg;
 
-//BOOL InitNavTree();
-//int GetNavTreeItemCount(PNav_Tree treeitem);
 
-//extern Nav_Tree NavTree;  //导航栏功能树（此数据从TcOem.xml文件中获取）
+/*  可能有用的函数
+
+//修改TcOem.xml文件，加入本插件。安装时有用
+LPTSTR AddPlugInConfig(CLdXml* xml)
+{
+	XMLNode node = xml->FindNode(L"//Addin");
+	if(!node)
+		return NULL;
+	XMLList childs;
+	LPTSTR fName = NULL;
+
+	if(SUCCEEDED(node->get_childNodes(&childs))){
+		long lengtth;
+		childs->get_length(&lengtth);
+		for(int i=0; i<lengtth; i++){
+			IXMLDOMNode* child;
+			childs->get_item(i, &child);
+
+			fName = xml->GetNodeAttrubeAsStr(node, L"FileName");
+			if(fName){
+				if(wcscmp(PLUG_FILENAME, fName)==0)
+					return xml->GetNodeAttrubeAsStr(node, L"MapFile");
+			}
+		}
+
+		XMLNode xmlnode = xml->AddChild(node, L"ITEM");
+		xml->setAttribute(xmlnode, L"FileName", PLUG_FILENAME);
+		xml->setAttribute(xmlnode, L"Pivotal", L"NO");
+		xml->setAttribute(xmlnode, L"Enable", L"YES");
+		xml->setAttribute(xmlnode, L"MapFile", fName);
+	}
+
+	return fName;
+}
+
+Nav_Tree NavTree = {0};
+
+//读取TcOem.xml文件中，通达信交易程序左侧导航栏功能菜单
+void LoadNavTree(CLdXml& xml, IXMLDOMNode* node, PNav_Tree navtree)
+{
+	if(node==NULL || navtree==NULL)
+		return;
+
+	LPTSTR nv = xml.GetNodeAttrubeAsStr(node, L"ID");
+	if(nv){
+		navtree->ID = nv;
+	}
+	nv = xml.GetNodeAttrubeAsStr(node, L"FeatureID");
+	if(nv)
+		navtree->FeatureID = nv;
+	nv = xml.GetNodeAttrubeAsStr(node, L"Title");
+	if(nv)
+		navtree->Title = nv;
+	nv = xml.GetNodeAttrubeAsStr(node, L"HomeFeatureID");
+	if(nv)
+		navtree->HomeFeatureID = nv;
+	nv = xml.GetNodeAttrubeAsStr(node, L"HotKeytc");
+	if(nv){
+		navtree->HotKeytc = nv;
+		LPTSTR title = new TCHAR[80];
+		ZeroMemory(title, 80*sizeof(TCHAR));
+		wsprintf(title, navtree->Title, L"[", nv, L"]");
+		delete navtree->Title;
+		navtree->Title = title;
+	}
+
+
+	XMLList childs;
+	if(SUCCEEDED(node->get_childNodes(&childs))){
+		childs->get_length((long*)&navtree->count);
+		navtree->Items = new Nav_Tree[navtree->count];
+		for(int i=0; i<navtree->count; i++){
+			IXMLDOMNode* child;
+			childs->get_item(i, &child);
+			LoadNavTree(xml, (IXMLDOMNode*)child, &navtree->Items[i]);
+		}
+	}
+}
+
+BOOL InitNavTree()
+{
+	CLdXml xml;
+	if(xml.OpenFile(L"..\\TcOem.xml")){
+		XMLNode node = xml.FindNode(L"//UI/Nav/Content");
+		if(node){
+			LoadNavTree(xml, node, &NavTree);
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+int GetNavTreeItemCount(PNav_Tree treeitem)
+{
+	int result = 0;
+	for(int i=0; i<treeitem->count; i++)
+		result += GetNavTreeItemCount(&treeitem->Items[i]);
+	return result + treeitem->count;
+}
+*/

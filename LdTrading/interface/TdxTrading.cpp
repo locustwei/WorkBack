@@ -23,7 +23,13 @@ public:
 			m_Trading->m_bAvailable = TRUE;
 			break;
 		case TF_STOCKBY:
+		case TF_STOCKBYED:
+			SetEvent(m_Trading->m_hEvent);
+			break;
 		case TF_STOCKSEL:
+			break;
+		case TF_STOCKSELED:
+			SetEvent(m_Trading->m_hEvent);
 			break;
 		}
 	}
@@ -53,6 +59,9 @@ CTdxTrading::CTdxTrading(void)
 	m_Listenner = new CTdxListenner();
 	m_Socket->SetListener(m_Listenner);
 
+	//用于等待Socket回应
+	m_hEvent = CreateEvent(NULL, TRUE, FALSE, TEXT("CTdxTradingEvent")); 
+
 	ConnectTdx();
 }
 
@@ -63,22 +72,64 @@ CTdxTrading::~CTdxTrading(void)
 		delete m_Socket;
 	if(m_Listenner)
 		delete m_Listenner;
+	if(m_hEvent)
+		CloseHandle(m_hEvent);
 }
 
 BOOL CTdxTrading::StockBy( STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume )
 {
 	if(!IsAvailable())
 		return FALSE;
-	if(m_Socket->GetStatus()==SS_LISTENING && m_Socket->GetClientHead()!=NULL){
-		return SendStockBy(m_Socket->GetClientHead(), mark, szCode, fPrice, dwVolume);
-	}else if(m_Socket->GetStatus()==SS_CONNECTED)
-		return SendStockBy(m_Socket, mark, szCode, fPrice, dwVolume);
-	return FALSE;
+	
+	BOOL result = FALSE;
+	int nSize = 0;
+	S_TDX_STOCK_BY stb = {mark, *szCode, fPrice, dwVolume};
+
+	PTDX_SOCKET_DATA pData = MakeStockData(&stb, sizeof(stb), TF_STOCKBY, nSize);
+
+	PLD_CLIENT_SOCKET pSocket = NULL;
+	if(m_Socket->GetStatus()==SS_LISTENING && m_Socket->GetClientHead()!=NULL){  //作为服务端
+		pSocket = m_Socket->GetClientHead();
+	}else if(m_Socket->GetStatus()==SS_CONNECTED)     //作为客户端
+		pSocket = m_Socket;
+
+	result = SendStockDataWait(pSocket, pData, nSize);
+	free(pData);
+
+	if(result){
+		PTDX_SOCKET_DATA pRet = (PTDX_SOCKET_DATA)pSocket->lpRecvedBuffer;
+		result = pRet->data[0];
+	}
+	return result;
 }
 
 BOOL CTdxTrading::StockSell( STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume )
 {
-	return FALSE;
+	if(!IsAvailable())
+		return FALSE;
+
+	BOOL result = FALSE;
+	int nSize = 0;
+	S_TDX_STOCK_BY stb = {mark, *szCode, fPrice, dwVolume};
+
+	PTDX_SOCKET_DATA pData = MakeStockData(&stb, sizeof(stb), TF_STOCKSEL, nSize);
+
+
+	PLD_CLIENT_SOCKET pSocket = NULL;
+	if(m_Socket->GetStatus()==SS_LISTENING && m_Socket->GetClientHead()!=NULL){  //作为服务端
+		pSocket = m_Socket->GetClientHead();
+	}else if(m_Socket->GetStatus()==SS_CONNECTED)     //作为客户端
+		pSocket = m_Socket;
+
+	result = SendStockDataWait(pSocket, pData, nSize);
+	free(pData);
+
+	if(result){
+		PTDX_SOCKET_DATA pRet = (PTDX_SOCKET_DATA)pSocket->lpRecvedBuffer;
+		result = pRet->data[0];
+	}
+
+	return result;
 }
 
 BOOL CTdxTrading::IsAvailable()
@@ -86,6 +137,7 @@ BOOL CTdxTrading::IsAvailable()
 	return m_bAvailable;
 }
 
+//控制程序与交易程序，谁先启动谁Listen端口
 void CTdxTrading::ConnectTdx()
 {
 	int i=0;
@@ -102,13 +154,21 @@ void CTdxTrading::ConnectTdx()
 	}
 }
 
-BOOL CTdxTrading::SendStockBy(PLD_CLIENT_SOCKET pSocket, STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume)
+BOOL CTdxTrading::SendStockDataWait(PLD_CLIENT_SOCKET pSocket, PTDX_SOCKET_DATA pData, int nSize)
 {
-	int nSize = 0;
-	PTDX_SOCKET_DATA pData = MakeStockByData(mark, szCode, fPrice, dwVolume, nSize);
-	if(m_Socket->Send((char*)pData, nSize, pSocket)==nSize)
+	BOOL result = FALSE;
 
-	
-	free(pData);
-	return FALSE;
+	if(m_Socket->Send((char*)pData, nSize, pSocket)==nSize){
+		result = WaitReturn(10000);
+	}
+
+	return result;
+}
+
+//等待执行结果返回
+BOOL CTdxTrading::WaitReturn(DWORD msecond)
+{
+	if(msecond<=0)
+		msecond = INFINITE;
+	return WaitForSingleObject(m_hEvent, msecond) == WAIT_OBJECT_0;
 }

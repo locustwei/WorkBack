@@ -27,11 +27,8 @@ CLdSocket::~CLdSocket(void)
 {
 	//todo (线程同步问题）
 	PLD_CLIENT_SOCKET pClient = m_ClientHead;
-	while(pClient){        //删除客户端
-		closesocket(pClient->m_Socket);
-		PLD_CLIENT_SOCKET tmp = pClient;
-		pClient = pClient->pNext;
-		delete tmp;
+	while(m_ClientHead){        //删除客户端
+		RemoveClient(m_ClientHead);
 	}
 
 	if(m_Socket!=INVALID_SOCKET){
@@ -350,6 +347,9 @@ int CLdSocket::Send(char* buffer, int nSize, PLD_CLIENT_SOCKET pClient)
 
 void CLdSocket::RemoveClient(PLD_CLIENT_SOCKET pClient)
 {
+	if(!pClient)
+		return;
+
 	if(pClient==m_ClientHead){
 		m_ClientHead = m_ClientHead->pNext;
 	}else{
@@ -360,6 +360,10 @@ void CLdSocket::RemoveClient(PLD_CLIENT_SOCKET pClient)
 			return;
 		pTmp->pNext = pClient->pNext;
 	}
+	if(pClient->m_Socket!=INVALID_SOCKET)
+		closesocket(pClient->m_Socket);
+	if(pClient->lpRecvedBuffer)
+		delete pClient->lpRecvedBuffer;
 	delete pClient;
 }
 

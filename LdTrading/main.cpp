@@ -3,12 +3,21 @@
 
 #include "stdafx.h"
 #include "ui\MainDlg.h"
+#include "ITradInterface.h"
+#include "interface\TdxTrading.h"
 
 #define MAX_LOADSTRING 100
 
 // 此代码模块中包含的函数的前向声明:
 
 HINSTANCE hInstance;
+ITradInterface* TradClient;
+
+//连接交易软件（目前只支持通达信）
+ITradInterface* ConnectTradClient()
+{
+	return new CTdxTrading();
+}
 
 int APIENTRY _tWinMain(HINSTANCE hInst,
                      HINSTANCE hPrevInstance,
@@ -23,6 +32,8 @@ int APIENTRY _tWinMain(HINSTANCE hInst,
 	CMainDlg dlg;
 	dlg.ShowDialog(MAKEINTRESOURCE(IDD_DIALOG_MAIN));
 	
+	TradClient = ConnectTradClient();
+
 	MSG msg;
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDR_ACCELERATOR1));
 

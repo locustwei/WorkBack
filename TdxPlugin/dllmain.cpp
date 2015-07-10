@@ -2,9 +2,9 @@
 #include "stdafx.h"
 #include "..\LeadowUi\LdWnd.h"
 
-#include "TDXLogin.h"
+#include "winds\TDXLogin.h"
 #include "..\publiclib\Utils_Wnd.h"
-#include "TDXMain.h"
+#include "winds\TDXMain.h"
 #include "..\publiclib\comps\NotifyIcon.h"
 #include "..\publiclib\comps\LdList.h"
 #include "TDXDataStruct.h"
@@ -145,6 +145,5 @@ extern "C" int __declspec( dllexport ) Addin_GetObject()
 extern "C" void __declspec( dllexport ) PlugTest()
 {
 	InitOnMainThread(0);
-
 }
 #endif

@@ -1,3 +1,9 @@
+/*!
+ *
+ * \author asa
+ *  股票数据接口。
+ * 
+ */
 #pragma once
 
 #pragma warning(disable : 4091)

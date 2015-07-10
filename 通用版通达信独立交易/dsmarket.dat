@@ -1,0 +1,13 @@
+[OEM]
+DSOEMName=港股期货
+HasHKMarket=1
+
+[GUISet]
+GUIMarket01=港股
+GUIMarketSet01=27,31,48,32,49
+GUIMarketName01=香港指数,香港主板,香港创业板,香港权证,香港信托基金
+
+GUIMarket02=期货
+GUIMarketSet02=47,28,29,30
+GUIMarketName02=股指期货,郑州商品,大连商品,上海商品
+

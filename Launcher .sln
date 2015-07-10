@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PublicLib", "PublicLib\PublicLib.vcxproj", "{8D7A5F72-05AC-4D41-981A-F21DBABEF9C2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TdxPlugin", "TdxPlugin\Guosen.vcxproj", "{B6C8A2FD-F494-428B-B445-89DC8841F468}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TdxPlugin", "TdxPlugin\TdxPlugin.vcxproj", "{B6C8A2FD-F494-428B-B445-89DC8841F468}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StockDataAPI", "StockDataAPI\StockDataAPI.vcxproj", "{170A1BF2-AAD2-48A8-99DB-CCD48FC4B64D}"
 EndProject
