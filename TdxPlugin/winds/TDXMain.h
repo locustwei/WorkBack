@@ -5,6 +5,7 @@
 #include <commctrl.h>
 #include "TDXStockBuy.h"
 #include "TDXStockSell.h"
+#include "..\..\StockDataAPI\IDataInterface.h"
 
 
 class CTDXMain :public CWndHook
@@ -16,11 +17,8 @@ public:
 
 	static CTDXMain* WndHooker;
 	static void HookMainWnd(HWND hwnd);
-
-	void Click_Stock_Buy(); //点击股票买入
-	void Click_TreeItemByID(LPCSTR szID, LPCSTR szGroup = NULL);
-	CTDXStockBuy* GetStockBuyDlg();
-	CTDXStockSell* GetStockSellDlg();
+	BOOL DoStockBy(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume);
+	BOOL DoStockSell(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume);
 protected:
 	virtual LRESULT WndPROC(HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam);
 private:
@@ -41,5 +39,9 @@ private:
 	HTREEITEM Find_Nav_Item( HWND& hwnd, LPCSTR szID, LPCSTR szGroup = NULL );  //根据szID（TcOem.xml中定义）找到TreeView中的Item。
 	HTREEITEM FindTreeItemByParam(HWND hwnd,  LPARAM param, HTREEITEM hItem = NULL);
 	void ConnectLdTrad();
+	void Click_Stock_Buy();                                                    //点击股票买入菜单
+	void Click_TreeItemByID(LPCSTR szID, LPCSTR szGroup = NULL);
+	CTDXStockBuy* GetStockBuyDlg();                                            //查找股票买入窗口
+	CTDXStockSell* GetStockSellDlg();
 };
 

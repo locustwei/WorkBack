@@ -77,6 +77,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="TdxTradSocket.cpp" />
     <ClCompile Include="winds\TDXStockSell.cpp" />
     <ClCompile Include="winds\TDXStockBuy.cpp" />
     <ClCompile Include="winds\TDXJjMc.cpp" />
@@ -90,6 +91,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TDXDataStruct.h" />
     <ClInclude Include="TDXSocketData.h" />
+    <ClInclude Include="TdxTradSocket.h" />
     <ClInclude Include="winds\TDXStockSell.h" />
     <ClInclude Include="winds\TDXStockBuy.h" />
     <ClInclude Include="winds\TDXJjMc.h" />

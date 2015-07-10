@@ -42,6 +42,7 @@
     <ClCompile Include="winds\TDXZjmx.cpp">
       <Filter>通信达交易\股票</Filter>
     </ClCompile>
+    <ClCompile Include="TdxTradSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -80,6 +81,7 @@
     <ClInclude Include="winds\TDXZjmx.h">
       <Filter>通信达交易\股票</Filter>
     </ClInclude>
+    <ClInclude Include="TdxTradSocket.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

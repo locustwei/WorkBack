@@ -311,3 +311,13 @@ void CTDXMain::ConnectLdTrad()
 {
 	;
 }
+
+BOOL CTDXMain::DoStockBy(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume)
+{
+	return FALSE;
+}
+
+BOOL CTDXMain::DoStockSell(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume)
+{
+	return FALSE;
+}

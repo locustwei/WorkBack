@@ -47,6 +47,7 @@ public:
 	void SetListener(ISocketListener* listener);                          //ÉèÖÃ¼àÌı
 	void Close();
 	SOCKET_STATUS GetStatus();
+	ISocketListener* GetListener();
 protected:
 	HANDLE m_hSelectThread;
 	ISocketListener* m_Listner;

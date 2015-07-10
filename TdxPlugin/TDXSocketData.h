@@ -7,6 +7,7 @@
 
 #include <Windows.h>
 #include <malloc.h>
+#include "..\StockDataAPI\IDataInterface.h"
 
 #define TDX_SOCKET_PORT 0x3421
 
@@ -26,14 +27,16 @@ typedef struct _TDX_SOCKET_DATA
 	unsigned char data[0];
 }TDX_SOCKET_DATA, *PTDX_SOCKET_DATA;
 
-inline PTDX_SOCKET_DATA MakeStockData(LPVOID p, int n, TDX_TRAD_FUN id, int& nSize)
+inline PTDX_SOCKET_DATA MakeStockData(LPVOID p, TDX_TRAD_FUN id, _Inout_ int& nSize)
 {
-	nSize = sizeof(TDX_SOCKET_DATA)+n;
-	PTDX_SOCKET_DATA result = (PTDX_SOCKET_DATA)malloc(nSize);
-	ZeroMemory(result, nSize);
+	int nLen = sizeof(TDX_SOCKET_DATA)+nSize;
+	PTDX_SOCKET_DATA result = (PTDX_SOCKET_DATA)malloc(nLen);
+	ZeroMemory(result, nLen);
 	result->ID = id;
-	result->nLen = n;
-	CopyMemory(result->data, p, n);
+	result->nLen = nSize;
+	if(p)
+		CopyMemory(result->data, p, nSize);
+	nSize = nLen;
 	return result;
 };
 

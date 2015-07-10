@@ -379,3 +379,8 @@ SOCKET_STATUS CLdSocket::GetStatus()
 {
 	return m_Status;
 }
+
+ISocketListener* CLdSocket::GetListener()
+{
+	return m_Listner;
+}
