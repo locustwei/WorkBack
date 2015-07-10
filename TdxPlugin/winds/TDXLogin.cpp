@@ -13,12 +13,10 @@ CTDXLogin::CTDXLogin(HWND hWnd):CWndHook(hWnd)
 {
 	m_CbAType  = GetDlgItem(hWnd, 0x044B);
 	m_CbSever  = GetDlgItem(hWnd, 0x044F);
-	m_CbZH     = GetDlgItem(hWnd, 0x044C);   
-	SetWindowText(m_CbZH, L"250000057519");
+	m_CbZH     = GetDlgItem(hWnd, 0x044C);  
 	m_BtOk     = GetDlgItem(hWnd, 0x0001);   
 	m_BtQX     = GetDlgItem(hWnd, 0x0002);   
 	m_EdMM     = GetDlgItem(hWnd, 0x0450); 
-	SetWindowText(m_EdMM, L"360120");
 	m_CbJYFS   = GetDlgItem(hWnd, 0x0457); 
 	m_EdYZM    = GetDlgItem(hWnd, 0x0458);  
 	if(m_EdYZM!=NULL){
