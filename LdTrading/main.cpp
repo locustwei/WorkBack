@@ -3,15 +3,15 @@
 
 #include "stdafx.h"
 #include "ui\MainDlg.h"
-#include "ITradInterface.h"
-#include "interface\TdxTrading.h"
-
+#include "..\StockDataAPI\web\HttpStockData.h"
 #define MAX_LOADSTRING 100
 
 // 此代码模块中包含的函数的前向声明:
 
 HINSTANCE hInstance;
 ITradInterface* TradClient;
+CScriptEng* ScriptEng;
+IDataInterface* DateInterface;
 
 //连接交易软件（目前只支持通达信）
 ITradInterface* ConnectTradClient()
@@ -32,7 +32,11 @@ int APIENTRY _tWinMain(HINSTANCE hInst,
 	CMainDlg dlg;
 	dlg.ShowDialog(MAKEINTRESOURCE(IDD_DIALOG_MAIN));
 	
+	ScriptEng = new CScriptEng();
+	DateInterface = new CHttpStockData();
 	TradClient = ConnectTradClient();
+	ScriptEng->SetDataInterface(DateInterface);
+	ScriptEng->SetTradInterface(TradClient);
 
 	MSG msg;
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDR_ACCELERATOR1));
@@ -47,6 +51,6 @@ int APIENTRY _tWinMain(HINSTANCE hInst,
 		}
 	}
 
-	return (int) msg.wParam;
+	return 0;
 }
 

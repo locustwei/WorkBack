@@ -25,8 +25,9 @@ private:
 	HANDLE m_hEvent;
 
 	void ConnectTdx();
-	BOOL SendStockDataWait(PLD_CLIENT_SOCKET pSocket, PTDX_SOCKET_DATA pData, int nSize);  //发送数据等待回信
-	BOOL SendStockData(PLD_CLIENT_SOCKET pSocket, PTDX_SOCKET_DATA pData, int nSize);      //发送数据不等待回信  
+	BOOL SendStockDataWait(TDX_TRAD_FUN fID, LPVOID pData, int nSize);  //发送数据等待回信
+	BOOL SendStockData(TDX_TRAD_FUN fID, LPVOID pData, int nSize);      //发送数据不等待回信  
 	BOOL WaitReturn(DWORD msecond);
+	PLD_CLIENT_SOCKET GetActiveSocket();
 };
 

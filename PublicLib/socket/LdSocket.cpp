@@ -127,6 +127,9 @@ BOOL CLdSocket::ConnectTo(LPCSTR szIp, int port)
 
 	m_Status = SS_CONNECTED;
 
+	if(m_Listner)
+		m_Listner->OnConnected(this);
+
 	return TRUE;
 }
 
@@ -323,7 +326,7 @@ void CLdSocket::SetListener(ISocketListener* listener)
 
 int CLdSocket::Send(char* buffer, int nSize, PLD_CLIENT_SOCKET pClient)
 {
-	if(m_Socket == INVALID_SOCKET || !buffer || nSize == 0)
+	if(pClient == NULL || pClient->m_Socket == INVALID_SOCKET || !buffer || nSize == 0)
 		return 0;
 
 	int nCount = 0;

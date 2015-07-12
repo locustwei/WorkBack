@@ -1,20 +1,12 @@
 #include "..\StdAfx.h"
 #include "MainDlg.h"
 #include "IconListener.h"
-#include "..\interface\\TdxTrading.h"
 #include "..\..\StockDataAPI\web\HttpStockData.h"
 
 
 CMainDlg::CMainDlg(void)
 {
 	m_Notifyicon = NULL;
-	m_ScriptEng = new CScriptEng();
-	
-	m_DateInterface = new CHttpStockData();
-	m_ScriptEng->SetDataInterface(m_DateInterface);
-
-	m_TradInterface = new CTdxTrading();
-	m_ScriptEng->SetTradInterface(m_TradInterface);
 }
 
 
@@ -42,6 +34,7 @@ BOOL CMainDlg::OnInitDialog()
 
 INT_PTR CMainDlg::OnCommand(WORD ctrlid, HWND hwnd)
 {
+	/*
 	LPCSTR szRet = NULL;
 	char ss[1024] = {0};
 	
@@ -51,7 +44,9 @@ INT_PTR CMainDlg::OnCommand(WORD ctrlid, HWND hwnd)
 		if(m_ScriptEng->RunScript(ss, &szRet))
 			m_ed2.SetText(szRet);
 		break;
-	}
+	}*/
+
+	TradClient->StockBy(MARK_SZ, "000858", 14, 100);
 	return CLdDialog::OnCommand(ctrlid, hwnd);
 }
 

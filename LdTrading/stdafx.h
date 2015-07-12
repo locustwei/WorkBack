@@ -14,6 +14,11 @@
 // TODO: 在此处引用程序需要的其他头文件
 #include "resource.h"
 #include "ITradInterface.h"
+#include "interface\TdxTrading.h"
+#include "script\ScriptEng.h"
+#include "..\StockDataAPI\IDataInterface.h"
 
 extern HINSTANCE hInstance;
 extern ITradInterface* TradClient;
+extern CScriptEng* ScriptEng;
+extern IDataInterface* DateInterface;

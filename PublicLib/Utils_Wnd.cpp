@@ -63,3 +63,37 @@ BOOL WndClassNameIs(HWND hwnd, LPCTSTR clsname)
 	}
 	return FALSE;
 }
+
+BOOL HandleMessssage(HWND hwnd)
+{
+	MSG msg = {0};
+	BOOL MsgExists = PeekMessage(&msg, hwnd, 0, 0, PM_REMOVE);
+	if(MsgExists){
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+	return MsgExists;
+		/*
+	BOOL Unicode;
+	MSG Msg = {0};
+	BOOL MsgExists = PeekMessage(&Msg, 0, WM_MOUSEFIRST, WM_MOUSELAST, PM_REMOVE);
+
+	if (MsgExists || PeekMessage(&Msg, 0, 0, 0, PM_NOREMOVE)){
+		Unicode = (Msg.hwnd = 0) || IsWindowUnicode(Msg.hwnd);
+		if(!MsgExists){
+			if (Unicode)
+				MsgExists = PeekMessageW(&Msg, 0, 0, 0, PM_REMOVE);
+			else
+				MsgExists = PeekMessageA(&Msg, 0, 0, 0, PM_REMOVE);
+		}
+
+		if (MsgExists){
+			TranslateMessage(&Msg);
+			if (Unicode)
+				DispatchMessageW(&Msg);
+			else
+				DispatchMessageA(&Msg);
+		}
+	}
+	*/
+}

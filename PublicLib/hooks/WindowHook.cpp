@@ -57,9 +57,11 @@ BOOL CWndHook::StartHook()
 
 LRESULT CWndHook::WndPROC(HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam)
 {
+	LRESULT result = CallWindowProc(m_nextHook, hwnd, nCode, wparam, lparam);
+
 	if(nCode==WM_DESTROY){
 		StopHook();
 	}
 
-	return CallWindowProc(m_nextHook, hwnd, nCode, wparam, lparam);
+	return result;
 }

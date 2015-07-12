@@ -6,6 +6,6 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommand>..\通用版通达信独立交易\WinWT.exe</LocalDebuggerCommand>
     <LocalDebuggerAttach>false</LocalDebuggerAttach>
-    <LocalDebuggerWorkingDirectory>..\通用版通达信独立交易\TCPlugins</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>..\通用版通达信独立交易</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
 </Project>

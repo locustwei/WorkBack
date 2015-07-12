@@ -3,8 +3,6 @@
 #include "..\..\LeadowUi\LdButton.h"
 #include "..\..\LeadowUi\LdEdit.h"
 #include "..\..\LeadowUi\LdDialog.h"
-#include "..\..\StockDataAPI\IDataInterface.h"
-#include "..\ITradInterface.h"
 #include "..\..\PublicLib\comps\NotifyIcon.h"
 
 class CMainDlg :public CLdDialog
@@ -24,12 +22,9 @@ protected:
 
 private:
 	CNotifyIcon* m_Notifyicon;
-	CScriptEng* m_ScriptEng;
 	CLdButton m_btnOk;
 	CLdButton m_btn;
 	CLdEdit m_ed1;
 	CLdEdit m_ed2;
-	IDataInterface* m_DateInterface;
-	ITradInterface* m_TradInterface;
 };
 
