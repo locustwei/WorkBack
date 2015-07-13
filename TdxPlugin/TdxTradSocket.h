@@ -3,7 +3,7 @@
 #include "..\PublicLib\socket\LdSocket.h"
 #include "TDXSocketData.h"
 
-#define MM_TDXSOCKET WM_USER + 0x367
+#define MM_TDXSOCKET WM_USER + 0x235
 
 class CTdxTradSocket : public CLdSocket
 {
@@ -14,7 +14,5 @@ public:
 	void ConnectCtrlor();
 private:
 	BOOL m_bAvailable;
-	PLD_CLIENT_SOCKET GetActiveSocket();
-	BOOL SendStockData(TDX_TRAD_FUN fID, LPVOID pData, int nSize);
 };
 

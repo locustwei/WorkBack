@@ -329,6 +329,9 @@ BOOL CTDXMain::DoStockBy(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwV
 		if(!Click_TreeItemByID(Stock_Buy_ID, Stock_ID))
 			break;
 
+		//等窗口创建（或Show）
+		WaitTimeNotBlock(500);
+
 		CTDXStockBuy* wnd = GetStockBuyDlg();
 		if(wnd==NULL)
 			break;

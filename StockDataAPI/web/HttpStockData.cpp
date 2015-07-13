@@ -58,7 +58,7 @@ int HttpRequest(LPCSTR lpHostName, LPCSTR lpUrl, LPSTR lpResult,
 
 CHttpStockData::CHttpStockData(void)
 {
-	time(&m_lastTime);
+	//time(&m_lastTime);
 }
 
 

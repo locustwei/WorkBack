@@ -20,6 +20,12 @@ LRESULT CMainDlg::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if(uMsg==WM_DESTROY)
 		PostQuitMessage(0);
+	switch(uMsg){
+	case WM_SETCURSOR:
+		if(wParam==(WPARAM)hInstance, IDC_WAIT)
+			break;
+		break;
+	}
 	return CLdDialog::WindowProc(hwnd, uMsg, wParam, lParam);
 }
 
@@ -47,6 +53,7 @@ INT_PTR CMainDlg::OnCommand(WORD ctrlid, HWND hwnd)
 	}*/
 
 	TradClient->StockBy(MARK_SZ, "000858", 14, 100);
+	//SetCursor(LoadCursor(NULL, IDC_HAND));
 	return CLdDialog::OnCommand(ctrlid, hwnd);
 }
 

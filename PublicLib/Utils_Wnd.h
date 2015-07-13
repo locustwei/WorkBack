@@ -8,3 +8,4 @@ BOOL WndClassNameIs(HWND hwnd, LPCTSTR clsname);
 BOOL TreeView_GetItemText(HWND hwnd, HTREEITEM hItem, LPTSTR text);
 LPARAM TreeView_GetItemParam(HWND hwnd, HTREEITEM hItem);
 BOOL HandleMessssage(HWND hwnd);
+void WaitTimeNotBlock(int nMillisecond);

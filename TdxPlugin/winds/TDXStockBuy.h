@@ -15,6 +15,8 @@ public:
 	BOOL DoBy( STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume );
 protected:
 	virtual LRESULT WndPROC( HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam );
+	void SetControlsText();
+	void ClickBy();
 private:
 	HWND m_edCode;
 	HWND m_edValue;
@@ -26,5 +28,10 @@ private:
 	HWND m_cbBjfs; 
 	HWND m_btnAll; 
 	BOOL m_Inited;
+	UINT_PTR m_timerId;
+	STOCK_MARK m_Mark;
+	char m_Code[7];
+	float m_Price;
+	DWORD m_Volume;
 };
 

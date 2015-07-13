@@ -133,7 +133,6 @@ CScriptEng::~CScriptEng(void)
 {
 	if(m_hLua)
 		lua_close(m_hLua);
-	delete m_IStockData;
 }
 
 BOOL CScriptEng::RunScript(LPCSTR szScript, float* fResult)

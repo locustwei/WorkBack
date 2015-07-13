@@ -19,3 +19,4 @@ typedef int (* RUNONPROC)(LPARAM);            //主线程运行函数定义
 
 
 extern HINSTANCE hInstance;  //动态库handle
+extern DWORD dwViceThreadId; //副线程ID

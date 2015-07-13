@@ -97,3 +97,10 @@ BOOL HandleMessssage(HWND hwnd)
 	}
 	*/
 }
+
+void WaitTimeNotBlock(int nMillisecond)
+{
+	DWORD dwTime = GetTickCount();
+	while(GetTickCount()-dwTime<nMillisecond)
+		HandleMessssage(NULL);
+}

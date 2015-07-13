@@ -9,17 +9,20 @@ public:
 
 	virtual void OnConnected(PLD_CLIENT_SOCKET pSocket)
 	{
-		m_TradSocket->SendStockData(TF_REGISTER, NULL, 0);
+		int nSize = 0;
+		PTDX_SOCKET_DATA pData = MakeStockData(NULL, TF_REGISTER, nSize);
+		m_TradSocket->Send((char*)pData, nSize, pSocket);
 	}
 
 	virtual void OnRecv(PLD_CLIENT_SOCKET pSocket)
 	{
+		BOOL result = FALSE;
+		PS_TDX_STOCK_BY pBy;
+
 		if(pSocket->nRecvSize==0 || pSocket->lpRecvedBuffer==NULL)
 			return;
 
 		PTDX_SOCKET_DATA pData = (PTDX_SOCKET_DATA)pSocket->lpRecvedBuffer;
-		PS_TDX_STOCK_BY pBy;
-		BOOL result = FALSE;
 		switch(pData->ID){
 		case TF_REGISTER:
 			pSocket->tag = 1;  //验证成功 //todo
@@ -28,17 +31,12 @@ public:
 		case TF_STOCKBY:
 			pBy = (PS_TDX_STOCK_BY)pData->data;
 			if(CTDXMain::WndHooker!=NULL){
-				PostMessage(CTDXMain::WndHooker->m_hWnd, MM_TDXSOCKET, TF_STOCKBY, (LPARAM)pBy);
+				result = CTDXMain::WndHooker->DoStockBy(pBy->mark, pBy->Code, pBy->fPrice, pBy->dwVolume);
 			}
 			break;
 		case TF_STOCKBYED:
 			break;
 		case TF_STOCKSEL:
-			pBy = (PS_TDX_STOCK_BY)pData->data;
-			if(CTDXMain::WndHooker!=NULL){
-				result = CTDXMain::WndHooker->DoStockBy(pBy->mark, pBy->Code, pBy->fPrice, pBy->dwVolume);
-			}
-			m_TradSocket->SendStockData(TF_STOCKBYED, &result, sizeof(result));
 			break;
 		case TF_STOCKSELED:
 			break;
@@ -65,9 +63,8 @@ public:
 CTdxTradSocket::CTdxTradSocket(void)
 {
 	m_bAvailable = FALSE;
-	CTradSocketListenner* listener = new CTradSocketListenner();
-	listener->m_TradSocket = this;
-	SetListener(listener);
+
+	SetListener(new CTradSocketListenner());
 
 	ConnectCtrlor();
 }
@@ -93,26 +90,4 @@ void CTdxTradSocket::ConnectCtrlor()
 		//不能连接认为是交易软件没有启动，把自己设为监听状态等待连接。
 		Listen(TDX_SOCKET_PORT);
 	}
-}
-
-BOOL CTdxTradSocket::SendStockData(TDX_TRAD_FUN fID, LPVOID pData, int nSize)
-{
-	PTDX_SOCKET_DATA pTdxData = MakeStockData(pData, fID, nSize);
-
-	PLD_CLIENT_SOCKET pSocket = GetActiveSocket();
-
-	BOOL result = Send((char*)pTdxData, nSize, pSocket)==nSize;
-
-	free(pTdxData);
-
-	return result;
-}
-
-PLD_CLIENT_SOCKET CTdxTradSocket::GetActiveSocket()
-{
-	if(GetStatus()==SS_LISTENING && GetClientHead()!=NULL){  //作为服务端
-		return GetClientHead();
-	}else if(GetStatus()==SS_CONNECTED)     //作为客户端
-		return this;
-	return NULL;
 }

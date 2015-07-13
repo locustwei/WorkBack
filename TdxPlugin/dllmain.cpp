@@ -11,6 +11,7 @@
 #include <stdio.h>
 
 HINSTANCE hInstance;
+DWORD dwViceThreadId;
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
@@ -59,6 +60,23 @@ LRESULT WINAPI TempWndPROC(HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam)
 	return CallWindowProc(oldProc, hwnd, nCode, wparam, lparam);
 }
 
+typedef void (* RunInViceFunc)(UINT uMsg, LPARAM lparam); 
+//副线程，这个线程用于处理诸如主线程中的模态对话框、循环等待，等问题
+DWORD WINAPI ViceThreadProc(_In_ LPVOID lpParameter)
+{
+	MSG msg;
+	// 主消息循环:
+	while (GetMessage(&msg, NULL, 0, 0))
+	{
+		if(msg.message == WM_QUIT)
+			break;
+		else if(msg.wParam!=0){
+			RunInViceFunc fun = (RunInViceFunc)msg.wParam;
+			fun(msg.message, msg.lParam);
+		}
+	}
+}
+
 //在主线程出初始化。
 int InitOnMainThread(LPARAM param)
 {
@@ -73,6 +91,8 @@ int InitOnMainThread(LPARAM param)
 		CTDXMain::WndHooker->StartHook();
 
 	}
+
+	CreateThread(NULL, 0, &ViceThreadProc, NULL, 0, &dwViceThreadId);
 
 	return 0;
 }

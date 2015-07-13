@@ -74,6 +74,7 @@
   <ItemGroup>
     <ClInclude Include="comps\LdList.h" />
     <ClInclude Include="comps\LdXml.h" />
+    <ClInclude Include="comps\SendKeys.h" />
     <ClInclude Include="hooks\MDIClientHook.h" />
     <ClInclude Include="hooks\MDIMainHook.h" />
     <ClInclude Include="comps\NotifyIcon.h" />
@@ -85,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="comps\LdXml.cpp" />
+    <ClCompile Include="comps\SendKeys.cpp" />
     <ClCompile Include="hooks\MDIClientHook.cpp" />
     <ClCompile Include="hooks\MDIMainHook.cpp" />
     <ClCompile Include="comps\NotifyIcon.cpp" />

@@ -9,9 +9,9 @@
 // 此代码模块中包含的函数的前向声明:
 
 HINSTANCE hInstance;
-ITradInterface* TradClient;
-CScriptEng* ScriptEng;
-IDataInterface* DateInterface;
+ITradInterface* TradClient = NULL;
+CScriptEng* ScriptEng = NULL;
+IDataInterface* DateInterface = NULL;
 
 //连接交易软件（目前只支持通达信）
 ITradInterface* ConnectTradClient()
@@ -50,6 +50,13 @@ int APIENTRY _tWinMain(HINSTANCE hInst,
 			DispatchMessage(&msg);
 		}
 	}
+
+	if(ScriptEng)
+		delete ScriptEng;
+	if(TradClient)
+		delete TradClient;
+	if(DateInterface)
+		delete DateInterface;
 
 	return 0;
 }
