@@ -29,6 +29,7 @@ public:
 			m_TradSocket->m_bAvailable = TRUE;
 			break;
 		case TF_STOCKBY:
+			//RunOnMainThread(Socket)
 			pBy = (PS_TDX_STOCK_BY)pData->data;
 			if(CTDXMain::WndHooker!=NULL){
 				result = CTDXMain::WndHooker->DoStockBy(pBy->mark, pBy->Code, pBy->fPrice, pBy->dwVolume);
@@ -37,6 +38,10 @@ public:
 		case TF_STOCKBYED:
 			break;
 		case TF_STOCKSEL:
+			pBy = (PS_TDX_STOCK_BY)pData->data;
+			if(CTDXMain::WndHooker!=NULL){
+				result = CTDXMain::WndHooker->DoStockSell(pBy->mark, pBy->Code, pBy->fPrice, pBy->dwVolume);
+			}
 			break;
 		case TF_STOCKSELED:
 			break;
@@ -90,4 +95,27 @@ void CTdxTradSocket::ConnectCtrlor()
 		//不能连接认为是交易软件没有启动，把自己设为监听状态等待连接。
 		Listen(TDX_SOCKET_PORT);
 	}
+}
+
+PLD_CLIENT_SOCKET CTdxTradSocket::GetActiveSocket()
+{
+	if(GetStatus()==SS_LISTENING && GetClientHead()!=NULL){  //作为服务端
+		return GetClientHead();
+	}else if(GetStatus()==SS_CONNECTED)     //作为客户端
+		return this;
+	return NULL;
+}
+
+void CTdxTradSocket::SendStockByResult(DWORD htid)
+{
+	int nSize = sizeof(htid);
+	PTDX_SOCKET_DATA pData = MakeStockData(&htid, TF_STOCKBYED, nSize);
+	Send((char*)pData, nSize, GetActiveSocket());
+}
+
+void CTdxTradSocket::SendStockSellResult(DWORD htid)
+{
+	int nSize = sizeof(htid);
+	PTDX_SOCKET_DATA pData = MakeStockData(&htid, TF_STOCKSELED, nSize);
+	Send((char*)pData, nSize, GetActiveSocket());
 }

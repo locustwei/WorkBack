@@ -46,11 +46,17 @@ BOOL CWndHook::StartHook()
 	if(m_nextHook) 
 		return false; //已经有钩子了
 	
-	SetWindowLong(m_hWnd, GW_HOOKPOINT, (LONG)this);
-	if(wcscmp(m_ClassName, CN_Dialog)==0)
+	if(wcscmp(m_ClassName, CN_Dialog)==0){
+		if(GetWindowLong(m_hWnd, DWLP_DLGPROC)==(LONG)&WndHookPROC)
+			return false;
 		m_nextHook = (WNDPROC)SetWindowLongPtr(m_hWnd, DWLP_DLGPROC, (LONG)&WndHookPROC);
-	else
+	}else{
+		if(GetWindowLong(m_hWnd, GW_WNDPROC)==(LONG)&WndHookPROC)
+			return false;
 		m_nextHook = (WNDPROC)SetWindowLongPtr(m_hWnd, GW_WNDPROC,  (LONG)&WndHookPROC);
+	}
+
+	SetWindowLong(m_hWnd, GW_HOOKPOINT, (LONG)this);
 
 	return !m_nextHook;
 }

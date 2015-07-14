@@ -7,8 +7,6 @@
 #include "..\..\PublicLib\Utils_Wnd.h"
 #include "..\stdafx.h"
 
-#define STOCKBY_TIMERID 0xEA6
-
 CTDXStockBuy::CTDXStockBuy(HWND hWnd):CWndHook(hWnd)
 {
 	m_Inited = FALSE;
@@ -33,19 +31,8 @@ LRESULT CTDXStockBuy::WndPROC( HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam
 {
 	LRESULT result = CWndHook::WndPROC(hwnd, nCode, wparam, lparam);
 	switch(nCode){
-	case WM_SHOWWINDOW:
-
-		m_Inited = TRUE;
-		break;
-	case WM_TIMER:
-		if(wparam==STOCKBY_TIMERID){
-			if(GetWindowTextLength(m_edCode)!=6 || GetWindowTextLength(m_edValue)==0 || GetWindowTextLength(m_edCount)==0)
-				SetControlsText();
-			else{
-				KillTimer(m_hWnd, m_timerId);
-				ClickBy();
-			}
-		}
+	case MM_STOCK_BY_END:
+		TradSocket->SendStockByResult(m_HtId);
 		break;
 	}
 	return result;
@@ -54,15 +41,13 @@ LRESULT CTDXStockBuy::WndPROC( HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam
 BOOL CTDXStockBuy::DoBy( STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume )
 {
 	BOOL result = FALSE;
-
+	m_HtId = 0;
 	m_Mark = mark;
 	strcpy_s(m_Code, szCode);
 	m_Price = fPrice;
 	m_Volume = dwVolume;
 	
-	SetControlsText();
-
-	m_timerId = SetTimer(m_hWnd, STOCKBY_TIMERID, 300, NULL);  //由于界面忙碌，一次不成功设置定时器重试。
+	RunOnViceThread(&ByContolInViceThread, (LPARAM)this);//在辅助线程中等待交易确认对话框
 
 	return result;
 }
@@ -77,27 +62,78 @@ void CTDXStockBuy::SetControlsText()
 	SetWindowTextA(m_edCount, szPrice);
 }
 
-void FindByComfirmDlg(UINT uMsg, LPARAM lparam)
+//在辅助线程中运行，控制下单过程
+#define COMFIRM_DLGTITLE L"买入交易确认"
+#define PROMPT_DLGTITLE L"提示"
+void ByContolInViceThread(LPARAM lparam)
 {
-	Sleep(300);
-	HWND hwnd = FindWindowEx(NULL, NULL, CN_Dialog, L"买入交易确认");
-	if(hwnd){
+	CTDXStockBuy* dlgBy = (CTDXStockBuy*)lparam;
+	
+	//输入框中赋值------------------------------------------------------------------------------------------------------
+	int i = 0;
+	do 
+	{//
+		dlgBy->SetControlsText();
+		Sleep(300);
+		if(GetWindowTextLength(dlgBy->m_edCode)==6 && GetWindowTextLength(dlgBy->m_edValue)>0 && GetWindowTextLength(dlgBy->m_edCount)>0)
+			break;
+	} while (i++<3);
 
-	}
-}
-//点击下单按钮
-void CTDXStockBuy::ClickBy()
-{
-	WaitTimeNotBlock(300);
+	if(GetWindowTextLength(dlgBy->m_edCode)!=6 || GetWindowTextLength(dlgBy->m_edValue)==0 || GetWindowTextLength(dlgBy->m_edCount)==0) //没有成功
+		goto exit;
+	
+	//点击买入按钮------------------------------------------------------------------------------------------------------
+	dlgBy->m_btnClicked = FALSE;
+	i = 0;
+	do 
+	{
+		Sleep(300);
+		SendClickMessage(dlgBy->m_btnOk, TRUE);
+	} while (i++<3);
+	
+	//关闭交易确认对话框--------------------------------------------------------------------------------------------
+	i = 0;
+	HWND hwnd = NULL; 
+	do{
+		Sleep(300);
+		hwnd = FindWindowEx(NULL, NULL, CN_Dialog, COMFIRM_DLGTITLE);//交易确认窗口
+		if(hwnd){
+			break;
+		}
+	}while(i++<3);
 
-	RECT r = {0};
-	GetWindowRect(m_btnOk, &r);
-	SetCursorPos(r.left+ 5, r.top + 5);
-	PostThreadMessage(dwViceThreadId, 0, (WPARAM)&FindByComfirmDlg, (LPARAM)this);
-	SendMessage(m_btnOk, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(r.left+5, r.top+5));
-	WaitTimeNotBlock(100); //需要有时间间隔
-	SendMessage(m_btnOk, WM_LBUTTONUP, MK_LBUTTON, MAKELPARAM(r.left+5, r.top+5));
-	//正常此处弹出交易确认模态对话框，中断程序执行等待确认
+	if(hwnd==NULL)
+		goto exit;
 
-	//买入交易确认
+	HWND hBtn = GetDlgItem(hwnd, 0x1B67);
+	i = 0;  //有可能一次点击不成功点3次
+	do 
+	{
+		SendClickMessage(hBtn, TRUE);
+		Sleep(100);
+		hwnd = FindWindowEx(NULL, NULL, CN_Dialog, COMFIRM_DLGTITLE);
+		if(!hwnd)
+			break;
+	} while (i++<3);
+	
+	if(hwnd)  //如果窗口还在说明关闭不成功
+		goto exit;
+
+	//关闭合同号提示对话框----------------------------------------------------------------------------------------
+	i = 0;
+	do{
+		Sleep(500);
+		hwnd = FindWindowEx(NULL, NULL, CN_Dialog, PROMPT_DLGTITLE); //提交委托后，弹出“提示”窗口
+		if(hwnd){
+			dlgBy->m_HtId = 1;  //todo 获取合同号
+			hBtn = GetDlgItem(hwnd, 0x1B67);
+			if(hBtn)
+				SendClickMessage(hBtn, TRUE);
+			break;
+		}
+	}while (i++<3);	
+
+exit:
+	PostMessage(dlgBy->m_hWnd, MM_STOCK_BY_END, 0, 0);
+
 }

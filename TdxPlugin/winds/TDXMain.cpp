@@ -40,6 +40,7 @@ CTDXMain::CTDXMain(HWND hWnd): CWndHook(hWnd)
 	m_RightHook = NULL;
 	m_StockSell = NULL;
 	m_StockBuyDlg = NULL;
+	m_StockSellDlg = NULL;
 
 	FindChildWnds();
 }
@@ -49,26 +50,22 @@ CTDXMain::~CTDXMain(void)
 {
 	CTDXMain::WndHooker = NULL;
 }
+
 //主窗口消息钩子
 LRESULT CTDXMain::WndPROC(HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam)
 {
-	PS_TDX_STOCK_BY pBy;
+	RunThreadFunc fun;
+
 	switch(nCode){
+	case MM_RUNONMAINTHREAD:   //需要在主线程执行，发此消息
+		fun = (RunThreadFunc)wparam;
+		fun(lparam);
+		break;
 	case MM_LOGINED:   //登录完成，识别左侧栏功能菜单窗口
 		InitRightWnds();
-		ConnectLdTrad();  //连接主控程序
 		if(!FindNavTreeViews()){  //如果不成功可能的原因是菜单窗口还没来得及加载菜单项
 			SetTimer(m_hWnd, TIMERID_LEFT, 1000, NULL);  //等一秒再试
 		}
-		break;
-	case MM_TDXSOCKET:
-
-		switch(wparam){
-		case TF_STOCKBY:
-			pBy = (PS_TDX_STOCK_BY)lparam;
-			DoStockBy(pBy->mark, pBy->Code, pBy->fPrice, pBy->dwVolume);
-			break;
-		};
 		break;
 	case WM_TIMER:  //重试查找TreeView定时
 		if(wparam==TIMERID_LEFT){
@@ -116,12 +113,22 @@ public:
 	virtual LRESULT WndPROC(HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam)
 	{
 		if(nCode==WM_PARENTNOTIFY){
-			TCHAR a[10] = {0};
+			//TCHAR a[10] = {0};
 			switch(LOWORD(wparam)){
 			case WM_CREATE:  //新窗口创建
 				for(int i=0; i<mainWnd->m_NavTrees.GetCount(); i++){
 					if(IsWindowVisible(mainWnd->m_NavTrees[i].hTreeView)){
 						HTREEITEM item = TreeView_GetSelection(mainWnd->m_NavTrees[i].hTreeView);
+
+						PTdx_TreeItemParam pParam = (PTdx_TreeItemParam)TreeView_GetItemParam(mainWnd->m_NavTrees[i].hTreeView, item);
+						if(!pParam)
+							continue;
+						/* 这里设置钩子不成功
+						if(strcmp(Stock_Buy_ID, pParam->pData->ID)==0 && (strcmp(Stock_ID, pParam->pParent->pData->ID)==0)){
+							mainWnd->m_StockBuyDlg = new CTDXStockBuy((HWND)lparam);
+							mainWnd->m_StockBuyDlg->StartHook();
+						}
+						*/
 						Tdx_TreeItem_Dlg dlg = {mainWnd->m_NavTrees[i].hTreeView, item, (HWND)lparam};
 						mainWnd->m_NavDialogs.Add(dlg);
 					}
@@ -132,7 +139,7 @@ public:
 		return CWndHook::WndPROC(hwnd, nCode, wparam, lparam);
 	}
 };
-//在功能面板上设置钩子
+//在功能面板上设置钩子（便于知道有哪些交易窗口被嵌入到主窗口中）
 BOOL CTDXMain::InitRightWnds()
 {
 	if(m_hRightPanel){
@@ -152,7 +159,7 @@ void CTDXMain::HookMainWnd(HWND hwnd)
 		//OutputDebugString(L"MainWnd Hooked");
 	};
 }
-
+//
 void CTDXMain::FindChildWnds()
 {
 	HWND hChild = FindWindowEx(m_hWnd, NULL, NULL, NULL);
@@ -238,6 +245,7 @@ BOOL CTDXMain::Click_NavTreeItem( HWND hwnd, HTREEITEM item )
 	POINT p = {r.left, r.top};
 	ClientToScreen(hwnd, &p);
 	SetCursorPos(p.x+5, p.y+5);
+
 	//发消息
 	PostMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(p.x+5, p.y+5));
 	PostMessage(hwnd, WM_LBUTTONUP, MK_LBUTTON, MAKELPARAM(p.x+5, p.y+5));
@@ -316,10 +324,6 @@ BOOL CTDXMain::Click_TreeItemByID(LPCSTR szID, LPCSTR szGroup /*= NULL*/)
 		return FALSE;
 }
 
-void CTDXMain::ConnectLdTrad()
-{
-	m_TradSocket = new CTdxTradSocket();
-}
 //股票买入
 BOOL CTDXMain::DoStockBy(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume)
 {
@@ -343,5 +347,20 @@ BOOL CTDXMain::DoStockBy(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwV
 //股票卖出
 BOOL CTDXMain::DoStockSell(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume)
 {
-	return FALSE;
+	BOOL result = FALSE;
+	do 
+	{
+		if(!Click_TreeItemByID(Stock_Sell_ID, Stock_ID))
+			break;
+
+		//等窗口创建（或Show）
+		WaitTimeNotBlock(500);
+
+		CTDXStockSell* wnd = GetStockSellDlg();
+		if(wnd==NULL)
+			break;
+		result = wnd->DoSell(mark, szCode, fPrice, dwVolume);
+	} while (false);
+
+	return result;
 }

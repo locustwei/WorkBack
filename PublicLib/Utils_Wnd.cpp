@@ -104,3 +104,18 @@ void WaitTimeNotBlock(int nMillisecond)
 	while(GetTickCount()-dwTime<nMillisecond)
 		HandleMessssage(NULL);
 }
+
+void SendClickMessage(HWND hwnd, BOOL bMoveCursor)
+{
+	RECT r = {0};
+	GetWindowRect(hwnd, &r);
+	POINT p ={(r.left+r.right)/2, (r.top+r.bottom)/2};
+	
+	if(bMoveCursor){
+		SetCursorPos(p.x, p.y);
+	}
+
+	PostMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(p.x, p.y));
+	WaitTimeNotBlock(100); //需要有时间间隔
+	PostMessage(hwnd, WM_LBUTTONUP, MK_LBUTTON, MAKELPARAM(p.x, p.y));
+}

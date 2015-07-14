@@ -56,9 +56,6 @@
     <ClInclude Include="TDXDataStruct.h">
       <Filter>通信达交易</Filter>
     </ClInclude>
-    <ClInclude Include="TDXSocketData.h">
-      <Filter>Dll</Filter>
-    </ClInclude>
     <ClInclude Include="winds\TDXLogin.h">
       <Filter>通信达交易\主窗口</Filter>
     </ClInclude>
@@ -84,6 +81,9 @@
       <Filter>通信达交易\股票</Filter>
     </ClInclude>
     <ClInclude Include="TdxTradSocket.h">
+      <Filter>通信达交易</Filter>
+    </ClInclude>
+    <ClInclude Include="TDXSocketData.h">
       <Filter>通信达交易</Filter>
     </ClInclude>
   </ItemGroup>

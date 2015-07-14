@@ -12,7 +12,10 @@ public:
 	CTdxTradSocket(void);
 	~CTdxTradSocket(void);
 	void ConnectCtrlor();
+	void SendStockByResult(DWORD htid);;
+	void SendStockSellResult(DWORD htid);
 private:
 	BOOL m_bAvailable;
+	PLD_CLIENT_SOCKET GetActiveSocket();
 };
 

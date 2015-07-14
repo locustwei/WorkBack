@@ -9,9 +9,12 @@
 #include "..\publiclib\comps\LdList.h"
 #include "TDXDataStruct.h"
 #include <stdio.h>
+#include "TdxTradSocket.h"
 
 HINSTANCE hInstance;
 DWORD dwViceThreadId;
+CTdxTradSocket* TradSocket;
+HWND hWndLogin = NULL, hWndMain = NULL;
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
@@ -34,7 +37,6 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 }
 
 //----------------------------------------------------------------------------------
-HWND hWndLogin = NULL, hWndMain = NULL;
 
 BOOL CALLBACK EnumThreadWndProc(HWND hwnd, LPARAM lparam)
 {
@@ -55,12 +57,11 @@ LRESULT WINAPI TempWndPROC(HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam)
 {
 	if(nCode==MM_RUNONMAINTHREAD){
 		(WNDPROC)SetWindowLongPtr(hWndLogin, GW_WNDPROC, (LONG)oldProc); //钩子使命完成还原他。
-		((RUNONPROC)wparam)(lparam);
+		((RunThreadFunc)wparam)(lparam);
 	}
 	return CallWindowProc(oldProc, hwnd, nCode, wparam, lparam);
 }
 
-typedef void (* RunInViceFunc)(UINT uMsg, LPARAM lparam); 
 //副线程，这个线程用于处理诸如主线程中的模态对话框、循环等待，等问题
 DWORD WINAPI ViceThreadProc(_In_ LPVOID lpParameter)
 {
@@ -71,14 +72,16 @@ DWORD WINAPI ViceThreadProc(_In_ LPVOID lpParameter)
 		if(msg.message == WM_QUIT)
 			break;
 		else if(msg.wParam!=0){
-			RunInViceFunc fun = (RunInViceFunc)msg.wParam;
-			fun(msg.message, msg.lParam);
+			RunThreadFunc fun = (RunThreadFunc)msg.wParam;
+			fun(msg.lParam);
 		}
 	}
+
+	return 0;
 }
 
 //在主线程出初始化。
-int InitOnMainThread(LPARAM param)
+void InitOnMainThread(LPARAM param)
 {
 
 	if(hWndLogin!=NULL){
@@ -94,7 +97,8 @@ int InitOnMainThread(LPARAM param)
 
 	CreateThread(NULL, 0, &ViceThreadProc, NULL, 0, &dwViceThreadId);
 
-	return 0;
+	TradSocket = new CTdxTradSocket();
+
 }
 
 BOOL InstallHooks(DWORD tid)
@@ -108,7 +112,7 @@ BOOL InstallHooks(DWORD tid)
 			所以先找到登录窗口设置消息钩子，然后发送消息在主线程执行初始化函数*/
 
 			oldProc = (WNDPROC)SetWindowLongPtr(hWndLogin, GW_WNDPROC, (LONG)&TempWndPROC);
-			SendMessage(hWndLogin, MM_RUNONMAINTHREAD, (WPARAM)&InitOnMainThread, 0);
+			PostMessage(hWndLogin, MM_RUNONMAINTHREAD, (WPARAM)&InitOnMainThread, 0);
 		}
 		return TRUE;
 	}else
