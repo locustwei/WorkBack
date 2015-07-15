@@ -14,7 +14,8 @@
 HINSTANCE hInstance;
 DWORD dwViceThreadId;
 CTdxTradSocket* TradSocket;
-HWND hWndLogin = NULL, hWndMain = NULL;
+HWND hWndLogin = NULL;
+HWND hMainWnd = NULL;
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
@@ -45,9 +46,9 @@ BOOL CALLBACK EnumThreadWndProc(HWND hwnd, LPARAM lparam)
 		if(style==0x94000044){
 			hWndLogin = hwnd;
 		}else if(style==0x0CCF0044)
-			hWndMain = hwnd;
+			hMainWnd = hwnd;
 	}
-	return hWndLogin == NULL || hWndMain == NULL;
+	return hWndLogin == NULL || hMainWnd == NULL;
 }
 
 WNDPROC oldProc;
@@ -89,8 +90,8 @@ void InitOnMainThread(LPARAM param)
 		CTDXLogin::WndHooker->StartHook();
 	}
 
-	if(hWndMain!=NULL){
-		CTDXMain::WndHooker = new CTDXMain(hWndMain);
+	if(hMainWnd!=NULL){
+		CTDXMain::WndHooker = new CTDXMain(hMainWnd);
 		CTDXMain::WndHooker->StartHook();
 
 	}

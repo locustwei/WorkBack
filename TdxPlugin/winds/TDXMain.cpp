@@ -39,7 +39,7 @@ CTDXMain::CTDXMain(HWND hWnd): CWndHook(hWnd)
 	m_hLeftPanel = NULL;
 	m_hRightPanel = NULL;
 	m_RightHook = NULL;
-	m_StockSell = NULL;
+	m_StockZjgfDlg = NULL;
 	m_StockBuyDlg = NULL;
 	m_StockSellDlg = NULL;
 
@@ -295,6 +295,21 @@ CTDXStockSell* CTDXMain::GetStockSellDlg()
 
 	return m_StockSellDlg;
 }
+
+//股票卖出Dialog Hook
+CTDXZjgf* CTDXMain::GetStockZjgfDlg()
+{
+	if(m_StockZjgfDlg==NULL){
+		HWND hwnd = Find_Dialog(Stock_zjgf_ID, query_ID);
+		if(hwnd){
+			m_StockZjgfDlg = new CTDXZjgf(hwnd);
+			m_StockZjgfDlg->StartHook();
+		}
+	}
+
+	return m_StockZjgfDlg;
+}
+
 //根据TreeView Item PARAM值查找（API TreeView_GetItem似乎不能）
 HTREEITEM CTDXMain::FindTreeItemByParam(HWND hwnd, LPARAM param, HTREEITEM hItem)
 {
@@ -361,6 +376,36 @@ BOOL CTDXMain::DoStockSell(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD d
 		if(wnd==NULL)
 			break;
 		result = wnd->DoSell(mark, szCode, fPrice, dwVolume);
+	} while (false);
+
+	return result;
+}
+
+//获取资金股份
+BOOL CTDXMain::DoStockZjgf()
+{
+	BOOL result = FALSE;
+	do 
+	{
+		if(!Click_TreeItemByID(Stock_zjgf_ID, query_ID))
+			break;
+
+		//等窗口创建（或Show）
+		WaitTimeNotBlock(500);
+
+		CTDXZjgf* wnd = GetStockZjgfDlg();
+		if(wnd==NULL)
+			break;
+
+		PTDX_STOCK_ZJGF zjgf = NULL;
+
+		int nSize = wnd->GetZjgf(&zjgf);
+		if(nSize>0 && zjgf!=NULL){
+			TradSocket->SendStockZjgfResult(zjgf, nSize);
+		}
+		if(zjgf!=NULL)
+			free(zjgf);
+
 	} while (false);
 
 	return result;

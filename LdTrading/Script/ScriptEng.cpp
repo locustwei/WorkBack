@@ -2,6 +2,8 @@
 #include "ScriptEng.h"
 #include <stdio.h>
 
+#pragma warning( disable : 4244 4305)
+
 #define LUA_GLOBAL_IDATA "IStockData"
 #define LUA_GLOBAL_ITRAD "IStockTrad"
 

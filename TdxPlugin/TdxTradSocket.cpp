@@ -1,6 +1,39 @@
 #include "TdxTradSocket.h"
 #include "winds\TDXMain.h"
 
+void DoSocketProcedure(LPARAM param)
+{
+	PTDX_SOCKET_DATA pData = (PTDX_SOCKET_DATA)param;
+	BOOL result = FALSE;
+	PTDX_STOCK_BY pBy;
+
+	switch(pData->ID){
+	case TF_STOCKBY:
+		pBy = (PTDX_STOCK_BY)pData->data;
+		if(CTDXMain::WndHooker!=NULL){
+			result = CTDXMain::WndHooker->DoStockBy(pBy->mark, pBy->Code, pBy->fPrice, pBy->dwVolume);
+		}
+		break;
+	case TF_STOCKBY_RET:
+		break;
+	case TF_STOCKSEL:
+		pBy = (PTDX_STOCK_BY)pData->data;
+		if(CTDXMain::WndHooker!=NULL){
+			result = CTDXMain::WndHooker->DoStockSell(pBy->mark, pBy->Code, pBy->fPrice, pBy->dwVolume);
+		}
+		break;
+	case TF_STOCKSEL_RET:
+		break;
+	case TF_GETZJGF:
+		if(CTDXMain::WndHooker!=NULL){
+			result = CTDXMain::WndHooker->DoStockZjgf();
+		}
+		break;
+	}
+
+	free(pData);
+}
+
 class CTradSocketListenner: public ISocketListener
 {
 public:
@@ -16,36 +49,21 @@ public:
 
 	virtual void OnRecv(PLD_CLIENT_SOCKET pSocket)
 	{
-		BOOL result = FALSE;
-		PS_TDX_STOCK_BY pBy;
 
 		if(pSocket->nRecvSize==0 || pSocket->lpRecvedBuffer==NULL)
 			return;
 
-		PTDX_SOCKET_DATA pData = (PTDX_SOCKET_DATA)pSocket->lpRecvedBuffer;
-		switch(pData->ID){
-		case TF_REGISTER:
+		if(((PTDX_SOCKET_DATA)pSocket->lpRecvedBuffer)->ID == TF_REGISTER){
 			pSocket->tag = 1;  //验证成功 //todo
 			m_TradSocket->m_bAvailable = TRUE;
-			break;
-		case TF_STOCKBY:
-			//RunOnMainThread(Socket)
-			pBy = (PS_TDX_STOCK_BY)pData->data;
-			if(CTDXMain::WndHooker!=NULL){
-				result = CTDXMain::WndHooker->DoStockBy(pBy->mark, pBy->Code, pBy->fPrice, pBy->dwVolume);
-			}
-			break;
-		case TF_STOCKBYED:
-			break;
-		case TF_STOCKSEL:
-			pBy = (PS_TDX_STOCK_BY)pData->data;
-			if(CTDXMain::WndHooker!=NULL){
-				result = CTDXMain::WndHooker->DoStockSell(pBy->mark, pBy->Code, pBy->fPrice, pBy->dwVolume);
-			}
-			break;
-		case TF_STOCKSELED:
-			break;
+			return;
 		}
+
+		PTDX_SOCKET_DATA pData = (PTDX_SOCKET_DATA)malloc(pSocket->nRecvSize);
+		memcpy(pData, pSocket->lpRecvedBuffer, pSocket->nRecvSize);
+
+		RunOnMainThread(&DoSocketProcedure, (LPARAM)pData);  //有界面操作的发配到主线程（当前线程数Socekt select）
+
 	}
 
 	virtual void OnClosed(PLD_CLIENT_SOCKET)
@@ -109,13 +127,19 @@ PLD_CLIENT_SOCKET CTdxTradSocket::GetActiveSocket()
 void CTdxTradSocket::SendStockByResult(DWORD htid)
 {
 	int nSize = sizeof(htid);
-	PTDX_SOCKET_DATA pData = MakeStockData(&htid, TF_STOCKBYED, nSize);
+	PTDX_SOCKET_DATA pData = MakeStockData(&htid, TF_STOCKBY_RET, nSize);
 	Send((char*)pData, nSize, GetActiveSocket());
 }
 
 void CTdxTradSocket::SendStockSellResult(DWORD htid)
 {
 	int nSize = sizeof(htid);
-	PTDX_SOCKET_DATA pData = MakeStockData(&htid, TF_STOCKSELED, nSize);
+	PTDX_SOCKET_DATA pData = MakeStockData(&htid, TF_STOCKSEL_RET, nSize);
 	Send((char*)pData, nSize, GetActiveSocket());
+}
+
+void CTdxTradSocket::SendStockZjgfResult(PTDX_STOCK_ZJGF pZjgf, int nSize)
+{
+	PTDX_SOCKET_DATA pData = MakeStockData(pZjgf, TF_GETZJGF_RET, nSize);
+	Send((char*)pData, nSize, GetActiveSocket());;
 }

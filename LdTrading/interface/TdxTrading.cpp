@@ -23,12 +23,12 @@ public:
 			m_Trading->m_bAvailable = TRUE;
 			break;
 		case TF_STOCKBY:
-		case TF_STOCKBYED:
+		case TF_STOCKBY_RET:
 			SetEvent(m_Trading->m_hEvent);
 			break;
 		case TF_STOCKSEL:
 			break;
-		case TF_STOCKSELED:
+		case TF_STOCKSEL_RET:
 			SetEvent(m_Trading->m_hEvent);
 			break;
 		}
@@ -83,7 +83,7 @@ BOOL CTdxTrading::StockBy( STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD d
 		return FALSE;
 	
 	BOOL result = FALSE;
-	S_TDX_STOCK_BY stb = {mark, "", fPrice, dwVolume};
+	TDX_STOCK_BY stb = {mark, "", fPrice, dwVolume};
 	strcpy_s(stb.Code, szCode);
 	result = SendStockDataWait(TF_STOCKBY, &stb, sizeof(stb));
 	
@@ -100,7 +100,7 @@ BOOL CTdxTrading::StockSell( STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD
 		return FALSE;
 
 	BOOL result = FALSE;
-	S_TDX_STOCK_BY stb = {mark, "", fPrice, dwVolume};
+	TDX_STOCK_BY stb = {mark, "", fPrice, dwVolume};
 	strcpy_s(stb.Code, szCode);
 	result = SendStockDataWait(TF_STOCKSEL, &stb, sizeof(stb));
 

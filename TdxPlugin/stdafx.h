@@ -19,7 +19,6 @@
 #define MM_STOCK_BY_END MM_CUSTOM + 3         //股票买入下单完成向买入窗口发送消息
 #define MM_STOCK_SELL_END MM_CUSTOM + 4       //股票卖出下单完成向卖出窗口发送消息
 
-
 extern HINSTANCE hInstance;  //动态库handle
 extern DWORD dwViceThreadId; //副线程ID
 extern HWND hMainWnd;

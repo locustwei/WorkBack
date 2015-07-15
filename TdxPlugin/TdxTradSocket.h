@@ -14,6 +14,7 @@ public:
 	void ConnectCtrlor();
 	void SendStockByResult(DWORD htid);;
 	void SendStockSellResult(DWORD htid);
+	void SendStockZjgfResult(PTDX_STOCK_ZJGF pZjgf, int nSize);
 private:
 	BOOL m_bAvailable;
 	PLD_CLIENT_SOCKET GetActiveSocket();

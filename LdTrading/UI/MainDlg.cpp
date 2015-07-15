@@ -52,7 +52,8 @@ INT_PTR CMainDlg::OnCommand(WORD ctrlid, HWND hwnd)
 		break;
 	}*/
 
-	TradClient->StockSell(MARK_SZ, "000858", 14, 100);
+	//TradClient->StockSell(MARK_SZ, "000858", 14, 100);
+	//TradClient->GetZjgf();
 	//SetCursor(LoadCursor(NULL, IDC_HAND));
 	return CLdDialog::OnCommand(ctrlid, hwnd);
 }
