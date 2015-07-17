@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "ui\MainDlg.h"
 #include "..\StockDataAPI\web\HttpStockData.h"
+#include <commctrl.h>
 #define MAX_LOADSTRING 100
 
 // 此代码模块中包含的函数的前向声明:
@@ -19,6 +20,14 @@ ITradInterface* ConnectTradClient()
 	return new CTdxTrading();
 }
 
+BOOL InitInstance()
+{
+	INITCOMMONCONTROLSEX InitCtrls;
+	InitCtrls.dwSize = sizeof(InitCtrls);
+	InitCtrls.dwICC = ICC_WIN95_CLASSES;
+	InitCommonControlsEx(&InitCtrls);
+}
+
 int APIENTRY _tWinMain(HINSTANCE hInst,
                      HINSTANCE hPrevInstance,
                      LPTSTR    lpCmdLine,
@@ -28,6 +37,8 @@ int APIENTRY _tWinMain(HINSTANCE hInst,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	hInstance = hInst;
+
+	InitInstance();
 
 	CMainDlg dlg;
 	dlg.ShowDialog(MAKEINTRESOURCE(IDD_DIALOG_MAIN));
