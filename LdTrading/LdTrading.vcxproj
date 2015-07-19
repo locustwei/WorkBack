@@ -68,6 +68,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
+    <None Include="script\stockdata.lua" />
+    <None Include="Script\trad1.lua" />
+    <None Include="Script\trad2.lua" />
     <None Include="Test.ico" />
   </ItemGroup>
   <ItemGroup>

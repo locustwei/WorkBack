@@ -7,6 +7,8 @@
 #include <commctrl.h>
 #define MAX_LOADSTRING 100
 
+#pragma comment(lib,"Comctl32.lib")
+
 // 此代码模块中包含的函数的前向声明:
 
 HINSTANCE hInstance;
@@ -26,6 +28,7 @@ BOOL InitInstance()
 	InitCtrls.dwSize = sizeof(InitCtrls);
 	InitCtrls.dwICC = ICC_WIN95_CLASSES;
 	InitCommonControlsEx(&InitCtrls);
+	return TRUE;
 }
 
 int APIENTRY _tWinMain(HINSTANCE hInst,

@@ -34,6 +34,9 @@
     <None Include="Test.ico">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="script\stockdata.lua" />
+    <None Include="Script\trad1.lua" />
+    <None Include="Script\trad2.lua" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

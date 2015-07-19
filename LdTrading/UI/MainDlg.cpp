@@ -40,17 +40,17 @@ BOOL CMainDlg::OnInitDialog()
 
 INT_PTR CMainDlg::OnCommand(WORD ctrlid, HWND hwnd)
 {
-	/*
+	
 	LPCSTR szRet = NULL;
 	char ss[1024] = {0};
 	
 	switch(ctrlid){
 	case IDC_BUTTON_TEST:
 		WideCharToMultiByte(CP_ACP, 0, m_ed1.GetText(), -1, ss, 1024, NULL, NULL);
-		if(m_ScriptEng->RunScript(ss, &szRet))
+		if(ScriptEng->RunScript(ss, &szRet))
 			m_ed2.SetText(szRet);
 		break;
-	}*/
+	}
 
 	//TradClient->StockSell(MARK_SZ, "000858", 14, 100);
 	//TradClient->GetZjgf();
@@ -70,5 +70,5 @@ void CMainDlg::InitDlgMembers(PDLGITEM_MAP maps)
 
 	CLdDialog::InitDlgMembers(a);
 
-	m_ed1.SetText("return getCurrent(MARK_SZ, \"000858\")");
+	m_ed1.SetText("return LdStockTrad0(\"000858\", 5, 30, 100)");
 }
