@@ -37,6 +37,9 @@
     <None Include="script\stockdata.lua" />
     <None Include="Script\trad1.lua" />
     <None Include="Script\trad2.lua" />
+    <None Include="s_trad2.bin">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

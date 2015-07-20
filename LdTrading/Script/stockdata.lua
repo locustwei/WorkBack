@@ -11,6 +11,7 @@ MARK_SH = 1  --»¦ÊÐ
 DATA_ID_SIMPLE = 100
 
 TRAD_ID_BUY = 200
+TRAD_ID_SELL = 201
 
 function StockData:new(szCode)
 	local obj = {Mark=0, Code=szCode, Close=0,Open=0,High=0,Low=0,Current=0,Volume=0,Amount=0,Rise=0}
@@ -46,4 +47,8 @@ end
 
 function StockData:Buy(nVolumn)
 	return CallTradFunc(TRAD_ID_BUY, self.Mark, self.Code, nVolumn)
+end
+
+function StockData:Sell(nVolumn)
+	return CallTradFunc(TRAD_ID_SELL, self.Mark, self.Code, nVolumn)
 end

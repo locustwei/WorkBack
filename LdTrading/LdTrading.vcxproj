@@ -71,6 +71,7 @@
     <None Include="script\stockdata.lua" />
     <None Include="Script\trad1.lua" />
     <None Include="Script\trad2.lua" />
+    <None Include="s_trad2.bin" />
     <None Include="Test.ico" />
   </ItemGroup>
   <ItemGroup>
