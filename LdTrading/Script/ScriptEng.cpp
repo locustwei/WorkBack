@@ -178,13 +178,9 @@ BOOL CScriptEng::RunScript(LPCSTR szScript, float* fResult)
 
 BOOL CScriptEng::RunScript(LPCSTR szScript)
 {
-	char script[2048] = {0};
-	sprintf_s(script, "function TempFunction() \n %s \n end", szScript);
-
-	int nError = luaL_dostring(m_hLua, script);
+	int nError = luaL_loadbuffer(m_hLua, szScript, strlen(szScript), NULL);
 	if(nError)
 		return FALSE;
-	nError = lua_getglobal(m_hLua, "TempFunction");  
 	nError = lua_pcall(m_hLua, 0, 1, 0);
 	if(nError)
 		return FALSE;
