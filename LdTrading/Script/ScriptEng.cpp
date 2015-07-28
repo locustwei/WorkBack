@@ -1,3 +1,10 @@
+/************************************************************************
+脚本执行、管理。
+脚本来源
+1、库函数：资源目录SCRIPT_LIB，提供股票数据、交易、短信、微信等C++函数调用接口
+2、内置策略函数：资源目录STRATEGY，提供一些默认的交易策略脚本（止盈、止损卖出、操底买入等）
+3、自定义策略脚本：文件目录.\Script\strategy，由用户自编写的交易（盯盘）脚本。
+************************************************************************/
 #include "..\StdAfx.h"
 #include "ScriptEng.h"
 #include <stdio.h>
@@ -88,7 +95,7 @@ static int CallTradFunc(lua_State *L)
 /************************************************************************
 枚举脚本资源，加载已定义脚本(库函数）
 /************************************************************************/
-BOOL CALLBACK EnumResScript(
+BOOL CALLBACK EnumResLib(
 	__in  HMODULE hModule,
 	__in  LPCTSTR lpszType,
 	__in  LPTSTR lpszName,
@@ -105,7 +112,7 @@ BOOL CALLBACK EnumResScript(
 				LPSTR szScript = new char[nSize + 1];
 				CopyMemory((LPVOID)szScript, lpResource, nSize);
 				szScript[nSize] = 0;
-				((CScriptEng*)lParam)->LoadScriptLib(szScript);
+				((CScriptEng*)lParam)->AddLib(szScript);
 				UnlockResource(hGlobal);
 				delete szScript;
 			}
@@ -118,7 +125,7 @@ BOOL CALLBACK EnumResScript(
 /************************************************************************
 枚举脚本资源，加载已定义脚本(交易函数）
 /************************************************************************/
-BOOL CALLBACK EnumResTrad(
+BOOL CALLBACK EnumResStrategy(
 	__in  HMODULE hModule,
 	__in  LPCTSTR lpszType,
 	__in  LPTSTR lpszName,
@@ -135,7 +142,7 @@ BOOL CALLBACK EnumResTrad(
 				LPSTR szScript = new char[nSize + 1];
 				CopyMemory((LPVOID)szScript, lpResource, nSize);
 				szScript[nSize] = 0;
-				((CScriptEng*)lParam)->LoadScriptTrad(szScript);
+				((CScriptEng*)lParam)->AddFunction(szScript);
 				UnlockResource(hGlobal);
 				delete szScript;
 			}
@@ -156,8 +163,8 @@ CScriptEng::CScriptEng(void):m_TradScripts()
 	lua_pushcfunction(m_hLua, CallTradFunc);
 	lua_setglobal(m_hLua, "CallTradFunc");	
 	//加载脚本资源
-	EnumResourceNames(hInstance, L"SCRIPT", &EnumResScript, (LONG_PTR)this);
-	EnumResourceNames(hInstance, L"S_TRAD", &EnumResTrad, (LONG_PTR)this);
+	EnumResourceNames(hInstance, L"SCRIPT_LIB", &EnumResLib, (LONG_PTR)this);
+	EnumResourceNames(hInstance, L"STRATEGY", &EnumResStrategy, (LONG_PTR)this);
 }
 
 
@@ -224,7 +231,7 @@ BOOL CScriptEng::RunScript(LPCSTR szScript, LPCSTR* szResult)
 	return TRUE;
 }
 
-BOOL CScriptEng::LoadScriptLib( LPCSTR szLib )
+BOOL CScriptEng::AddLib( LPCSTR szLib )
 {	
 	int nError = luaL_dostring(m_hLua, szLib);
 	return nError == 0;
@@ -261,11 +268,13 @@ BOOL CScriptEng::SetDataInterface( IDataInterface* iInt )
 [nPercent]:回升幅度     --同上
 --]]                    --注释结束
 
-以下为脚本代码部分
+脚本代码部分
 
 ************************************************************************/
-PTRAD_STRCPIT CScriptEng::LoadScriptTrad( LPSTR szScript)
+PTRAD_STRCPIT CScriptEng::AddFunction( LPSTR szScript)
 {
+	//todo 解密、MD5生成唯一ID
+
 	//解析函数注释部分。
 	LPSTR szName = NULL,         //函数名称
 		szComment = NULL,        //函数说明
@@ -328,19 +337,21 @@ PTRAD_STRCPIT CScriptEng::LoadScriptTrad( LPSTR szScript)
 	sprintf_s(szFunction, 20, "LdStockTrad%d", m_TradScripts.GetCount()); 
 
 	szP = NULL;
-	int nlen = 0;
+	int nlen = 1 + strlen(S_TARD_PARAM_ID);  //加上默认参数(通过这个参数脚本可以获取与其相关的设置信息);
 	for(int i=0; i<nPs; i++){
 		nlen += strlen(szParams[i]) + 1;			
 	}
+
 	if(nlen){
 		szP = (LPSTR)malloc(nlen);
 		memset(szP, 0, nlen);
 		for(int i=0; i<nPs; i++){
-			strcat(szP, szParams[i]);
-			if(i!=nPs-1)
-				strcat(szP,",");
+			strcat_s(szP, nlen, szParams[i]);
+			strcat_s(szP, nlen, ",");
 		}
 	}
+	strcat_s(szP, nlen, S_TARD_PARAM_ID);
+
 	nlen = nlen + strlen(szContent) + strlen(szFunction) + 20;
 
 	szBody = (LPSTR)malloc(nlen);
@@ -351,7 +362,7 @@ PTRAD_STRCPIT CScriptEng::LoadScriptTrad( LPSTR szScript)
 		sprintf_s(szBody, nlen, "function %s()\r\n%s\r\nend", szFunction, szContent);
 
 	PTRAD_STRCPIT pScript = NULL;
-	if(LoadScriptLib(szBody)){
+	if(AddLib(szBody)){
 		pScript = new TRAD_STRCPIT;
 		pScript->szName = szName;
 		pScript->nParamCount = nPs;

@@ -52,6 +52,7 @@ const LPCSTR QQ_MARK_FH[] = {"sz", "sh"};    //股票市场代码（深市、沪市）
 个股实时数据
 返回数据：_ntes_quote_callback({"1000002":{"code": "1000002", "percent": -0.054225, "high": 14.25, "askvol3": 469400, "askvol2": 821920, "askvol5": 213761, "askvol4": 181600, "price": 13.43, "open": 13.96, "bid5": 13.39, "bid4": 13.4, "bid3": 13.41, "bid2": 13.42, "bid1": 13.43, "low": 12.8, "updown": -0.77, "type": "SZ", "bidvol1": 616760, "status": 0, "bidvol3": 7300, "bidvol2": 34700, "symbol": "000002", "update": "2015/06/26 15:34:26", "bidvol5": 73000, "bidvol4": 48000, "volume": 307064141, "askvol1": 1343656, "ask5": 13.48, "ask4": 13.47, "ask1": 13.44, "name": "\u4e07  \u79d1\uff21", "ask3": 13.46, "ask2": 13.45, "arrow": "\u2193", "time": "2015/06/26 15:34:21", "yestclose": 14.2, "turnover": 4166709641.96} });
 ************************************************************************/
+//http://api.money.126.net/data/feed/0000001,0601288,0601989,0600110,1002638,0600480,0600548,1300019,0600898,1300127,1000028,0600077,0600020,0600037,1300216,1000503,1300059,1300226,1002315,1002095,money.api?callback=_ntes_quote_callback71158175
 
 //-------------------和讯网---------------------------------------------
 #define HEXUN_STOCK_CODE "http://bdcjhq.hexun.com/quote?s2=%s"  //000001.sh,399001.sz,399300.sz,601186.sh"
@@ -59,3 +60,12 @@ const LPCSTR QQ_MARK_FH[] = {"sz", "sh"};    //股票市场代码（深市、沪市）
 个股实时数据
 返回数据：<html><head><meta http-equiv="Content-Type" content="text/html; charset=GBK"><script type='text/javascript'>document.domain='hexun.com';</script></head><body></body><script>try{parent.bdcallback({"000001.sh":{na:"上证指数",pc:"4527.779",op:"4399.933",vo:"565217874",tu:"78783574",hi:"4456.896",lo:"4139.530",la:"4192.873",type:"1",time:"2015-06-26 15:01:16"},"399001.sz":{na:"深证成指",pc:"15692.444",op:"15196.558",vo:"187071888",tu:"32521929",hi:"15229.001",lo:"14321.052",la:"14398.785",type:"1",time:"2015-06-26 15:00:47"},"399300.sz":{na:"沪深300 ",pc:"4706.516",op:"4573.872",vo:"446639790",tu:"61295947",hi:"4650.186",lo:"4278.675",la:"4336.195",type:"1",time:"2015-06-26 15:04:26"},"601186.sh":{na:"中国铁建",pc:"16.30",op:"15.90",vo:"2370709",tu:"371388",hi:"16.86",lo:"14.67",la:"14.87",type:"2",time:"2015-06-26 15:00:22",sy:"15.93",lt:"102.61",sz:"1834.59",hs:"2.31",is:"0"},"tofnow":{time:"2015-06-26 16:46:52"}})}catch(e){}</script></html>     
 ************************************************************************/
+
+
+//-------------------雅虎历史数据----------------------------------------
+#define YH_STOCH_HIS_DATA "http://table.finance.yahoo.com/table.csv?s=sohu&d=6&e=22&f=2008&g=d&a=11&b=16&c=2008&ignore=.csv"
+#define YH_STOCH_HIS_DAY "http://table.finance.yahoo.com/table.csv?s=600000.ss"
+
+/* 雅虎API说明文档
+http://blog.ifeng.com/article/31191952.html
+*/

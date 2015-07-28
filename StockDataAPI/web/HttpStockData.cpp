@@ -374,4 +374,22 @@ BOOL CHttpStockData::GetStockSimple(STOCK_MARK nMark, const char* szCode, PSTOCK
 		return FALSE;
 }
 
+BOOL CHttpStockData::GetStockDay(_Out_ PSTOCK_DATA_SIMPLE* pStockData, STOCK_MARK nMark, const char* szCode, int count, int y, int m, int d)
+{
+	return FALSE;
+}
 
+BOOL CHttpStockData::GetStockWeek(_Out_ PSTOCK_DATA_SIMPLE* pStockData, STOCK_MARK nMark, const char* szCode, int count, int y, int w)
+{
+	return FALSE;
+}
+
+BOOL CHttpStockData::GetStockMonth(_Out_ PSTOCK_DATA_SIMPLE* pStockData, STOCK_MARK nMark, const char* szCode, int count, int y, int m)
+{
+	return FALSE;
+}
+
+BOOL CHttpStockData::GetStockYear(_Out_ PSTOCK_DATA_SIMPLE* pStockData, STOCK_MARK nMark, const char* szCode, int count, int y)
+{
+	return FALSE;
+}
