@@ -15,7 +15,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaLib", "LuaLib\LuaLib.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LdTrading", "LdTrading\LdTrading.vcxproj", "{B359E3FF-6EAE-4C62-A387-19E5D955CD7D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScriptEditor", "ScriptEditor\ScriptEditor.vcxproj", "{6D41E87E-BB81-4284-862C-2417CCA05DDE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeadowStockHepler", "LeadowStockHepler\LeadowStockHepler.vcxproj", "{D8DAD4BB-1EB0-42A3-95EA-EFEBF4CC0115}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +51,10 @@ Global
 		{B359E3FF-6EAE-4C62-A387-19E5D955CD7D}.Debug|Win32.Build.0 = Debug|Win32
 		{B359E3FF-6EAE-4C62-A387-19E5D955CD7D}.Release|Win32.ActiveCfg = Release|Win32
 		{B359E3FF-6EAE-4C62-A387-19E5D955CD7D}.Release|Win32.Build.0 = Release|Win32
-		{6D41E87E-BB81-4284-862C-2417CCA05DDE}.Debug|Win32.ActiveCfg = Debug|Win32
-		{6D41E87E-BB81-4284-862C-2417CCA05DDE}.Debug|Win32.Build.0 = Debug|Win32
-		{6D41E87E-BB81-4284-862C-2417CCA05DDE}.Release|Win32.ActiveCfg = Release|Win32
-		{6D41E87E-BB81-4284-862C-2417CCA05DDE}.Release|Win32.Build.0 = Release|Win32
+		{D8DAD4BB-1EB0-42A3-95EA-EFEBF4CC0115}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D8DAD4BB-1EB0-42A3-95EA-EFEBF4CC0115}.Debug|Win32.Build.0 = Debug|Win32
+		{D8DAD4BB-1EB0-42A3-95EA-EFEBF4CC0115}.Release|Win32.ActiveCfg = Release|Win32
+		{D8DAD4BB-1EB0-42A3-95EA-EFEBF4CC0115}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
