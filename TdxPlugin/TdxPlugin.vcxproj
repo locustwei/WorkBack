@@ -107,9 +107,6 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LeadowUi\LeadowUi.vcxproj">
-      <Project>{d7156ff3-0606-431e-989f-a16e3640b26d}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\PublicLib\PublicLib.vcxproj">
       <Project>{8d7a5f72-05ac-4d41-981a-f21dbabef9c2}</Project>
     </ProjectReference>

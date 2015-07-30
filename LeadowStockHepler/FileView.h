@@ -59,7 +59,8 @@ protected:
 	afx_msg void OnEditClear();
 	afx_msg void OnPaint();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
-
+	afx_msg void OnSelectItemChanged(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnDbClickItem(NMHDR *pNMHDR, LRESULT *pResult);
 	DECLARE_MESSAGE_MAP()
 };
 

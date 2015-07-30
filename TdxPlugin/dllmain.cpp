@@ -1,7 +1,5 @@
 // dllmain.cpp : 定义 DLL 应用程序的入口点。
 #include "stdafx.h"
-#include "..\LeadowUi\LdWnd.h"
-
 #include "winds\TDXLogin.h"
 #include "..\publiclib\Utils_Wnd.h"
 #include "winds\TDXMain.h"
@@ -26,7 +24,6 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	{
 	case DLL_PROCESS_ATTACH:
 		hInstance = hModule;
-		CLdWnd::hInstance = hInstance;
 		break;
 	case DLL_THREAD_ATTACH:
 		break;

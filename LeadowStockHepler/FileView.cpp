@@ -21,6 +21,7 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
+#define IDC_TREEVIEW 4
 /////////////////////////////////////////////////////////////////////////////
 // CFileView
 
@@ -44,6 +45,8 @@ BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
 	ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
 	ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
 	ON_WM_PAINT()
+	ON_NOTIFY(TVN_SELCHANGED, IDC_TREEVIEW, OnSelectItemChanged)
+	ON_NOTIFY(NM_DBLCLK, IDC_TREEVIEW, OnDbClickItem)
 	ON_WM_SETFOCUS()
 END_MESSAGE_MAP()
 
@@ -61,7 +64,7 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 创建视图:
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS;
 
-	if (!m_wndFileView.Create(dwViewStyle, rectDummy, this, 4))
+	if (!m_wndFileView.Create(dwViewStyle, rectDummy, this, IDC_TREEVIEW))
 	{
 		TRACE0("未能创建文件视图\n");
 		return -1;      // 未能创建
@@ -100,6 +103,7 @@ void CFileView::OnSize(UINT nType, int cx, int cy)
 
 void CFileView::FillFileView()
 {
+	//theApp.m_ScriptEng->
 	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("FakeApp 文件"), 0, 0);
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
@@ -261,6 +265,20 @@ void CFileView::OnChangeVisualStyle()
 	m_FileViewImages.Add(&bmp, RGB(255, 0, 255));
 
 	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
+}
+
+void CFileView::OnSelectItemChanged( NMHDR *pNMHDR, LRESULT *pResult )
+{
+	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+	// TODO: 在此添加控件通知处理程序代码
+	*pResult = 0;
+}
+
+void CFileView::OnDbClickItem( NMHDR *pNMHDR, LRESULT *pResult )
+{
+	HTREEITEM selItem=m_wndFileView.GetSelectedItem();
+	CString txt=m_wndFileView.GetItemText(selItem);
+	*pResult = 0;
 }
 
 

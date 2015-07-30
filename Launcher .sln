@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeadowUi", "LeadowUi\LeadowUi.vcxproj", "{D7156FF3-0606-431E-989F-A16E3640B26D}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Launcher", "Launcher\Launcher.vcxproj", "{EA10E683-1230-416F-B0DD-7A3446F52B3C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PublicLib", "PublicLib\PublicLib.vcxproj", "{8D7A5F72-05AC-4D41-981A-F21DBABEF9C2}"
@@ -13,9 +11,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StockDataAPI", "StockDataAP
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaLib", "LuaLib\LuaLib.vcxproj", "{4C8F6431-76CE-41D3-961A-FF64213AE71F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LdTrading", "LdTrading\LdTrading.vcxproj", "{B359E3FF-6EAE-4C62-A387-19E5D955CD7D}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeadowStockHepler", "LeadowStockHepler\LeadowStockHepler.vcxproj", "{D8DAD4BB-1EB0-42A3-95EA-EFEBF4CC0115}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "Test\test.vcxproj", "{489615E6-3718-4427-A796-4B8A5390D14D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D7156FF3-0606-431E-989F-A16E3640B26D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D7156FF3-0606-431E-989F-A16E3640B26D}.Debug|Win32.Build.0 = Debug|Win32
-		{D7156FF3-0606-431E-989F-A16E3640B26D}.Release|Win32.ActiveCfg = Release|Win32
-		{D7156FF3-0606-431E-989F-A16E3640B26D}.Release|Win32.Build.0 = Release|Win32
 		{EA10E683-1230-416F-B0DD-7A3446F52B3C}.Debug|Win32.ActiveCfg = Debug|Win32
 		{EA10E683-1230-416F-B0DD-7A3446F52B3C}.Debug|Win32.Build.0 = Debug|Win32
 		{EA10E683-1230-416F-B0DD-7A3446F52B3C}.Release|Win32.ActiveCfg = Release|Win32
@@ -47,14 +41,14 @@ Global
 		{4C8F6431-76CE-41D3-961A-FF64213AE71F}.Debug|Win32.Build.0 = Debug|Win32
 		{4C8F6431-76CE-41D3-961A-FF64213AE71F}.Release|Win32.ActiveCfg = Release|Win32
 		{4C8F6431-76CE-41D3-961A-FF64213AE71F}.Release|Win32.Build.0 = Release|Win32
-		{B359E3FF-6EAE-4C62-A387-19E5D955CD7D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B359E3FF-6EAE-4C62-A387-19E5D955CD7D}.Debug|Win32.Build.0 = Debug|Win32
-		{B359E3FF-6EAE-4C62-A387-19E5D955CD7D}.Release|Win32.ActiveCfg = Release|Win32
-		{B359E3FF-6EAE-4C62-A387-19E5D955CD7D}.Release|Win32.Build.0 = Release|Win32
 		{D8DAD4BB-1EB0-42A3-95EA-EFEBF4CC0115}.Debug|Win32.ActiveCfg = Debug|Win32
 		{D8DAD4BB-1EB0-42A3-95EA-EFEBF4CC0115}.Debug|Win32.Build.0 = Debug|Win32
 		{D8DAD4BB-1EB0-42A3-95EA-EFEBF4CC0115}.Release|Win32.ActiveCfg = Release|Win32
 		{D8DAD4BB-1EB0-42A3-95EA-EFEBF4CC0115}.Release|Win32.Build.0 = Release|Win32
+		{489615E6-3718-4427-A796-4B8A5390D14D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{489615E6-3718-4427-A796-4B8A5390D14D}.Debug|Win32.Build.0 = Debug|Win32
+		{489615E6-3718-4427-A796-4B8A5390D14D}.Release|Win32.ActiveCfg = Release|Win32
+		{489615E6-3718-4427-A796-4B8A5390D14D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
