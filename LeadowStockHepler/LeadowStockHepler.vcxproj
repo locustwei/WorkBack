@@ -51,10 +51,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -120,6 +123,9 @@
     <None Include="res\Toolbar256.bmp" />
     <None Include="res\writelarge.bmp" />
     <None Include="res\writesmall.bmp" />
+    <None Include="ScriptEng\stockdata.lua" />
+    <None Include="ScriptEng\trad1.lua" />
+    <None Include="ScriptEng\trad2.lua" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChildView.h" />
@@ -128,8 +134,10 @@
     <ClInclude Include="LeadowStockHepler.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ScriptEng\ScriptEng.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="tdxinterface\TdxTrading.h" />
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
@@ -138,16 +146,34 @@
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="LeadowStockHepler.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="ScriptEng\ScriptEng.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="tdxinterface\TdxTrading.cpp" />
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LeadowStockHepler.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LuaLib\LuaLib.vcxproj">
+      <Project>{4c8f6431-76ce-41d3-961a-ff64213ae71f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\PublicLib\PublicLib.vcxproj">
+      <Project>{8d7a5f72-05ac-4d41-981a-f21dbabef9c2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\StockDataAPI\StockDataAPI.vcxproj">
+      <Project>{170a1bf2-aad2-48a8-99db-ccd48fc4b64d}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="LeadowStockHepler.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

@@ -38,8 +38,7 @@ public:
 	BOOL SetDataInterface(IDataInterface* iInt);   //取数接口
 	BOOL SetTradInterface(ITradInterface* iInt);
 
-
-	BOOL RunScript(LPCSTR szScript, float* fResult);      //执行脚本
+	BOOL RunScript(LPCSTR szScript, _Out_ float* fResult);      //执行脚本
 	BOOL RunScript(LPCSTR szScript, DWORD* dwResult);
 	BOOL RunScript(LPCSTR szScript, double* fResult);
 	BOOL RunScript(LPCSTR szScript, boolean* bResult);

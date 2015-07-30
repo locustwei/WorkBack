@@ -28,6 +28,7 @@ IMPLEMENT_DYNAMIC(CMainFrame, CFrameWndEx)
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_CREATE()
 	ON_WM_SETFOCUS()
+	ON_COMMAND_RANGE(ID_APP_FILEVIEW, ID_APP_CLASSVIEW, OnShowView)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
 END_MESSAGE_MAP()
@@ -49,8 +50,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CFrameWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	BOOL bNameValid;
-
 	// 创建一个视图以占用框架的工作区
 	if (!m_wndView.Create(NULL, NULL, AFX_WS_DEFAULT_VIEW, CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
 	{
@@ -58,8 +57,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 
-	m_wndRibbonBar.Create(this);
-	m_wndRibbonBar.LoadFromResource(IDR_RIBBON);
+	//m_wndRibbonBar.Create(this);
+	//m_wndRibbonBar.LoadFromResource(IDR_RIBBON);
 
 	// 启用 Visual Studio 2005 样式停靠窗口行为
 	CDockingManager::SetDockingMode(DT_SMART);
@@ -174,6 +173,7 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
 
 void CMainFrame::OnApplicationLook(UINT id)
 {
+	/*
 	CWaitCursor wait;
 
 	theApp.m_nAppLook = id;
@@ -248,9 +248,30 @@ void CMainFrame::OnApplicationLook(UINT id)
 	RedrawWindow(NULL, NULL, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME | RDW_ERASE);
 
 	theApp.WriteInt(_T("ApplicationLook"), theApp.m_nAppLook);
+	*/
 }
 
 void CMainFrame::OnUpdateApplicationLook(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetRadio(theApp.m_nAppLook == pCmdUI->m_nID);
+}
+
+
+BOOL CMainFrame::OnCommand(WPARAM wParam, LPARAM lParam)
+{
+	// TODO: 在此添加专用代码和/或调用基类
+
+	return CFrameWndEx::OnCommand(wParam, lParam);
+}
+
+void CMainFrame::OnShowView(UINT id)
+{
+	switch(id){
+	case ID_APP_FILEVIEW:
+		m_wndFileView.ShowPane(TRUE, FALSE, TRUE);
+		break;
+	case ID_APP_CLASSVIEW:
+		m_wndClassView.ShowPane(TRUE, FALSE, TRUE);
+		break;
+	}
 }

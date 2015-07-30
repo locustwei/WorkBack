@@ -18,6 +18,9 @@
 #endif
 
 #include "resource.h"       // Ö÷·ûºÅ
+#include "ITradInterface.h"
+#include "ScriptEng\ScriptEng.h"
+#include "..\StockDataAPI\IDataInterface.h"
 
 
 // CLeadowStockHeplerApp:
@@ -26,6 +29,9 @@
 
 class CLeadowStockHeplerApp : public CWinAppEx
 {
+private:
+	void InitScriptEng();
+
 public:
 	CLeadowStockHeplerApp();
 
@@ -40,6 +46,10 @@ public:
 public:
 	UINT  m_nAppLook;
 	BOOL  m_bHiColorIcons;
+	ITradInterface* m_TradClient;
+	CScriptEng* m_ScriptEng;
+	IDataInterface* m_DateInterface;
+
 
 	virtual void PreLoadState();
 	virtual void LoadCustomState();

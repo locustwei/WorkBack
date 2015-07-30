@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="通达信交易软件接口">
+      <UniqueIdentifier>{36b61786-e165-4fbd-9d4b-7d1fe6336f00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="脚本引擎">
+      <UniqueIdentifier>{4cd48ee8-28fa-4e08-9fcb-7f50bc773632}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -91,6 +97,15 @@
     <None Include="res\Toolbar256.bmp">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="ScriptEng\stockdata.lua">
+      <Filter>脚本引擎</Filter>
+    </None>
+    <None Include="ScriptEng\trad1.lua">
+      <Filter>脚本引擎</Filter>
+    </None>
+    <None Include="ScriptEng\trad2.lua">
+      <Filter>脚本引擎</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LeadowStockHepler.h">
@@ -105,9 +120,6 @@
     <ClInclude Include="MainFrm.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ChildView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -118,6 +130,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ViewTree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tdxinterface\TdxTrading.h">
+      <Filter>通达信交易软件接口</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptEng\ScriptEng.h">
+      <Filter>脚本引擎</Filter>
+    </ClInclude>
+    <ClInclude Include="ChildView.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -131,9 +152,6 @@
     <ClCompile Include="MainFrm.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ChildView.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="FileView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -141,6 +159,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ViewTree.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tdxinterface\TdxTrading.cpp">
+      <Filter>通达信交易软件接口</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptEng\ScriptEng.cpp">
+      <Filter>脚本引擎</Filter>
+    </ClCompile>
+    <ClCompile Include="ChildView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

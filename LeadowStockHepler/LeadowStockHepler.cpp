@@ -17,6 +17,8 @@
 #include "afxdialogex.h"
 #include "LeadowStockHepler.h"
 #include "MainFrm.h"
+#include "..\StockDataAPI\web\HttpStockData.h"
+#include "tdxinterface\TdxTrading.h"
 
 
 #ifdef _DEBUG
@@ -39,51 +41,42 @@ CLeadowStockHeplerApp::CLeadowStockHeplerApp()
 
 	// TODO: 将以下应用程序 ID 字符串替换为唯一的 ID 字符串；建议的字符串格式
 	//为 CompanyName.ProductName.SubProduct.VersionInformation
-	SetAppID(_T("LeadowStockHepler.AppID.NoVersion"));
+	SetAppID(_T("Leadow.StockHepler.V0.1"));
 
 	// TODO: 在此处添加构造代码，
 	// 将所有重要的初始化放置在 InitInstance 中
+	m_bSaveState = FALSE;
 }
 
 // 唯一的一个 CLeadowStockHeplerApp 对象
 
 CLeadowStockHeplerApp theApp;
 
-
 // CLeadowStockHeplerApp 初始化
 
 BOOL CLeadowStockHeplerApp::InitInstance()
 {
 	CWinAppEx::InitInstance();
-
-
 	// 初始化 OLE 库
-	if (!AfxOleInit())
-	{
-		AfxMessageBox(IDP_OLE_INIT_FAILED);
-		return FALSE;
-	}
+// 	if (!AfxOleInit())
+// 	{
+// 		AfxMessageBox(IDP_OLE_INIT_FAILED);
+// 		return FALSE;
+// 	}
 
 	EnableTaskbarInteraction(FALSE);
 
 	// 使用 RichEdit 控件需要  AfxInitRichEdit2()	
 	// AfxInitRichEdit2();
 
-	// 标准初始化
-	// 如果未使用这些功能并希望减小
-	// 最终可执行文件的大小，则应移除下列
-	// 不需要的特定初始化例程
-	// 更改用于存储设置的注册表项
-	// TODO: 应适当修改该字符串，
-	// 例如修改为公司或组织名
-	SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
-
+	SetRegistryKey(_T("LeadowStockHepler"));
 
 	InitContextMenuManager();
-
 	InitKeyboardManager();
-
 	InitTooltipManager();
+
+	InitScriptEng();
+
 	CMFCToolTipInfo ttParams;
 	ttParams.m_bVislManagerTheme = TRUE;
 	theApp.GetTooltipManager()->SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
@@ -91,20 +84,16 @@ BOOL CLeadowStockHeplerApp::InitInstance()
 
 	// 若要创建主窗口，此代码将创建新的框架窗口
 	// 对象，然后将其设置为应用程序的主窗口对象
-	CMainFrame* pFrame = new CMainFrame;
+	CMainFrame* pFrame = new CMainFrame();
 	if (!pFrame)
 		return FALSE;
+	pFrame->EnableLoadDockState(FALSE);
+
 	m_pMainWnd = pFrame;
 	// 创建并加载框架及其资源
 	pFrame->LoadFrame(IDR_MAINFRAME,
 		WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, NULL,
 		NULL);
-
-
-
-
-
-
 	// 唯一的一个窗口已初始化，因此显示它并对其进行更新
 	pFrame->ShowWindow(SW_SHOW);
 	pFrame->UpdateWindow();
@@ -117,6 +106,10 @@ int CLeadowStockHeplerApp::ExitInstance()
 {
 	//TODO: 处理可能已添加的附加资源
 	AfxOleTerm(FALSE);
+
+	delete m_ScriptEng;
+	delete m_TradClient;
+	delete m_DateInterface;
 
 	return CWinAppEx::ExitInstance();
 }
@@ -181,6 +174,21 @@ void CLeadowStockHeplerApp::LoadCustomState()
 
 void CLeadowStockHeplerApp::SaveCustomState()
 {
+}
+
+//连接交易软件（目前只支持通达信）
+ITradInterface* ConnectTradClient()
+{
+	return new CTdxTrading();
+}
+
+void CLeadowStockHeplerApp::InitScriptEng()
+{
+	m_ScriptEng = new CScriptEng();
+	m_DateInterface = new CHttpStockData();
+	m_TradClient = ConnectTradClient();
+	m_ScriptEng->SetDataInterface(m_DateInterface);
+	m_ScriptEng->SetTradInterface(m_TradClient);
 }
 
 // CLeadowStockHeplerApp 消息处理程序

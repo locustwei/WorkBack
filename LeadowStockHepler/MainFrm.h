@@ -45,8 +45,8 @@ public:
 #endif
 
 protected:  // 控件条嵌入成员
-	CMFCRibbonBar     m_wndRibbonBar;
-	CMFCRibbonApplicationButton m_MainButton;
+	//CMFCRibbonBar     m_wndRibbonBar;
+	//CMFCRibbonApplicationButton m_MainButton;
 	CMFCToolBarImages m_PanelImages;
 	CFileView         m_wndFileView;
 	CClassView        m_wndClassView;
@@ -58,10 +58,12 @@ protected:
 	afx_msg void OnSetFocus(CWnd *pOldWnd);
 	afx_msg void OnApplicationLook(UINT id);
 	afx_msg void OnUpdateApplicationLook(CCmdUI* pCmdUI);
+	afx_msg void OnShowView(UINT id);
 	DECLARE_MESSAGE_MAP()
 
 	BOOL CreateDockingWindows();
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
+	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
 };
 
 
