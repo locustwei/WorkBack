@@ -38,12 +38,12 @@ LRESULT CTDXStockBuy::WndPROC( HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam
 	return result;
 }
 
-BOOL CTDXStockBuy::DoBy( STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume )
+BOOL CTDXStockBuy::DoBy( STOCK_MARK mark, LPCSTR szSymbol, float fPrice, DWORD dwVolume )
 {
 	BOOL result = FALSE;
 	m_HtId = 0;
 	m_Mark = mark;
-	strcpy_s(m_Code, szCode);
+	strcpy_s(m_Code, szSymbol);
 	m_Price = fPrice;
 	m_Volume = dwVolume;
 	

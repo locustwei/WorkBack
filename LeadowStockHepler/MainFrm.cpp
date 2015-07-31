@@ -1,16 +1,6 @@
-// 这段 MFC 示例源代码演示如何使用 MFC Microsoft Office Fluent 用户界面 
-// (“Fluent UI”)。该示例仅供参考，
-// 用以补充《Microsoft 基础类参考》和 
-// MFC C++ 库软件随附的相关电子文档。
-// 复制、使用或分发 Fluent UI 的许可条款是单独提供的。
-// 若要了解有关 Fluent UI 许可计划的详细信息，请访问  
-// http://msdn.microsoft.com/officeui。
-//
-// 版权所有(C) Microsoft Corporation
-// 保留所有权利。
-
-// MainFrm.cpp : CMainFrame 类的实现
-//
+/************************************************************************
+主窗口
+************************************************************************/
 
 #include "stdafx.h"
 #include "LeadowStockHepler.h"
@@ -23,14 +13,15 @@
 
 // CMainFrame
 
-IMPLEMENT_DYNAMIC(CMainFrame, CFrameWndEx)
+IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWndEx)
 
-BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
+BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_WM_CREATE()
 	ON_WM_SETFOCUS()
 	ON_COMMAND_RANGE(ID_APP_FILEVIEW, ID_APP_CLASSVIEW, OnShowView)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 // CMainFrame 构造/析构
@@ -47,18 +38,16 @@ CMainFrame::~CMainFrame()
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if (CFrameWndEx::OnCreate(lpCreateStruct) == -1)
+	if (CMDIFrameWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	// 创建一个视图以占用框架的工作区
-	if (!m_wndView.Create(NULL, NULL, AFX_WS_DEFAULT_VIEW, CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
-	{
-		TRACE0("未能创建视图窗口\n");
-		return -1;
-	}
-
-	//m_wndRibbonBar.Create(this);
-	//m_wndRibbonBar.LoadFromResource(IDR_RIBBON);
+	CMDITabInfo mdiTabParams;
+	mdiTabParams.m_style = CMFCTabCtrl::STYLE_3D_ONENOTE; // 其他可用样式...
+	mdiTabParams.m_bActiveTabCloseButton = TRUE;      // 设置为 FALSE 会将关闭按钮放置在选项卡区域的右侧
+	mdiTabParams.m_bTabIcons = FALSE;    // 设置为 TRUE 将在 MDI 选项卡上启用文档图标
+	mdiTabParams.m_bAutoColor = TRUE;    // 设置为 FALSE 将禁用 MDI 选项卡的自动着色
+	mdiTabParams.m_bDocumentMenu = TRUE; // 在选项卡区域的右边缘启用文档菜单
+	EnableMDITabbedGroups(TRUE, mdiTabParams);
 
 	// 启用 Visual Studio 2005 样式停靠窗口行为
 	CDockingManager::SetDockingMode(DT_SMART);
@@ -68,6 +57,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 加载菜单项图像(不在任何标准工具栏上):
 	CMFCToolBar::AddToolBarForImageCollection(IDR_MENU_IMAGES, theApp.m_bHiColorIcons ? IDB_MENU_IMAGES_24 : 0);
 
+
+	//m_wndRibbonBar.Create(this);
+	//m_wndRibbonBar.LoadFromResource(IDR_RIBBON);
+
 	// 创建停靠窗口
 	if (!CreateDockingWindows())
 	{
@@ -75,19 +68,15 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 
-	m_wndFileView.EnableDocking(CBRS_ALIGN_ANY);
-	m_wndClassView.EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndFileView);
-	CDockablePane* pTabbedBar = NULL;
-	m_wndClassView.AttachToTabWnd(&m_wndFileView, DM_SHOW, TRUE, &pTabbedBar);
-
+	m_Navigator.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_Navigator);
 
 	return 0;
 }
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
-	if( !CFrameWndEx::PreCreateWindow(cs) )
+	if( !CMDIFrameWndEx::PreCreateWindow(cs) )
 		return FALSE;
 	// TODO: 在此处通过修改
 	//  CREATESTRUCT cs 来修改窗口类或样式
@@ -104,23 +93,12 @@ BOOL CMainFrame::CreateDockingWindows()
 {
 	BOOL bNameValid;
 
-	// 创建类视图
-	CString strClassView;
-	bNameValid = strClassView.LoadString(IDS_CLASS_VIEW);
-	ASSERT(bNameValid);
-	if (!m_wndClassView.Create(strClassView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_CLASSVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
-	{
-		TRACE0("未能创建“类视图”窗口\n");
-		return FALSE; // 未能创建
-	}
-
-	// 创建文件视图
 	CString strFileView;
 	bNameValid = strFileView.LoadString(IDS_FILE_VIEW);
 	ASSERT(bNameValid);
-	if (!m_wndFileView.Create(strFileView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_FILEVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
+	if (!m_Navigator.Create(strFileView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_FILEVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
 	{
-		TRACE0("未能创建“文件视图”窗口\n");
+		TRACE0("未能创建“导航”窗口\n");
 		return FALSE; // 未能创建
 	}
 
@@ -131,11 +109,9 @@ BOOL CMainFrame::CreateDockingWindows()
 void CMainFrame::SetDockingWindowIcons(BOOL bHiColorIcons)
 {
 	HICON hFileViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_FILE_VIEW_HC : IDI_FILE_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
-	m_wndFileView.SetIcon(hFileViewIcon, FALSE);
+	m_Navigator.SetIcon(hFileViewIcon, FALSE);
 
-	HICON hClassViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_CLASS_VIEW_HC : IDI_CLASS_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
-	m_wndClassView.SetIcon(hClassViewIcon, FALSE);
-
+	UpdateMDITabbedBarsIcons();
 }
 
 // CMainFrame 诊断
@@ -143,30 +119,18 @@ void CMainFrame::SetDockingWindowIcons(BOOL bHiColorIcons)
 #ifdef _DEBUG
 void CMainFrame::AssertValid() const
 {
-	CFrameWndEx::AssertValid();
+	CMDIFrameWndEx::AssertValid();
 }
 
 void CMainFrame::Dump(CDumpContext& dc) const
 {
-	CFrameWndEx::Dump(dc);
+	CMDIFrameWndEx::Dump(dc);
 }
 #endif //_DEBUG
 
 
-// CMainFrame 消息处理程序
-
-void CMainFrame::OnSetFocus(CWnd* /*pOldWnd*/)
-{
-	// 将焦点前移到视图窗口
-	m_wndView.SetFocus();
-}
-
 BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
-	// 让视图第一次尝试该命令
-	if (m_wndView.OnCmdMsg(nID, nCode, pExtra, pHandlerInfo))
-		return TRUE;
-
 	// 否则，执行默认处理
 	return CFrameWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 }
@@ -261,17 +225,20 @@ BOOL CMainFrame::OnCommand(WPARAM wParam, LPARAM lParam)
 {
 	// TODO: 在此添加专用代码和/或调用基类
 
-	return CFrameWndEx::OnCommand(wParam, lParam);
+	return CMDIFrameWndEx::OnCommand(wParam, lParam);
 }
 
 void CMainFrame::OnShowView(UINT id)
 {
 	switch(id){
 	case ID_APP_FILEVIEW:
-		m_wndFileView.ShowPane(TRUE, FALSE, TRUE);
-		break;
-	case ID_APP_CLASSVIEW:
-		m_wndClassView.ShowPane(TRUE, FALSE, TRUE);
+		m_Navigator.ShowPane(TRUE, FALSE, TRUE);
 		break;
 	}
+}
+
+
+void CMainFrame::OnSize(UINT nType, int cx, int cy)
+{
+	CMDIFrameWndEx::OnSize(nType, cx, cy);
 }

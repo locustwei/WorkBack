@@ -1,18 +1,18 @@
 --[[
 [名称]:操底买入
 [说明]:当股票（参数1）探底回升，升幅达（参数2）%，并且股价小于（参数3）元时买入。
-[Code]:股票代码
+[Symbol]:股票代码
 [nPercent]:回升幅度（百分比%）
 [nValue]:不高于（元）
 [nVolumn]:买入数（手）
 --]]
 
 
-if Code==nil then
-	return "Code = nil"
+if Symbol==nil then
+	return "Symbol = nil"
 end
 
-local p = StockData:new(Code)
+local p = StockData:new(Symbol)
 
 if p.Low == 0 then
 	return "p.Low = 0"

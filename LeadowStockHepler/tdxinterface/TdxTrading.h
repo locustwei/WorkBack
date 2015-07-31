@@ -14,9 +14,9 @@ public:
 	CTdxTrading(void);
 	~CTdxTrading(void);
 
-	virtual BOOL StockBy( STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume );
+	virtual BOOL StockBy( STOCK_MARK mark, LPCSTR szSymbol, float fPrice, DWORD dwVolume );
 
-	virtual BOOL StockSell( STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume );
+	virtual BOOL StockSell( STOCK_MARK mark, LPCSTR szSymbol, float fPrice, DWORD dwVolume );
 
 	virtual BOOL IsAvailable();
 private:

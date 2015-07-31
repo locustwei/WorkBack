@@ -13,8 +13,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaLib", "LuaLib\LuaLib.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeadowStockHepler", "LeadowStockHepler\LeadowStockHepler.vcxproj", "{D8DAD4BB-1EB0-42A3-95EA-EFEBF4CC0115}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "Test\test.vcxproj", "{489615E6-3718-4427-A796-4B8A5390D14D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -45,10 +43,6 @@ Global
 		{D8DAD4BB-1EB0-42A3-95EA-EFEBF4CC0115}.Debug|Win32.Build.0 = Debug|Win32
 		{D8DAD4BB-1EB0-42A3-95EA-EFEBF4CC0115}.Release|Win32.ActiveCfg = Release|Win32
 		{D8DAD4BB-1EB0-42A3-95EA-EFEBF4CC0115}.Release|Win32.Build.0 = Release|Win32
-		{489615E6-3718-4427-A796-4B8A5390D14D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{489615E6-3718-4427-A796-4B8A5390D14D}.Debug|Win32.Build.0 = Debug|Win32
-		{489615E6-3718-4427-A796-4B8A5390D14D}.Release|Win32.ActiveCfg = Release|Win32
-		{489615E6-3718-4427-A796-4B8A5390D14D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

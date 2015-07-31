@@ -13,9 +13,9 @@ DATA_ID_SIMPLE = 100
 TRAD_ID_BUY = 200
 TRAD_ID_SELL = 201
 
-function StockData:new(szCode)
-	local obj = {Mark=0, Code=szCode, Close=0,Open=0,High=0,Low=0,Current=0,Volume=0,Amount=0,Rise=0}
-	if string.sub(szCode, 0, 1) == '6' then
+function StockData:new(szSymbol)
+	local obj = {Mark=0, Code=szSymbol, Close=0,Open=0,High=0,Low=0,Current=0,Volume=0,Amount=0,Rise=0}
+	if string.sub(szSymbol, 0, 1) == '6' then
 		obj.Mark = MARK_SH
 	else
 		obj.Mark = MARK_SZ

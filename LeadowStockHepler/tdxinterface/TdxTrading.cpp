@@ -77,14 +77,14 @@ CTdxTrading::~CTdxTrading(void)
 		CloseHandle(m_hEvent);
 }
 
-BOOL CTdxTrading::StockBy( STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume )
+BOOL CTdxTrading::StockBy( STOCK_MARK mark, LPCSTR szSymbol, float fPrice, DWORD dwVolume )
 {
 	if(!IsAvailable())
 		return FALSE;
 	
 	BOOL result = FALSE;
 	TDX_STOCK_BY stb = {mark, "", fPrice, dwVolume};
-	strcpy_s(stb.Code, szCode);
+	strcpy_s(stb.Code, szSymbol);
 	result = SendStockDataWait(TF_STOCKBY, &stb, sizeof(stb));
 	
 	if(result){
@@ -94,14 +94,14 @@ BOOL CTdxTrading::StockBy( STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD d
 	return result;
 }
 
-BOOL CTdxTrading::StockSell( STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume )
+BOOL CTdxTrading::StockSell( STOCK_MARK mark, LPCSTR szSymbol, float fPrice, DWORD dwVolume )
 {
 	if(!IsAvailable())
 		return FALSE;
 
 	BOOL result = FALSE;
 	TDX_STOCK_BY stb = {mark, "", fPrice, dwVolume};
-	strcpy_s(stb.Code, szCode);
+	strcpy_s(stb.Code, szSymbol);
 	result = SendStockDataWait(TF_STOCKSEL, &stb, sizeof(stb));
 
 	if(result){

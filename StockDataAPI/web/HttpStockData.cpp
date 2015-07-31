@@ -97,7 +97,7 @@ LPSTR GetStockPKFromUrl(LPCSTR szHost, LPCSTR szUrlT, PSTOCK_DATA_PK* pStockData
 	memset(szCodes, 0, memSize);
 	for (int i=0; i<count; i++){
 		strcat_s(szCodes, memSize, QQ_MARK_FH[pStockData[i]->mark]);
-		strcat_s(szCodes, memSize, pStockData[i]->szCode);
+		strcat_s(szCodes, memSize, pStockData[i]->szSymbol);
 		strcat_s(szCodes, memSize, ",");
 	}
 	szCodes[memSize-1] = 0;
@@ -138,7 +138,7 @@ BOOL CHttpStockData::GetStockPKFromTencen( _Inout_ PSTOCK_DATA_PK* pStockData, i
 		//第一次分解，找到每个股票数据对应起始地址
 		char sub[9] = {0};
 		for(int i=0; i<count; i++){
-			sprintf_s(sub, 9, "%s%s", QQ_MARK_FH[pStockData[i]->mark], pStockData[i]->szCode);
+			sprintf_s(sub, 9, "%s%s", QQ_MARK_FH[pStockData[i]->mark], pStockData[i]->szSymbol);
 			szDatas[i] = strstr(szResult, sub);
 		}
 		//第二次分解，分解出每个字段。
@@ -205,7 +205,7 @@ BOOL CHttpStockData::GetStockPKFromSina( _Inout_ PSTOCK_DATA_PK* pStockData, int
 		//第一次分解，找到每个股票数据对应起始地址
 		char sub[9] = {0};
 		for(int i=0; i<count; i++){
-			sprintf_s(sub, 9, "%s%s", QQ_MARK_FH[pStockData[i]->mark], pStockData[i]->szCode);
+			sprintf_s(sub, 9, "%s%s", QQ_MARK_FH[pStockData[i]->mark], pStockData[i]->szSymbol);
 			szDatas[i] = strstr(szResult, sub);
 		}
 		//第二次分解，分解出每个字段。
@@ -275,11 +275,11 @@ BOOL CHttpStockData::GetStockPK( _Inout_ PSTOCK_DATA_PK* pStockData, int count )
 	return GetStockPKFromTencen(pStockData, count);
 }
 
-float CHttpStockData::GetCurrent(STOCK_MARK nMark, LPCSTR szCode, PSTOCK_DATA_SIMPLE pSD)
+float CHttpStockData::GetCurrent(STOCK_MARK nMark, LPCSTR szSymbol, PSTOCK_DATA_SIMPLE pSD)
 {
 	STOCK_DATA_SIMPLE SD;;
 
-	if(GetStockSimple(nMark, szCode, &SD)){
+	if(GetStockSimple(nMark, szSymbol, &SD)){
 		if(pSD)
 			*pSD = SD;
 		return SD.fCurrent;
@@ -287,11 +287,11 @@ float CHttpStockData::GetCurrent(STOCK_MARK nMark, LPCSTR szCode, PSTOCK_DATA_SI
 		return -1;
 }
 
-float CHttpStockData::GetOpen(STOCK_MARK nMark, const char* szCode, PSTOCK_DATA_SIMPLE pSD)
+float CHttpStockData::GetOpen(STOCK_MARK nMark, const char* szSymbol, PSTOCK_DATA_SIMPLE pSD)
 {
 	STOCK_DATA_SIMPLE SD;;
 
-	if(GetStockSimple(nMark, szCode, &SD)){
+	if(GetStockSimple(nMark, szSymbol, &SD)){
 		if(pSD)
 			*pSD = SD;
 		return SD.fOpen;
@@ -299,11 +299,11 @@ float CHttpStockData::GetOpen(STOCK_MARK nMark, const char* szCode, PSTOCK_DATA_
 		return -1;
 }
 
-float CHttpStockData::GetHigh(STOCK_MARK nMark, const char* szCode, PSTOCK_DATA_SIMPLE pSD)
+float CHttpStockData::GetHigh(STOCK_MARK nMark, const char* szSymbol, PSTOCK_DATA_SIMPLE pSD)
 {
 	STOCK_DATA_SIMPLE SD;;
 
-	if(GetStockSimple(nMark, szCode, &SD)){
+	if(GetStockSimple(nMark, szSymbol, &SD)){
 		if(pSD)
 			*pSD = SD;
 		return SD.fHigh;
@@ -311,11 +311,11 @@ float CHttpStockData::GetHigh(STOCK_MARK nMark, const char* szCode, PSTOCK_DATA_
 		return -1;
 }
 
-float CHttpStockData::GetLow(STOCK_MARK nMark, const char* szCode, PSTOCK_DATA_SIMPLE pSD)
+float CHttpStockData::GetLow(STOCK_MARK nMark, const char* szSymbol, PSTOCK_DATA_SIMPLE pSD)
 {
 	STOCK_DATA_SIMPLE SD;;
 
-	if(GetStockSimple(nMark, szCode, &SD)){
+	if(GetStockSimple(nMark, szSymbol, &SD)){
 		if(pSD)
 			*pSD = SD;
 		return SD.fLow;
@@ -323,11 +323,11 @@ float CHttpStockData::GetLow(STOCK_MARK nMark, const char* szCode, PSTOCK_DATA_S
 		return -1;
 }
 
-float CHttpStockData::GetClose(STOCK_MARK nMark, const char* szCode, PSTOCK_DATA_SIMPLE pSD)
+float CHttpStockData::GetClose(STOCK_MARK nMark, const char* szSymbol, PSTOCK_DATA_SIMPLE pSD)
 {
 	STOCK_DATA_SIMPLE SD;;
 
-	if(GetStockSimple(nMark, szCode, &SD)){
+	if(GetStockSimple(nMark, szSymbol, &SD)){
 		if(pSD)
 			*pSD = SD;
 		return SD.fClose;
@@ -335,11 +335,11 @@ float CHttpStockData::GetClose(STOCK_MARK nMark, const char* szCode, PSTOCK_DATA
 		return -1;
 }
 
-DWORD CHttpStockData::GetVolume(STOCK_MARK nMark, const char* szCode, PSTOCK_DATA_SIMPLE pSD)
+DWORD CHttpStockData::GetVolume(STOCK_MARK nMark, const char* szSymbol, PSTOCK_DATA_SIMPLE pSD)
 {
 	STOCK_DATA_SIMPLE SD;;
 
-	if(GetStockSimple(nMark, szCode, &SD)){
+	if(GetStockSimple(nMark, szSymbol, &SD)){
 		if(pSD)
 			*pSD = SD;
 		return SD.dwVolume;
@@ -347,11 +347,11 @@ DWORD CHttpStockData::GetVolume(STOCK_MARK nMark, const char* szCode, PSTOCK_DAT
 		return -1;
 }
 
-double CHttpStockData::GetAmount(STOCK_MARK nMark, const char* szCode, PSTOCK_DATA_SIMPLE pSD)
+double CHttpStockData::GetAmount(STOCK_MARK nMark, const char* szSymbol, PSTOCK_DATA_SIMPLE pSD)
 {
 	STOCK_DATA_SIMPLE SD;;
 
-	if(GetStockSimple(nMark, szCode, &SD)){
+	if(GetStockSimple(nMark, szSymbol, &SD)){
 		if(pSD)
 			*pSD = SD;
 		return SD.fAmount;
@@ -359,12 +359,12 @@ double CHttpStockData::GetAmount(STOCK_MARK nMark, const char* szCode, PSTOCK_DA
 		return -1;
 }
 
-BOOL CHttpStockData::GetStockSimple(STOCK_MARK nMark, const char* szCode, PSTOCK_DATA_SIMPLE pSD)
+BOOL CHttpStockData::GetStockSimple(STOCK_MARK nMark, const char* szSymbol, PSTOCK_DATA_SIMPLE pSD)
 {
 	PSTOCK_DATA_PK pk[1];
 	pk[0] = new STOCK_DATA_PK;
 	pk[0]->mark = nMark;
-	pk[0]->szCode = szCode;
+	pk[0]->szSymbol = szSymbol;
 
 	if(GetStockPK(pk, 1)){
 		if(pSD)
@@ -374,22 +374,22 @@ BOOL CHttpStockData::GetStockSimple(STOCK_MARK nMark, const char* szCode, PSTOCK
 		return FALSE;
 }
 
-BOOL CHttpStockData::GetStockDay(_Out_ PSTOCK_DATA_SIMPLE* pStockData, STOCK_MARK nMark, const char* szCode, int count, int y, int m, int d)
+BOOL CHttpStockData::GetStockDay(_Out_ PSTOCK_DATA_SIMPLE* pStockData, STOCK_MARK nMark, const char* szSymbol, int count, int y, int m, int d)
 {
 	return FALSE;
 }
 
-BOOL CHttpStockData::GetStockWeek(_Out_ PSTOCK_DATA_SIMPLE* pStockData, STOCK_MARK nMark, const char* szCode, int count, int y, int w)
+BOOL CHttpStockData::GetStockWeek(_Out_ PSTOCK_DATA_SIMPLE* pStockData, STOCK_MARK nMark, const char* szSymbol, int count, int y, int w)
 {
 	return FALSE;
 }
 
-BOOL CHttpStockData::GetStockMonth(_Out_ PSTOCK_DATA_SIMPLE* pStockData, STOCK_MARK nMark, const char* szCode, int count, int y, int m)
+BOOL CHttpStockData::GetStockMonth(_Out_ PSTOCK_DATA_SIMPLE* pStockData, STOCK_MARK nMark, const char* szSymbol, int count, int y, int m)
 {
 	return FALSE;
 }
 
-BOOL CHttpStockData::GetStockYear(_Out_ PSTOCK_DATA_SIMPLE* pStockData, STOCK_MARK nMark, const char* szCode, int count, int y)
+BOOL CHttpStockData::GetStockYear(_Out_ PSTOCK_DATA_SIMPLE* pStockData, STOCK_MARK nMark, const char* szSymbol, int count, int y)
 {
 	return FALSE;
 }

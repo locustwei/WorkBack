@@ -18,8 +18,8 @@ public:
 
 	static CTDXMain* WndHooker;
 	static void HookMainWnd(HWND hwnd);
-	BOOL DoStockBy(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume);
-	BOOL DoStockSell(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume);
+	BOOL DoStockBy(STOCK_MARK mark, LPCSTR szSymbol, float fPrice, DWORD dwVolume);
+	BOOL DoStockSell(STOCK_MARK mark, LPCSTR szSymbol, float fPrice, DWORD dwVolume);
 	BOOL DoStockZjgf();
 protected:
 	virtual LRESULT WndPROC(HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam);

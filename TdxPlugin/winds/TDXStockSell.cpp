@@ -31,12 +31,12 @@ LRESULT CTDXStockSell::WndPROC( HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lpara
 	return CWndHook::WndPROC(hwnd, nCode, wparam, lparam);
 }
 
-BOOL CTDXStockSell::DoSell( STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume )
+BOOL CTDXStockSell::DoSell( STOCK_MARK mark, LPCSTR szSymbol, float fPrice, DWORD dwVolume )
 {
 	BOOL result = FALSE;
 	m_HtId = 0;
 	m_Mark = mark;
-	strcpy_s(m_Code, szCode);
+	strcpy_s(m_Code, szSymbol);
 	m_Price = fPrice;
 	m_Volume = dwVolume;
 

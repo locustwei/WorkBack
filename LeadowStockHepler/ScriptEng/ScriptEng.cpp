@@ -34,15 +34,15 @@ static int CallDataFunc(lua_State *L)
 	int nId = lua_tointeger(L, 1); //功能ID
 
 	STOCK_MARK nMark;
-	const char* szCode;
+	const char* szSymbol;
 	STOCK_DATA_SIMPLE ss = {MARK_SZ,NULL,12.1,12.2,12.3,12.4,12.5,12.6,12.7};
 
 	switch(nId){	
 	case 100:
 		nMark = (STOCK_MARK)lua_tointeger(L, 2);
-		szCode = lua_tostring(L, 3);
+		szSymbol = lua_tostring(L, 3);
 		
-		sd->GetCurrent(nMark, szCode, &ss);
+		sd->GetCurrent(nMark, szSymbol, &ss);
 
 		lua_pushnumber(L, ss.fClose);
 		lua_pushnumber(L, ss.fOpen);
@@ -77,13 +77,13 @@ static int CallTradFunc(lua_State *L)
 	int nId = lua_tointeger(L, 1); //功能ID
 
 	STOCK_MARK nMark;
-	const char* szCode;
+	const char* szSymbol;
 	BOOL bRet;
 	switch(nId){	
 	case 200:
 		nMark = (STOCK_MARK)lua_tointeger(L, 2);
-		szCode = lua_tostring(L, 3);
-		bRet = iTrad->StockBy(nMark, szCode, 0, 0);
+		szSymbol = lua_tostring(L, 3);
+		bRet = iTrad->StockBy(nMark, szSymbol, 0, 0);
 
 		lua_pushboolean(L, bRet);
 		return 1;
@@ -151,7 +151,7 @@ BOOL CALLBACK EnumResStrategy(
 	return TRUE;
 }
 
-CScriptEng::CScriptEng(void):m_TradScripts()
+CScriptEng::CScriptEng(void)
 {
 	m_hLua = luaL_newstate();
 	luaopen_base(m_hLua);
@@ -271,7 +271,7 @@ BOOL CScriptEng::SetDataInterface( IDataInterface* iInt )
 脚本代码部分
 
 ************************************************************************/
-PTRAD_STRCPIT CScriptEng::AddFunction( LPSTR szScript)
+PSTRATEGY_STRCPIT CScriptEng::AddFunction( LPSTR szScript)
 {
 	//todo 解密、MD5生成唯一ID
 
@@ -334,7 +334,7 @@ PTRAD_STRCPIT CScriptEng::AddFunction( LPSTR szScript)
 	//给函数一个动态的函数名。（避免函数名重复）
 	szFunction = (LPSTR)malloc(20);
 	memset(szFunction, 0, 20);
-	sprintf_s(szFunction, 20, "LdStockTrad%d", m_TradScripts.GetCount()); 
+	sprintf_s(szFunction, 20, "LdStockTrad%d", m_Strategy.GetCount()); 
 
 	szP = NULL;
 	int nlen = 1 + strlen(S_TARD_PARAM_ID);  //加上默认参数(通过这个参数脚本可以获取与其相关的设置信息);
@@ -361,15 +361,16 @@ PTRAD_STRCPIT CScriptEng::AddFunction( LPSTR szScript)
 	else
 		sprintf_s(szBody, nlen, "function %s()\r\n%s\r\nend", szFunction, szContent);
 
-	PTRAD_STRCPIT pScript = NULL;
+	PSTRATEGY_STRCPIT pScript = NULL;
 	if(AddLib(szBody)){
-		pScript = new TRAD_STRCPIT;
+		pScript = new STRATEGY_STRCPIT;
 		pScript->szName = szName;
 		pScript->nParamCount = nPs;
 		pScript->szComment = szComment;
 		pScript->szParams = szParams;
 		pScript->szFunction = szFunction;
-		m_TradScripts.Add(pScript);
+		//m_TradScripts.Add(pScript);
+		m_Strategy.SetAt(pScript->szFunction, pScript);
 	}
 
 	if(szFunction){

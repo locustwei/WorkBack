@@ -11,9 +11,10 @@
 
 #include "stdafx.h"
 #include "mainfrm.h"
-#include "FileView.h"
+#include "Navigator.h"
 #include "Resource.h"
 #include "LeadowStockHepler.h"
+#include "ChildFrm.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -25,15 +26,15 @@ static char THIS_FILE[]=__FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CFileView
 
-CFileView::CFileView()
+CNavigator::CNavigator()
 {
 }
 
-CFileView::~CFileView()
+CNavigator::~CNavigator()
 {
 }
 
-BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
+BEGIN_MESSAGE_MAP(CNavigator, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
@@ -53,7 +54,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CWorkspaceBar 消息处理程序
 
-int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+int CNavigator::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CDockablePane::OnCreate(lpCreateStruct) == -1)
 		return -1;
@@ -64,15 +65,15 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 创建视图:
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS;
 
-	if (!m_wndFileView.Create(dwViewStyle, rectDummy, this, IDC_TREEVIEW))
+	if (!m_NavigateTree.Create(dwViewStyle, rectDummy, this, IDC_TREEVIEW))
 	{
-		TRACE0("未能创建文件视图\n");
+		TRACE0("未能创建导航视图\n");
 		return -1;      // 未能创建
 	}
 
 	// 加载视图图像:
-	m_FileViewImages.Create(IDB_FILE_VIEW, 16, 0, RGB(255, 0, 255));
-	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
+	m_TreeImages.Create(IDB_NAV, 16, 0, RGB(255, 0, 255));
+	m_NavigateTree.SetImageList(&m_TreeImages, TVSIL_NORMAL);
 
 	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_EXPLORER);
 	m_wndToolBar.LoadToolBar(IDR_EXPLORER, 0, 0, TRUE /* 已锁定*/);
@@ -89,57 +90,41 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
 
 	// 填入一些静态树视图数据(此处只需填入虚拟代码，而不是复杂的数据)
-	FillFileView();
+	InitNavigateTree();
 	AdjustLayout();
 
 	return 0;
 }
 
-void CFileView::OnSize(UINT nType, int cx, int cy)
+void CNavigator::OnSize(UINT nType, int cx, int cy)
 {
 	CDockablePane::OnSize(nType, cx, cy);
 	AdjustLayout();
 }
 
-void CFileView::FillFileView()
+void CNavigator::InitNavigateTree()
 {
-	//theApp.m_ScriptEng->
-	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("FakeApp 文件"), 0, 0);
-	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
+	HTREEITEM hQuotation = m_NavigateTree.InsertItem(_T("市场行情"), 0, 0);
+	m_NavigateTree.SetItemState(hQuotation, TVIS_BOLD, TVIS_BOLD);
 
-	HTREEITEM hSrc = m_wndFileView.InsertItem(_T("FakeApp 源文件"), 0, 0, hRoot);
+	HTREEITEM hUser = m_NavigateTree.InsertItem(_T("账户信息"), 1, 1);
+	m_NavigateTree.SetItemState(hUser, TVIS_BOLD, TVIS_BOLD);
 
-	m_wndFileView.InsertItem(_T("FakeApp.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeApp.rc"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeAppView.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("MainFrm.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("StdAfx.cpp"), 1, 1, hSrc);
+	m_NavigateTree.InsertItem(_T("资金股份"), 0, 0, hUser);
+	m_NavigateTree.InsertItem(_T("交易记录"), 0, 0, hUser);
+	m_NavigateTree.InsertItem(_T("关注股票"), 0, 0, hUser);
 
-	HTREEITEM hInc = m_wndFileView.InsertItem(_T("FakeApp 头文件"), 0, 0, hRoot);
+	HTREEITEM hStrategy = m_NavigateTree.InsertItem(_T("自动交易"), 2, 2);
+	m_NavigateTree.SetItemState(hStrategy, TVIS_BOLD, TVIS_BOLD);
+	LoadStrategyScript(hStrategy);
 
-	m_wndFileView.InsertItem(_T("FakeApp.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("FakeAppView.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("Resource.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("MainFrm.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("StdAfx.h"), 2, 2, hInc);
-
-	HTREEITEM hRes = m_wndFileView.InsertItem(_T("FakeApp 资源文件"), 0, 0, hRoot);
-
-	m_wndFileView.InsertItem(_T("FakeApp.ico"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeApp.rc2"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.ico"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeToolbar.bmp"), 2, 2, hRes);
-
-	m_wndFileView.Expand(hRoot, TVE_EXPAND);
-	m_wndFileView.Expand(hSrc, TVE_EXPAND);
-	m_wndFileView.Expand(hInc, TVE_EXPAND);
+	m_NavigateTree.Expand(hUser, TVE_EXPAND);
+	m_NavigateTree.Expand(hStrategy, TVE_EXPAND);
 }
 
-void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
+void CNavigator::OnContextMenu(CWnd* pWnd, CPoint point)
 {
-	CTreeCtrl* pWndTree = (CTreeCtrl*) &m_wndFileView;
+	CTreeCtrl* pWndTree = (CTreeCtrl*) &m_NavigateTree;
 	ASSERT_VALID(pWndTree);
 
 	if (pWnd != pWndTree)
@@ -166,7 +151,7 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EXPLORER, point.x, point.y, this, TRUE);
 }
 
-void CFileView::AdjustLayout()
+void CNavigator::AdjustLayout()
 {
 	if (GetSafeHwnd() == NULL)
 	{
@@ -179,72 +164,72 @@ void CFileView::AdjustLayout()
 	int cyTlb = m_wndToolBar.CalcFixedLayout(FALSE, TRUE).cy;
 
 	m_wndToolBar.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
-	m_wndFileView.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
+	m_NavigateTree.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
-void CFileView::OnProperties()
+void CNavigator::OnProperties()
 {
 	AfxMessageBox(_T("属性...."));
 
 }
 
-void CFileView::OnFileOpen()
+void CNavigator::OnFileOpen()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CFileView::OnFileOpenWith()
+void CNavigator::OnFileOpenWith()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CFileView::OnDummyCompile()
+void CNavigator::OnDummyCompile()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CFileView::OnEditCut()
+void CNavigator::OnEditCut()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CFileView::OnEditCopy()
+void CNavigator::OnEditCopy()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CFileView::OnEditClear()
+void CNavigator::OnEditClear()
 {
 	// TODO: 在此处添加命令处理程序代码
 }
 
-void CFileView::OnPaint()
+void CNavigator::OnPaint()
 {
 	CPaintDC dc(this); // 用于绘制的设备上下文
 
 	CRect rectTree;
-	m_wndFileView.GetWindowRect(rectTree);
+	m_NavigateTree.GetWindowRect(rectTree);
 	ScreenToClient(rectTree);
 
 	rectTree.InflateRect(1, 1);
 	dc.Draw3dRect(rectTree, ::GetSysColor(COLOR_3DSHADOW), ::GetSysColor(COLOR_3DSHADOW));
 }
 
-void CFileView::OnSetFocus(CWnd* pOldWnd)
+void CNavigator::OnSetFocus(CWnd* pOldWnd)
 {
 	CDockablePane::OnSetFocus(pOldWnd);
 
-	m_wndFileView.SetFocus();
+	m_NavigateTree.SetFocus();
 }
 
-void CFileView::OnChangeVisualStyle()
+void CNavigator::OnChangeVisualStyle()
 {
 	m_wndToolBar.CleanUpLockedImages();
 	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_EXPLORER_24 : IDR_EXPLORER, 0, 0, TRUE /* 锁定*/);
 
-	m_FileViewImages.DeleteImageList();
+	m_TreeImages.DeleteImageList();
 
-	UINT uiBmpId = theApp.m_bHiColorIcons ? IDB_FILE_VIEW_24 : IDB_FILE_VIEW;
+	UINT uiBmpId = theApp.m_bHiColorIcons ? IDB_NAV_32 : IDB_NAV;
 
 	CBitmap bmp;
 	if (!bmp.LoadBitmap(uiBmpId))
@@ -261,24 +246,51 @@ void CFileView::OnChangeVisualStyle()
 
 	nFlags |= (theApp.m_bHiColorIcons) ? ILC_COLOR24 : ILC_COLOR4;
 
-	m_FileViewImages.Create(16, bmpObj.bmHeight, nFlags, 0, 0);
-	m_FileViewImages.Add(&bmp, RGB(255, 0, 255));
+	m_TreeImages.Create(16, bmpObj.bmHeight, nFlags, 0, 0);
+	m_TreeImages.Add(&bmp, RGB(255, 0, 255));
 
-	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
+	m_NavigateTree.SetImageList(&m_TreeImages, TVSIL_NORMAL);
 }
 
-void CFileView::OnSelectItemChanged( NMHDR *pNMHDR, LRESULT *pResult )
+void CNavigator::OnSelectItemChanged( NMHDR *pNMHDR, LRESULT *pResult )
 {
 	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
 	// TODO: 在此添加控件通知处理程序代码
 	*pResult = 0;
 }
 
-void CFileView::OnDbClickItem( NMHDR *pNMHDR, LRESULT *pResult )
+void CNavigator::OnDbClickItem( NMHDR *pNMHDR, LRESULT *pResult )
 {
-	HTREEITEM selItem=m_wndFileView.GetSelectedItem();
-	CString txt=m_wndFileView.GetItemText(selItem);
+	HTREEITEM selItem=m_NavigateTree.GetSelectedItem();
+	if(selItem==NULL)
+		return;
+	HTREEITEM hParent = m_NavigateTree.GetParentItem(selItem);
+	if(hParent==NULL)
+		return;
+
+	CString txt=m_NavigateTree.GetItemText(selItem);
+
+	CChildFrame* pChildFrame = new CChildFrame();
+	CCreateContext context;
+	context.m_pCurrentFrame = (CMainFrame*)theApp.m_pMainWnd;
+	pChildFrame->LoadFrame(IDR_EXPLORER,WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, NULL, NULL);
+	pChildFrame->SetTitle(txt);
+	pChildFrame->InitialUpdateFrame(NULL, TRUE);
+
 	*pResult = 0;
+}
+
+void CNavigator::LoadStrategyScript(HTREEITEM hStrategy)
+{
+	POSITION pos = theApp.m_ScriptEng->m_Strategy.GetStartPosition();
+	CStringA strKey;
+	PSTRATEGY_STRCPIT pScript;
+	while(pos)
+	{
+		theApp.m_ScriptEng->m_Strategy.GetNextAssoc(pos, strKey, pScript);
+		HTREEITEM hItem = m_NavigateTree.InsertItem(CString(pScript->szName), 0, 0, hStrategy);
+		m_NavigateTree.SetItemData(hItem, (DWORD)pScript);
+	}
 }
 
 

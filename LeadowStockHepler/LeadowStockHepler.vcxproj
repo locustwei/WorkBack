@@ -111,6 +111,8 @@
     <None Include="res\fileview_hc.bmp" />
     <None Include="res\file_view.ico" />
     <None Include="res\file_view_hc.ico" />
+    <None Include="res\imagelarge.bmp" />
+    <None Include="res\imagelis.bmp" />
     <None Include="res\LeadowStockHepler.ico" />
     <None Include="res\LeadowStockHepler.rc2" />
     <None Include="res\main.bmp" />
@@ -128,9 +130,8 @@
     <None Include="ScriptEng\trad2.lua" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ChildView.h" />
-    <ClInclude Include="ClassView.h" />
-    <ClInclude Include="FileView.h" />
+    <ClInclude Include="ChildFrm.h" />
+    <ClInclude Include="Navigator.h" />
     <ClInclude Include="LeadowStockHepler.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="Resource.h" />
@@ -138,12 +139,10 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="tdxinterface\TdxTrading.h" />
-    <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ChildView.cpp" />
-    <ClCompile Include="ClassView.cpp" />
-    <ClCompile Include="FileView.cpp" />
+    <ClCompile Include="ChildFrm.cpp" />
+    <ClCompile Include="Navigator.cpp" />
     <ClCompile Include="LeadowStockHepler.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="ScriptEng\ScriptEng.cpp" />
@@ -152,7 +151,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="tdxinterface\TdxTrading.cpp" />
-    <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LeadowStockHepler.rc" />

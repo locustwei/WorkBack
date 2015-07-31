@@ -1,19 +1,34 @@
-// 这段 MFC 示例源代码演示如何使用 MFC Microsoft Office Fluent 用户界面 
-// (“Fluent UI”)。该示例仅供参考，
-// 用以补充《Microsoft 基础类参考》和 
-// MFC C++ 库软件随附的相关电子文档。
-// 复制、使用或分发 Fluent UI 的许可条款是单独提供的。
-// 若要了解有关 Fluent UI 许可计划的详细信息，请访问  
-// http://msdn.microsoft.com/officeui。
-//
-// 版权所有(C) Microsoft Corporation
-// 保留所有权利。
+/************************************************************************
+导航栏
 
+************************************************************************/
 #pragma once
 
-#include "ViewTree.h"
+class CViewTree : public CTreeCtrl
+{
+public:
+	CViewTree(){};
+	virtual ~CViewTree(){};
 
-class CFileViewToolBar : public CMFCToolBar
+protected:
+	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
+	{
+		BOOL bRes = CTreeCtrl::OnNotify(wParam, lParam, pResult);
+
+		NMHDR* pNMHDR = (NMHDR*)lParam;
+		ASSERT(pNMHDR != NULL);
+
+		if (pNMHDR && pNMHDR->code == TTN_SHOW && GetToolTips() != NULL)
+		{
+			GetToolTips()->SetWindowPos(&wndTop, -1, -1, -1, -1, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOSIZE);
+		}
+
+		return bRes;
+	};
+
+};
+
+class CNavigatorToolBar : public CMFCToolBar
 {
 	virtual void OnUpdateCmdUI(CFrameWnd* /*pTarget*/, BOOL bDisableIfNoHndler)
 	{
@@ -23,28 +38,23 @@ class CFileViewToolBar : public CMFCToolBar
 	virtual BOOL AllowShowOnList() const { return FALSE; }
 };
 
-class CFileView : public CDockablePane
+class CNavigator : public CDockablePane
 {
-// 构造
 public:
-	CFileView();
+	CNavigator();
+	virtual ~CNavigator();
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
 
-// 特性
 protected:
 
-	CViewTree m_wndFileView;
-	CImageList m_FileViewImages;
-	CFileViewToolBar m_wndToolBar;
+	CViewTree m_NavigateTree;
+	CImageList m_TreeImages;
+	CNavigatorToolBar m_wndToolBar;
 
 protected:
-	void FillFileView();
-
-// 实现
-public:
-	virtual ~CFileView();
+	void InitNavigateTree();
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -62,5 +72,6 @@ protected:
 	afx_msg void OnSelectItemChanged(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnDbClickItem(NMHDR *pNMHDR, LRESULT *pResult);
 	DECLARE_MESSAGE_MAP()
+	void LoadStrategyScript(HTREEITEM hStrategy);
 };
 

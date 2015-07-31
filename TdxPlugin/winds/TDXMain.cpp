@@ -341,7 +341,7 @@ BOOL CTDXMain::Click_TreeItemByID(LPCSTR szID, LPCSTR szGroup /*= NULL*/)
 }
 
 //股票买入
-BOOL CTDXMain::DoStockBy(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume)
+BOOL CTDXMain::DoStockBy(STOCK_MARK mark, LPCSTR szSymbol, float fPrice, DWORD dwVolume)
 {
 	BOOL result = FALSE;
 	do 
@@ -355,13 +355,13 @@ BOOL CTDXMain::DoStockBy(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwV
 		CTDXStockBuy* wnd = GetStockBuyDlg();
 		if(wnd==NULL)
 			break;
-		result = wnd->DoBy(mark, szCode, fPrice, dwVolume);
+		result = wnd->DoBy(mark, szSymbol, fPrice, dwVolume);
 	} while (false);
 
 	return result;
 }
 //股票卖出
-BOOL CTDXMain::DoStockSell(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume)
+BOOL CTDXMain::DoStockSell(STOCK_MARK mark, LPCSTR szSymbol, float fPrice, DWORD dwVolume)
 {
 	BOOL result = FALSE;
 	do 
@@ -375,7 +375,7 @@ BOOL CTDXMain::DoStockSell(STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD d
 		CTDXStockSell* wnd = GetStockSellDlg();
 		if(wnd==NULL)
 			break;
-		result = wnd->DoSell(mark, szCode, fPrice, dwVolume);
+		result = wnd->DoSell(mark, szSymbol, fPrice, dwVolume);
 	} while (false);
 
 	return result;

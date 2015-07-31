@@ -14,7 +14,7 @@ public:
 	CTDXStockBuy(HWND hWnd);
 	~CTDXStockBuy(void);
 
-	BOOL DoBy( STOCK_MARK mark, LPCSTR szCode, float fPrice, DWORD dwVolume );
+	BOOL DoBy( STOCK_MARK mark, LPCSTR szSymbol, float fPrice, DWORD dwVolume );
 protected:
 	virtual LRESULT WndPROC( HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam );
 	void SetControlsText();
