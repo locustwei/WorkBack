@@ -15,6 +15,7 @@
 #include "stdafx.h"
 
 #include "ChildFrm.h"
+#include "ui\LdDialog.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -25,7 +26,6 @@
 IMPLEMENT_DYNCREATE(CChildFrame, CMDIChildWndEx)
 
 BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWndEx)
-	ON_COMMAND(ID_FILE_CLOSE, &CChildFrame::OnFileClose)
 	ON_WM_SETFOCUS()
 	ON_WM_CREATE()
 END_MESSAGE_MAP()
@@ -34,11 +34,19 @@ END_MESSAGE_MAP()
 
 CChildFrame::CChildFrame()
 {
-	// TODO: 在此添加成员初始化代码
+	m_wndView = NULL;
+}
+
+CChildFrame::CChildFrame( CWnd* wndView )
+{
+	m_wndView = wndView;
 }
 
 CChildFrame::~CChildFrame()
 {
+	if(m_wndView!=NULL)
+		delete m_wndView;
+	m_wndView = NULL;
 }
 
 
@@ -67,25 +75,23 @@ void CChildFrame::Dump(CDumpContext& dc) const
 }
 #endif //_DEBUG
 
-// CChildFrame 消息处理程序
-void CChildFrame::OnFileClose() 
-{
-	// 若要关闭框架，只需发送 WM_CLOSE，
-	// 这相当于从系统菜单中选择关闭。
-	SendMessage(WM_CLOSE);
-}
 
 int CChildFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) 
 {
 	if (CMDIChildWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	
-	// 创建一个视图以占用框架的工作区
-	if (!m_wndView.Create(NULL, NULL, AFX_WS_DEFAULT_VIEW, 
-		CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
-	{
-		TRACE0("未能创建视图窗口\n");
-		return -1;
+	if(m_wndView==NULL){
+		m_wndView = new CChildView();
+		if (!m_wndView->Create(NULL, NULL, AFX_WS_DEFAULT_VIEW, CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL)){
+			return -1;
+		}
+
+	}else{
+		::SetWindowLong(m_wndView->GetSafeHwnd(),GWL_STYLE, AFX_WS_DEFAULT_VIEW );
+		m_wndView->SetDlgCtrlID(AFX_IDW_PANE_FIRST);
+		m_wndView->SetParent(this);
+		m_wndView->ShowWindow(SW_SHOW);
 	}
 
 	EnableDocking(CBRS_ALIGN_ANY);
@@ -97,13 +103,13 @@ void CChildFrame::OnSetFocus(CWnd* pOldWnd)
 {
 	CMDIChildWndEx::OnSetFocus(pOldWnd);
 
-	m_wndView.SetFocus();
+	m_wndView->SetFocus();
 }
 
 BOOL CChildFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo) 
 {
 	// 让视图第一次尝试该命令
-	if (m_wndView.OnCmdMsg(nID, nCode, pExtra, pHandlerInfo))
+	if (m_wndView->OnCmdMsg(nID, nCode, pExtra, pHandlerInfo))
 		return TRUE;
 	
 	// 否则，执行默认处理

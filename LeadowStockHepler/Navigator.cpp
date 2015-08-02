@@ -269,13 +269,8 @@ void CNavigator::OnDbClickItem( NMHDR *pNMHDR, LRESULT *pResult )
 		return;
 
 	CString txt=m_NavigateTree.GetItemText(selItem);
-
-	CChildFrame* pChildFrame = new CChildFrame();
-	CCreateContext context;
-	context.m_pCurrentFrame = (CMainFrame*)theApp.m_pMainWnd;
-	pChildFrame->LoadFrame(IDR_EXPLORER,WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, NULL, NULL);
-	pChildFrame->SetTitle(txt);
-	pChildFrame->InitialUpdateFrame(NULL, TRUE);
+	//((CMainFrame*)theApp.m_pMainWnd)->CreateNewChild(RUNTIME_CLASS(CChildFrame), txt);
+	((CMainFrame*)theApp.m_pMainWnd)->CreateDlgChild(RUNTIME_CLASS(CLdDialog));
 
 	*pResult = 0;
 }

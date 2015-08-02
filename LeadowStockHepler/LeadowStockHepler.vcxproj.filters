@@ -19,6 +19,9 @@
     <Filter Include="脚本引擎">
       <UniqueIdentifier>{4cd48ee8-28fa-4e08-9fcb-7f50bc773632}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ui">
+      <UniqueIdentifier>{b1267063-a4a0-4b0f-8421-35f18cf7a998}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -141,6 +144,9 @@
     <ClInclude Include="ChildFrm.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ui\LdDialog.h">
+      <Filter>ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LeadowStockHepler.cpp">
@@ -163,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="ChildFrm.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\LdDialog.cpp">
+      <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

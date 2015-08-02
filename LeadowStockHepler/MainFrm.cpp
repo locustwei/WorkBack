@@ -6,6 +6,7 @@
 #include "LeadowStockHepler.h"
 
 #include "MainFrm.h"
+#include "ChildFrm.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -241,4 +242,40 @@ void CMainFrame::OnShowView(UINT id)
 void CMainFrame::OnSize(UINT nType, int cx, int cy)
 {
 	CMDIFrameWndEx::OnSize(nType, cx, cy);
+}
+
+CMDIChildWnd* CMainFrame::CreateNewChild( CRuntimeClass* pClass, CString strTitle )
+{
+	CMDIChildWnd* pFrame = (CMDIChildWnd*) pClass->CreateObject();
+	CCreateContext context;
+	context.m_pCurrentFrame = this;
+
+	if (!pFrame->LoadFrame(IDS_FILE_VIEW,WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, NULL, &context)){
+		return NULL;
+	}
+
+	pFrame->SetTitle(strTitle);
+	pFrame->InitialUpdateFrame(NULL, TRUE);
+
+	return pFrame;
+
+}
+
+CLdDialog* CMainFrame::CreateDlgChild( CRuntimeClass* pClass )
+{
+	CLdDialog* wnd = new CLdDialog();//(CLdDialog*)pClass->CreateObject();
+	wnd->Create();
+	CChildFrame* pFrame = new CChildFrame(wnd);
+	CCreateContext context;
+	context.m_pCurrentFrame = this;
+	if (!pFrame->LoadFrame(IDS_FILE_VIEW,WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, NULL, &context)){
+		return NULL;
+	}
+
+ 	CString strTitle;
+ 	wnd->GetWindowText(strTitle);
+ 	pFrame->SetTitle(strTitle);
+	pFrame->InitialUpdateFrame(NULL, TRUE);
+
+	return NULL;
 }
