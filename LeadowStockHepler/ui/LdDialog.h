@@ -19,23 +19,14 @@ class CLdDialog: public CDialogEx
 { 
 	DECLARE_DYNAMIC(CLdDialog)
 
-public:
-	enum { IDD = IDD_DIALOG1 };
 public: 
 	CLdDialog();
-	CLdDialog(UINT nIDTemplate, CWnd *pParent = NULL);
-	CLdDialog(LPCTSTR lpszTemplateName, CWnd *pParentWnd = NULL);
-
 	virtual ~CLdDialog();
-
-	int ShowDialog(); 
-	int DoModal();
-
 	virtual BOOL Create( CWnd* pParentWnd = NULL );
 
 protected: 
-	BOOL m_IsModal;
-	virtual BOOL OnInitDialog();
-
+	int m_nResId;
+	virtual void OnOK();
+	virtual void OnCancel();
 }; 
 

@@ -7,6 +7,7 @@
 
 #include "MainFrm.h"
 #include "ChildFrm.h"
+#include "ui\DlgStrategy.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -260,22 +261,42 @@ CMDIChildWnd* CMainFrame::CreateNewChild( CRuntimeClass* pClass, CString strTitl
 	return pFrame;
 
 }
+/*
+m_arrpActiveChilds.RemoveAll (); 
+const CObList& TabGroups =m_wndClientArea.GetMDITabGroups(); 
+if (TabGroups.GetCount ()>0) { 
+POSITION crtPos = TabGroups.GetHeadPosition (); 
+CMFCTabCtrl* pCrtTabCtrl;
 
-CLdDialog* CMainFrame::CreateDlgChild( CRuntimeClass* pClass )
+do { 
+pCrtTabCtrl=DYNAMIC_DOWNCAST(CMFCTabCtrl, TabGroups.GetNext(crtPos)); 
+int nActive = pCrtTabCtrl->GetActiveTab(); 
+CWnd * pWnd = pCrtTabCtrl->GetTabWndNoWrapper( nActive ); 
+CChildFrame * pChild = dynamic_cast<CChildFrame*>(pWnd); 
+m_arrpActiveChilds.Add (pChild);
+} while(crtPos != NULL);
+*/
+CMDIChildWnd* CMainFrame::DockDlgChild( CLdDialog* dlg, CString strTitle )
 {
-	CLdDialog* wnd = new CLdDialog();//(CLdDialog*)pClass->CreateObject();
-	wnd->Create();
-	CChildFrame* pFrame = new CChildFrame(wnd);
+	if(dlg==NULL)
+		return NULL;
+
+	if(dlg->GetSafeHwnd()==NULL && !dlg->Create())
+		return NULL;
+
+	CChildFrame* pFrame = new CChildFrame(dlg);
 	CCreateContext context;
 	context.m_pCurrentFrame = this;
 	if (!pFrame->LoadFrame(IDS_FILE_VIEW,WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, NULL, &context)){
 		return NULL;
 	}
-
- 	CString strTitle;
- 	wnd->GetWindowText(strTitle);
- 	pFrame->SetTitle(strTitle);
+	if(&strTitle==NULL){
+		CString str;
+		dlg->GetWindowText(str);
+		pFrame->SetTitle(str);
+	}else
+ 		pFrame->SetTitle(strTitle);
 	pFrame->InitialUpdateFrame(NULL, TRUE);
 
-	return NULL;
+	return pFrame;
 }

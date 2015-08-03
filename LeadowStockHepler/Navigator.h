@@ -4,6 +4,32 @@
 ************************************************************************/
 #pragma once
 
+enum NAV_NODE_TYPE
+{
+	NNT_1_HQ,        //行情
+	NNT_1_ZH,        //账户
+	NNT_2_ZJGF,      //资金股份
+	NNT_2_JYLS,      //交易历史
+	NNT_2_GZ,        //关注股票
+	NNT_1_CLJY,      //策略交易
+	NNT_2_CJX        //策略交易脚本 
+};
+
+struct NAV_NODE_DATA
+{
+	NAV_NODE_TYPE type;
+	LPVOID data;
+	NAV_NODE_DATA* pParent;
+};
+
+inline NAV_NODE_DATA* NewNodeData(NAV_NODE_TYPE type) 
+{
+	NAV_NODE_DATA* p = new NAV_NODE_DATA; 
+	ZeroMemory(p, sizeof(NAV_NODE_DATA));
+	p->type = type;
+	return p;
+};
+
 class CViewTree : public CTreeCtrl
 {
 public:
@@ -48,15 +74,6 @@ public:
 	void OnChangeVisualStyle();
 
 protected:
-
-	CViewTree m_NavigateTree;
-	CImageList m_TreeImages;
-	CNavigatorToolBar m_wndToolBar;
-
-protected:
-	void InitNavigateTree();
-
-protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
@@ -71,7 +88,18 @@ protected:
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnSelectItemChanged(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnDbClickItem(NMHDR *pNMHDR, LRESULT *pResult);
-	DECLARE_MESSAGE_MAP()
+private:
+	CViewTree m_NavigateTree;
+	CImageList m_TreeImages;
+	CNavigatorToolBar m_wndToolBar;
+	CMap<HTREEITEM, HTREEITEM, CMDIChildWnd*, CMDIChildWnd*> m_NodeWnd;
+
+	void InitNavigateTree();
+
 	void LoadStrategyScript(HTREEITEM hStrategy);
+
+
+
+	DECLARE_MESSAGE_MAP()
 };
 

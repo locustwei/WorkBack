@@ -115,6 +115,9 @@
     <None Include="res\imagelis.bmp">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="res\ribbon1.mfcribbon-ms">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LeadowStockHepler.h">
@@ -147,6 +150,9 @@
     <ClInclude Include="ui\LdDialog.h">
       <Filter>ui</Filter>
     </ClInclude>
+    <ClInclude Include="ui\DlgStrategy.h">
+      <Filter>ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LeadowStockHepler.cpp">
@@ -171,6 +177,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ui\LdDialog.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\DlgStrategy.cpp">
       <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>

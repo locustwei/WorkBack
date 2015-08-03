@@ -16,7 +16,7 @@ public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
 	CMDIChildWnd* CreateNewChild(CRuntimeClass* pClass, CString strTitle);
-	CLdDialog* CreateDlgChild(CRuntimeClass* pClass);
+	CMDIChildWnd* DockDlgChild( CLdDialog* dlg, CString strTitle = NULL );
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;

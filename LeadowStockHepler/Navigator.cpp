@@ -1,13 +1,8 @@
-// 这段 MFC 示例源代码演示如何使用 MFC Microsoft Office Fluent 用户界面 
-// (“Fluent UI”)。该示例仅供参考，
-// 用以补充《Microsoft 基础类参考》和 
-// MFC C++ 库软件随附的相关电子文档。
-// 复制、使用或分发 Fluent UI 的许可条款是单独提供的。
-// 若要了解有关 Fluent UI 许可计划的详细信息，请访问  
-// http://msdn.microsoft.com/officeui。
-//
-// 版权所有(C) Microsoft Corporation
-// 保留所有权利。
+/*!
+ * 导航栏
+ *
+ *
+ */
 
 #include "stdafx.h"
 #include "mainfrm.h"
@@ -15,6 +10,7 @@
 #include "Resource.h"
 #include "LeadowStockHepler.h"
 #include "ChildFrm.h"
+#include "ui\DlgStrategy.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -24,7 +20,6 @@ static char THIS_FILE[]=__FILE__;
 
 #define IDC_TREEVIEW 4
 /////////////////////////////////////////////////////////////////////////////
-// CFileView
 
 CNavigator::CNavigator()
 {
@@ -32,6 +27,7 @@ CNavigator::CNavigator()
 
 CNavigator::~CNavigator()
 {
+	m_NodeWnd.RemoveAll();
 }
 
 BEGIN_MESSAGE_MAP(CNavigator, CDockablePane)
@@ -106,16 +102,24 @@ void CNavigator::InitNavigateTree()
 {
 	HTREEITEM hQuotation = m_NavigateTree.InsertItem(_T("市场行情"), 0, 0);
 	m_NavigateTree.SetItemState(hQuotation, TVIS_BOLD, TVIS_BOLD);
+	m_NavigateTree.SetItemData(hQuotation, (DWORD)NewNodeData(NNT_1_HQ));
 
 	HTREEITEM hUser = m_NavigateTree.InsertItem(_T("账户信息"), 1, 1);
 	m_NavigateTree.SetItemState(hUser, TVIS_BOLD, TVIS_BOLD);
+	m_NavigateTree.SetItemData(hUser, (DWORD)NewNodeData(NNT_1_ZH));
 
-	m_NavigateTree.InsertItem(_T("资金股份"), 0, 0, hUser);
-	m_NavigateTree.InsertItem(_T("交易记录"), 0, 0, hUser);
-	m_NavigateTree.InsertItem(_T("关注股票"), 0, 0, hUser);
+	HTREEITEM hItem = m_NavigateTree.InsertItem(_T("资金股份"), 0, 0, hUser);
+	m_NavigateTree.SetItemData(hItem, (DWORD)NewNodeData(NNT_2_ZJGF));
 
-	HTREEITEM hStrategy = m_NavigateTree.InsertItem(_T("自动交易"), 2, 2);
+	hItem = m_NavigateTree.InsertItem(_T("交易记录"), 0, 0, hUser);
+	m_NavigateTree.SetItemData(hItem, (DWORD)NewNodeData(NNT_2_JYLS));
+
+	hItem = m_NavigateTree.InsertItem(_T("关注股票"), 0, 0, hUser);
+	m_NavigateTree.SetItemData(hItem, (DWORD)NewNodeData(NNT_2_GZ));
+
+	HTREEITEM hStrategy = m_NavigateTree.InsertItem(_T("策略交易"), 2, 2);
 	m_NavigateTree.SetItemState(hStrategy, TVIS_BOLD, TVIS_BOLD);
+	m_NavigateTree.SetItemData(hStrategy, (DWORD)NewNodeData(NNT_1_CLJY));
 	LoadStrategyScript(hStrategy);
 
 	m_NavigateTree.Expand(hUser, TVE_EXPAND);
@@ -261,16 +265,33 @@ void CNavigator::OnSelectItemChanged( NMHDR *pNMHDR, LRESULT *pResult )
 
 void CNavigator::OnDbClickItem( NMHDR *pNMHDR, LRESULT *pResult )
 {
+	TVHITTESTINFO hit;
+	ZeroMemory(&hit, sizeof(hit));
+	if(m_NavigateTree.HitTest(&hit)==NULL)
+		return;
+
 	HTREEITEM selItem=m_NavigateTree.GetSelectedItem();
 	if(selItem==NULL)
 		return;
-	HTREEITEM hParent = m_NavigateTree.GetParentItem(selItem);
-	if(hParent==NULL)
+
+	CMDIChildWnd* mdiChild;
+	if(m_NodeWnd.Lookup(selItem, mdiChild)){
+		((CMainFrame*)theApp.m_pMainWnd)->m_wndClientArea.SetFocus(mdiChild);
+		return;
+	}
+
+	NAV_NODE_DATA* pData = (NAV_NODE_DATA*)m_NavigateTree.GetItemData(selItem);
+	if(pData==NULL)
 		return;
 
-	CString txt=m_NavigateTree.GetItemText(selItem);
-	//((CMainFrame*)theApp.m_pMainWnd)->CreateNewChild(RUNTIME_CLASS(CChildFrame), txt);
-	((CMainFrame*)theApp.m_pMainWnd)->CreateDlgChild(RUNTIME_CLASS(CLdDialog));
+	CDlgStrategy* dlg;
+	switch(pData->type){
+	case NNT_2_CJX:
+		//dlg = new CDlgStrategy((PSTRATEGY_STRCPIT)pData->data);
+		((CMainFrame*)theApp.m_pMainWnd)->DockDlgChild(new CDlgStrategy());
+		break;
+	}
+
 
 	*pResult = 0;
 }
@@ -280,11 +301,14 @@ void CNavigator::LoadStrategyScript(HTREEITEM hStrategy)
 	POSITION pos = theApp.m_ScriptEng->m_Strategy.GetStartPosition();
 	CStringA strKey;
 	PSTRATEGY_STRCPIT pScript;
+	NAV_NODE_DATA* pData;
 	while(pos)
 	{
 		theApp.m_ScriptEng->m_Strategy.GetNextAssoc(pos, strKey, pScript);
 		HTREEITEM hItem = m_NavigateTree.InsertItem(CString(pScript->szName), 0, 0, hStrategy);
-		m_NavigateTree.SetItemData(hItem, (DWORD)pScript);
+		pData = NewNodeData(NNT_2_CJX);
+		pData->data = pScript;
+		m_NavigateTree.SetItemData(hItem, (DWORD)pData);
 	}
 }
 
