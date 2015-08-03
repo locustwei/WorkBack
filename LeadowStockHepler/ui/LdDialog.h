@@ -17,15 +17,14 @@ typedef struct _DLGITEM_MAP
 
 class CLdDialog: public CDialogEx
 { 
-	DECLARE_DYNAMIC(CLdDialog)
 
 public: 
 	CLdDialog();
+	CLdDialog(UINT nIDTemplate, CWnd *pParent = NULL);
 	virtual ~CLdDialog();
 	virtual BOOL Create( CWnd* pParentWnd = NULL );
 
 protected: 
-	int m_nResId;
 	virtual void OnOK();
 	virtual void OnCancel();
 }; 

@@ -25,6 +25,7 @@ typedef struct _STRATEGY_STRCPIT  //交易策略脚本结构
 	LPCSTR szComment;      //注释
 	int nParamCount;       //参数数目（）
 	LPSTR* szParams;       //参数名称列表
+	LPSTR* szParamComments;//参数说明
 }STRATEGY_STRCPIT, *PSTRATEGY_STRCPIT;
 
 class CScriptEng

@@ -1,11 +1,14 @@
 #include "stdafx.h"
 #include "LdDialog.h"
 
-IMPLEMENT_DYNAMIC( CLdDialog, CDialogEx )
 
 CLdDialog::CLdDialog():CDialogEx()
 {
-	m_nResId = 0;
+}
+
+CLdDialog::CLdDialog( UINT nIDTemplate, CWnd *pParent /*= NULL*/ ):CDialogEx(nIDTemplate, pParent)
+{
+
 }
 
 CLdDialog::~CLdDialog()
@@ -15,7 +18,7 @@ CLdDialog::~CLdDialog()
 
 BOOL CLdDialog::Create( CWnd* pParentWnd /*= NULL */ )
 {
-	return CDialogEx::Create(m_nResId, pParentWnd);
+	return CDialogEx::Create(m_nIDHelp, pParentWnd);
 }
 
 void CLdDialog::OnOK()

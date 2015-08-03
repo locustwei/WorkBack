@@ -11,6 +11,7 @@
 #include "LeadowStockHepler.h"
 #include "ChildFrm.h"
 #include "ui\DlgStrategy.h"
+#include "ScriptEng\ScriptEng.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -19,7 +20,12 @@ static char THIS_FILE[]=__FILE__;
 #endif
 
 #define IDC_TREEVIEW 4
-/////////////////////////////////////////////////////////////////////////////
+#define NODE_TEXT_CLJY _T("策略交易")
+#define NODE_TEXT_HQ   _T("市场行情")
+#define NODE_TEXT_ZH   _T("账户信息")
+#define NODE_TEXT_ZJGF _T("资金股份")
+#define NODE_TEXT_JYLS _T("交易记录")
+#define NODE_TEXT_GZ   _T("关注股票")
 
 CNavigator::CNavigator()
 {
@@ -100,24 +106,24 @@ void CNavigator::OnSize(UINT nType, int cx, int cy)
 
 void CNavigator::InitNavigateTree()
 {
-	HTREEITEM hQuotation = m_NavigateTree.InsertItem(_T("市场行情"), 0, 0);
+	HTREEITEM hQuotation = m_NavigateTree.InsertItem(NODE_TEXT_HQ, 0, 0);
 	m_NavigateTree.SetItemState(hQuotation, TVIS_BOLD, TVIS_BOLD);
 	m_NavigateTree.SetItemData(hQuotation, (DWORD)NewNodeData(NNT_1_HQ));
 
-	HTREEITEM hUser = m_NavigateTree.InsertItem(_T("账户信息"), 1, 1);
+	HTREEITEM hUser = m_NavigateTree.InsertItem(NODE_TEXT_ZH, 1, 1);
 	m_NavigateTree.SetItemState(hUser, TVIS_BOLD, TVIS_BOLD);
 	m_NavigateTree.SetItemData(hUser, (DWORD)NewNodeData(NNT_1_ZH));
 
-	HTREEITEM hItem = m_NavigateTree.InsertItem(_T("资金股份"), 0, 0, hUser);
+	HTREEITEM hItem = m_NavigateTree.InsertItem(NODE_TEXT_ZJGF, 0, 0, hUser);
 	m_NavigateTree.SetItemData(hItem, (DWORD)NewNodeData(NNT_2_ZJGF));
 
-	hItem = m_NavigateTree.InsertItem(_T("交易记录"), 0, 0, hUser);
+	hItem = m_NavigateTree.InsertItem(NODE_TEXT_JYLS, 0, 0, hUser);
 	m_NavigateTree.SetItemData(hItem, (DWORD)NewNodeData(NNT_2_JYLS));
 
-	hItem = m_NavigateTree.InsertItem(_T("关注股票"), 0, 0, hUser);
+	hItem = m_NavigateTree.InsertItem(NODE_TEXT_GZ, 0, 0, hUser);
 	m_NavigateTree.SetItemData(hItem, (DWORD)NewNodeData(NNT_2_GZ));
 
-	HTREEITEM hStrategy = m_NavigateTree.InsertItem(_T("策略交易"), 2, 2);
+	HTREEITEM hStrategy = m_NavigateTree.InsertItem(NODE_TEXT_CLJY, 2, 2);
 	m_NavigateTree.SetItemState(hStrategy, TVIS_BOLD, TVIS_BOLD);
 	m_NavigateTree.SetItemData(hStrategy, (DWORD)NewNodeData(NNT_1_CLJY));
 	LoadStrategyScript(hStrategy);
@@ -276,7 +282,7 @@ void CNavigator::OnDbClickItem( NMHDR *pNMHDR, LRESULT *pResult )
 
 	CMDIChildWnd* mdiChild;
 	if(m_NodeWnd.Lookup(selItem, mdiChild)){
-		((CMainFrame*)theApp.m_pMainWnd)->m_wndClientArea.SetFocus(mdiChild);
+		mdiChild->ActivateFrame();
 		return;
 	}
 
@@ -285,10 +291,16 @@ void CNavigator::OnDbClickItem( NMHDR *pNMHDR, LRESULT *pResult )
 		return;
 
 	CDlgStrategy* dlg;
+	CMDIChildWnd* wnd;
+	CString strTitle;
 	switch(pData->type){
 	case NNT_2_CJX:
-		//dlg = new CDlgStrategy((PSTRATEGY_STRCPIT)pData->data);
-		((CMainFrame*)theApp.m_pMainWnd)->DockDlgChild(new CDlgStrategy());
+		dlg = new CDlgStrategy();
+		dlg->SetStrategy((PSTRATEGY_STRCPIT)pData->data);
+		strTitle.Format(_T("%s【%s】"), NODE_TEXT_CLJY, m_NavigateTree.GetItemText(selItem));
+		wnd = ((CMainFrame*)theApp.m_pMainWnd)->DockDlgChild(dlg, strTitle);
+		if(wnd)
+			m_NodeWnd.SetAt(selItem, wnd);
 		break;
 	}
 
