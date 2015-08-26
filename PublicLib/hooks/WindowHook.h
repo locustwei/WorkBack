@@ -13,7 +13,7 @@
 #define CN_AfxMDIFrame42     L"AfxMDIFrame42"
 #define CN_SysTreeView32     L"SysTreeView32"
 
-#define GW_HOOKPOINT GWL_USERDATA
+#define HOOKPOINT L"LD_HOOK_PROC"
 
 class CWndHook{
 	friend LRESULT WINAPI WndHookPROC(HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam);

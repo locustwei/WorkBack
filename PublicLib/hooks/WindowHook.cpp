@@ -22,7 +22,7 @@ BOOL CWndHook::StopHook()
     BOOL bResult = FALSE;
     if (m_nextHook){
         bResult = SetWindowLongPtr(m_hWnd, GW_WNDPROC, (LONG)m_nextHook);
-		SetWindowLong(m_hWnd, GW_HOOKPOINT, NULL);
+		RemoveProp(m_hWnd, HOOKPOINT);
         if (bResult){
             m_nextHook = NULL;
         }
@@ -32,7 +32,8 @@ BOOL CWndHook::StopHook()
 
 LRESULT WINAPI WndHookPROC(HWND hwnd, UINT nCode,WPARAM wparam,LPARAM lparam)
 {
-	CWndHook* m_this = (CWndHook*)GetWindowLong(hwnd, GW_HOOKPOINT);
+	
+	CWndHook* m_this = (CWndHook*)GetProp(hwnd, HOOKPOINT);
 	if(m_this!=NULL)
 		return m_this->WndPROC(hwnd, nCode, wparam, lparam);
 	else
@@ -55,8 +56,7 @@ BOOL CWndHook::StartHook()
 			return false;
 		m_nextHook = (WNDPROC)SetWindowLongPtr(m_hWnd, GW_WNDPROC,  (LONG)&WndHookPROC);
 	}
-
-	SetWindowLong(m_hWnd, GW_HOOKPOINT, (LONG)this);
+	SetProp(m_hWnd, HOOKPOINT, (HANDLE)this);
 
 	return !m_nextHook;
 }
