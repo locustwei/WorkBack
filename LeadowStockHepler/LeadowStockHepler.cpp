@@ -158,12 +158,9 @@ void CLeadowStockHeplerApp::PreLoadState()
 {
 	BOOL bNameValid;
 	CString strName;
-	bNameValid = strName.LoadString(IDS_EDIT_MENU);
+	bNameValid = strName.LoadString(IDS_NAV);
 	ASSERT(bNameValid);
-	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EDIT);
-	bNameValid = strName.LoadString(IDS_EXPLORER);
-	ASSERT(bNameValid);
-	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EXPLORER);
+	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_NAV);
 }
 
 void CLeadowStockHeplerApp::LoadCustomState()

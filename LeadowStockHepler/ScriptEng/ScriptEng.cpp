@@ -368,6 +368,7 @@ PSTRATEGY_STRCPIT CScriptEng::AddFunction( LPSTR szScript)
 		pScript->nParamCount = nPs;
 		pScript->szComment = szComment;
 		pScript->szParams = szParams;
+		pScript->szParamComments = szParamComment;
 		pScript->szFunction = szFunction;
 		//m_TradScripts.Add(pScript);
 		m_Strategy.SetAt(pScript->szFunction, pScript);

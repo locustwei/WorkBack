@@ -88,7 +88,7 @@ int CChildFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		}
 
 	}else{
-		//::SetWindowLong(m_wndView->GetSafeHwnd(),GWL_STYLE, AFX_WS_DEFAULT_VIEW );
+		::SetWindowLong(m_wndView->GetSafeHwnd(),GWL_STYLE, AFX_WS_DEFAULT_VIEW );
 		m_wndView->SetDlgCtrlID(AFX_IDW_PANE_FIRST);
 		m_wndView->SetParent(this);
 		m_wndView->ShowWindow(SW_SHOW);
