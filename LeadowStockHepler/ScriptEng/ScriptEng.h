@@ -46,6 +46,8 @@ public:
 	BOOL RunScript(LPCSTR szScript, double* fResult);
 	BOOL RunScript(LPCSTR szScript, boolean* bResult);
 	BOOL RunScript(LPCSTR szScript, LPCSTR* szResult);
+	
+	BOOL TestStrategy(PSTRATEGY_STRCPIT pStrategy, CString param ...);
 private:
 	lua_State* m_hLua;
 	IDataInterface* m_IStockData;

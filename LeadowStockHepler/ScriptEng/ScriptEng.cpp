@@ -403,3 +403,10 @@ err:
 	}
 	return NULL;
 }
+
+BOOL CScriptEng::TestStrategy(PSTRATEGY_STRCPIT pStrategy, CString param ...)
+{
+	if(!RunScript(pStrategy->szFunction))
+		return FALSE;
+	return TRUE;
+}

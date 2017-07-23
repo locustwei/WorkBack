@@ -1,6 +1,7 @@
 
 #include "stdafx.h"
 #include "DlgStrategy.h"
+#include "..\LeadowStockHepler.h"
 
 CDlgStrategy::CDlgStrategy():CLdDialog(IDD_DLG_STRATEGY)
 {
@@ -100,7 +101,7 @@ void CDlgStrategy::OnBtnTest()
 			return;
 		}
 	}
-	
+	theApp.m_ScriptEng->TestStrategy(m_pStrategy, CString(""), CString(""));
 }
 
 CString CDlgStrategy::GetInputParamValue( LPSTR szParams )
