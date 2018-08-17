@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="zenwinx.def">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="main.dox" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="zenwinx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="case-tables.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ntfs.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ntndk.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="prb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dbg.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="entry.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="env.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="event.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="file.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ftw.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ftw_ntfs.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="int64.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="keyboard.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="keytrans.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ldr.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="list.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="lock.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="mem.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="misc.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="mutex.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="path.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="prb.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="privilege.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="reg.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stdio.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="string.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="thread.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="time.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="volume.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="zenwinx.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
