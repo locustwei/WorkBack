@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WiseProcessMonitor", "ProcessMonitor.vcxproj", "{D678983F-49E6-4010-AAF1-F5D07878502C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		ANTI_XP|Win32 = ANTI_XP|Win32
+		ANTI_XP|x64 = ANTI_XP|x64
+		ANTI|Win32 = ANTI|Win32
+		ANTI|x64 = ANTI|x64
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+		XP|Win32 = XP|Win32
+		XP|x64 = XP|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.ANTI_XP|Win32.ActiveCfg = ANTI_XP|Win32
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.ANTI_XP|Win32.Build.0 = ANTI_XP|Win32
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.ANTI_XP|x64.ActiveCfg = ANTI_XP|x64
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.ANTI_XP|x64.Build.0 = ANTI_XP|x64
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.ANTI|Win32.ActiveCfg = ANTI|Win32
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.ANTI|Win32.Build.0 = ANTI|Win32
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.ANTI|x64.ActiveCfg = ANTI|x64
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.ANTI|x64.Build.0 = ANTI|x64
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.Debug|Win32.Build.0 = Debug|Win32
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.Debug|x64.ActiveCfg = Debug|x64
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.Debug|x64.Build.0 = Debug|x64
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.Release|Win32.ActiveCfg = Release|Win32
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.Release|Win32.Build.0 = Release|Win32
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.Release|x64.ActiveCfg = Release|x64
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.Release|x64.Build.0 = Release|x64
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.XP|Win32.ActiveCfg = XP|Win32
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.XP|Win32.Build.0 = XP|Win32
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.XP|x64.ActiveCfg = XP|x64
+		{D678983F-49E6-4010-AAF1-F5D07878502C}.XP|x64.Build.0 = XP|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

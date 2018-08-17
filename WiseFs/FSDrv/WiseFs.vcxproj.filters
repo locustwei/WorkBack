@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source files">
+      <UniqueIdentifier>{b9608bbc-fdb6-4c98-b513-9ba654ec30eb}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource files">
+      <UniqueIdentifier>{8ab4ae09-3fa2-442d-b132-3a01fdc211c0}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Header files">
+      <UniqueIdentifier>{53926b85-94cc-49fb-ac26-40f125bd0c21}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="文件过滤">
+      <UniqueIdentifier>{5dfb84e0-a579-4e42-b394-dcc909de0f19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="虚拟磁盘">
+      <UniqueIdentifier>{76d6f4c9-fd6b-4ace-9b13-7e124566e15c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="控制设备">
+      <UniqueIdentifier>{13948d16-1c91-4ba3-911e-811e79dba43c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\WiseRegNotify\DirverUtils.c">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="Driver.c">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="FltCallback.c">
+      <Filter>文件过滤</Filter>
+    </ClCompile>
+    <ClCompile Include="filedisk.c">
+      <Filter>虚拟磁盘</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlDevice.c">
+      <Filter>控制设备</Filter>
+    </ClCompile>
+    <ClCompile Include="FsData.c">
+      <Filter>文件过滤</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WiseRegNotify\DirverUtils.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Driver.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="FltCallback.h">
+      <Filter>文件过滤</Filter>
+    </ClInclude>
+    <ClInclude Include="filedisk.h">
+      <Filter>虚拟磁盘</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlDevice.h">
+      <Filter>控制设备</Filter>
+    </ClInclude>
+    <ClInclude Include="FsData.h">
+      <Filter>文件过滤</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WiseFs.rc">
+      <Filter>Resource files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

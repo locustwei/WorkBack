@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source files">
+      <UniqueIdentifier>{6c20beee-3ecd-4a27-b5a6-ad1f4f2af4ac}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource files">
+      <UniqueIdentifier>{8d1139cd-26b4-4d44-adb0-c610e58249cd}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Header files">
+      <UniqueIdentifier>{36e67266-7edf-4a5f-94b4-8278f2e0b3e1}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="driver.c">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="regfltr.c">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="regfltrData.c">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirverUtils.c">
+      <Filter>Source files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="regfltr.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirverUtils.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WiseRegNotify.rc">
+      <Filter>Resource files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

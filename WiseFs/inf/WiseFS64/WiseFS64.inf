@@ -1,0 +1,112 @@
+;;;
+;;; Copyright (c) Microsoft Corporation. All rights reserved
+;;;
+;;; Abstract:
+;;; Callout sample driver install configuration.
+;;;
+
+[Version]
+signature   =   "$Windows NT$"
+Class       =   System
+Provider   	=   %Msft%
+DriverVer   =   04/18/2017,2.0.2.210
+CatalogFile =   lxd.cat
+
+[DestinationDirs]
+DefaultDestDir	        = 12
+WiseFS.DriverFiles32    = 12 			;%windir%\system32\drivers
+WiseFS.DriverFiles64    = 12
+RenFiles            = RenameOldFilesSec,
+
+[RenameOldFilesSec.x64]
+WiseFS.sys, WiseFS64.sys
+
+;;
+;; Default install sections
+;;
+
+
+[DefaultInstall.ntia64]
+OptionDesc          = %WiseFSServiceDesc%
+CopyFiles           = RenameOldFilesSec.x64
+
+[DefaultInstall.ntia64.Services]
+AddService          = %WiseFSServiceName%,,WiseFS.Service
+
+;;
+;; Default uninstall sections
+;;
+
+[DefaultUninstall.ntia64]
+DelFiles   = WiseFS.DriverFiles64
+
+[DefaultUninstall.ntia64.Services]
+DelService = WiseFS,0x200		; Flags note to stop service first
+
+[DefaultInstall.ntamd64]
+OptionDesc          = %WiseFSServiceDesc%
+CopyFiles           = RenameOldFilesSec.x64
+
+[DefaultInstall.ntamd64.Services]
+AddService          = %WiseFSServiceName%,,WiseFS.Service
+
+;;
+;; Default uninstall sections
+;;
+
+[DefaultUninstall.ntamd64]
+DelFiles   = WiseFS.DriverFiles64
+
+[DefaultUninstall.ntamd64.Services]
+DelService = WiseFS,0x200		; Flags note to stop service first
+
+
+;
+; Services Section
+;
+
+[WiseFS.Service]
+DisplayName      = %WiseFSServiceName%
+Description      = %WiseFSServiceDesc%
+ServiceBinary    = %12%\WiseFS.sys  	
+ServiceType      = 1					;SERVICE_KERNEL_DRIVER
+StartType        = 3					
+ErrorControl     = 1					;SERVICE_ERROR_NORMAL
+AddReg           = WiseFSReg
+;
+; Copy Files
+;
+
+[WiseFSReg]
+HKLM,"System\CurrentControlSet\Services\WiseFS",\
+"Instances",0x00000010
+HKLM,"System\CurrentControlSet\Services\WiseFS\Instances",\
+"DefaultInstance",0x00000000,"Wise Instances"
+HKLM,"System\CurrentControlSet\Services\WiseFS\Instances",\
+"Wise Instances",0x00000010
+HKLM, "System\CurrentControlSet\Services\WiseFS\Instances\Wise Instances",\
+"Altitude",0x00000000,"370051"
+HKLM, "System\CurrentControlSet\Services\WiseFS\Instances\Wise Instances",\
+"Flags",0x00010001,0
+
+
+[WiseFS.DriverFiles64]
+WiseFS64.sys,,,0x00000040   ; COPYFLG_OVERWRITE_OLDER_ONLY
+
+[SourceDisksNames]
+1="",.
+
+[SourceDisksFiles]
+WiseFS64.sys=1,WiseFS64
+
+;;
+;; String Section
+;;
+
+[Strings]
+Msft              = "Beijing Lang Xingda Network Technology"
+WiseFSServiceDesc  = "Wise File Hide Protecte"
+WiseFSServiceName  = "WiseFS"
+WiseFSRegistry     = "system\currentcontrolset\services\WiseFS"
+
+

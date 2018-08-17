@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WiseRegNotify", "WiseRegNotify.vcxproj", "{76305A76-FC48-4F7B-A20D-A634E29B0D9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		ANTI|Win32 = ANTI|Win32
+		ANTI|x64 = ANTI|x64
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+		XPDebug|Win32 = XPDebug|Win32
+		XPDebug|x64 = XPDebug|x64
+		XPRelease|Win32 = XPRelease|Win32
+		XPRelease|x64 = XPRelease|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.ANTI|Win32.ActiveCfg = ANTI|Win32
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.ANTI|Win32.Build.0 = ANTI|Win32
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.ANTI|x64.ActiveCfg = ANTI|x64
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.ANTI|x64.Build.0 = ANTI|x64
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.Debug|Win32.Build.0 = Debug|Win32
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.Debug|x64.ActiveCfg = Debug|x64
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.Debug|x64.Build.0 = Debug|x64
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.Release|Win32.ActiveCfg = Release|Win32
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.Release|Win32.Build.0 = Release|Win32
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.Release|x64.ActiveCfg = Release|x64
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.Release|x64.Build.0 = Release|x64
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.XPDebug|Win32.ActiveCfg = XPDebug|Win32
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.XPDebug|Win32.Build.0 = XPDebug|Win32
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.XPDebug|x64.ActiveCfg = XPDebug|x64
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.XPDebug|x64.Build.0 = XPDebug|x64
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.XPRelease|Win32.ActiveCfg = XPRelease|Win32
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.XPRelease|Win32.Build.0 = XPRelease|Win32
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.XPRelease|x64.ActiveCfg = XPRelease|x64
+		{76305A76-FC48-4F7B-A20D-A634E29B0D9B}.XPRelease|x64.Build.0 = XPRelease|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
